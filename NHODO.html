@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NHODO - 国土超自然防御办公室</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0a2a5a;
+            --secondary-color: #1a5fb4;
+            --accent-color: #26a0da;
+            --text-color: #e0e0e0;
+            --background-color: #121212;
+            --card-bg: #1e1e1e;
+            --core-color: #b22222; /* 核心领导层 - 深红 */
+            --research-color: #2e8b57; /* 研究之翼 - 绿色 */
+            --action-color: #d2691e; /* 行动之翼 - 橙色 */
+            --support-color: #9370db; /* 支撑线 - 紫色 */
+            --dimension-color: #1e90ff; /* 协同维度 - 蓝色 */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 3rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .motto {
+            font-style: italic;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+        }
+        
+        h2 {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .intro {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .system-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .system-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid;
+            text-align: center;
+        }
+        
+        .system-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .system-card.core {
+            border-top-color: var(--core-color);
+        }
+        
+        .system-card.research {
+            border-top-color: var(--research-color);
+        }
+        
+        .system-card.action {
+            border-top-color: var(--action-color);
+        }
+        
+        .system-card.support {
+            border-top-color: var(--support-color);
+        }
+        
+        .system-card.dimension {
+            border-top-color: var(--dimension-color);
+        }
+        
+        .system-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        
+        .system-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .org-chart {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .org-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid;
+        }
+        
+        .org-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .org-card.core {
+            border-left-color: var(--core-color);
+        }
+        
+        .org-card.research {
+            border-left-color: var(--research-color);
+        }
+        
+        .org-card.action {
+            border-left-color: var(--action-color);
+        }
+        
+        .org-card.support {
+            border-left-color: var(--support-color);
+        }
+        
+        .org-card.dimension {
+            border-left-color: var(--dimension-color);
+        }
+        
+        .org-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .org-card .subtitle {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+            text-align: left;
+        }
+        
+        .org-card ul {
+            padding-left: 1.5rem;
+        }
+        
+        .org-card li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--research-color), var(--action-color));
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
+            width: 45%;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            margin-left: 55%;
+        }
+        
+        .timeline-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .timeline-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .timeline-period {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .conclusion {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--core-color);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .org-chart {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-line {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NHODO</h1>
+        <p class="subtitle">国土超自然防御办公室 - 完整运作逻辑</p>
+        <p class="motto">在绝对保密的前提下，以科学规划与集体力量，系统性应对源于高维的能量与物质威胁，守护国泰民安</p>
+    </header>
+    
+    <main>
+        <section id="intro">
+            <div class="intro">
+                <p>NHODO的运作可概括为 "一核、双翼、三线、四维" 的体系。这是一台精密、冷酷而高效的 "高维威胁应对系统"，在阴影中战争，以守护阳光下的平凡。</p>
+            </div>
+            
+            <div class="system-overview">
+                <div class="system-card core">
+                    <i class="fas fa-brain"></i>
+                    <h3>一核</h3>
+                    <p>核心领导层</p>
+                </div>
+                
+                <div class="system-card research">
+                    <i class="fas fa-flask"></i>
+                    <h3>双翼之一</h3>
+                    <p>研究之翼</p>
+                </div>
+                
+                <div class="system-card action">
+                    <i class="fas fa-fist-raised"></i>
+                    <h3>双翼之二</h3>
+                    <p>行动之翼</p>
+                </div>
+                
+                <div class="system-card support">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>三线</h3>
+                    <p>支撑保障线</p>
+                </div>
+                
+                <div class="system-card dimension">
+                    <i class="fas fa-cogs"></i>
+                    <h3>四维</h3>
+                    <p>协同维度</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="core">
+            <h2>一、核心领导层：大脑与神经中枢</h2>
+            <div class="org-chart">
+                <div class="org-card core">
+                    <h3>最高决策委员会</h3>
+                    <p class="subtitle">组织的最高指挥机构</p>
+                    <ul>
+                        <li><strong>构成：</strong>由最高层直接领导，成员包括NHODO主任、首席科学家、总参谋长、帷幕行动总指挥等</li>
+                        <li><strong>职能：</strong>制定宏观战略，审批"摇篮"、"衡鉴"等最高协议的执行，拥有在危机时调动国家资源的最终权限</li>
+                    </ul>
+                </div>
+                
+                <div class="org-card core">
+                    <h3>科学战略局</h3>
+                    <p class="subtitle">组织的"大脑"</p>
+                    <ul>
+                        <li><strong>职能：</strong>负责进行威胁评估、技术路径规划、资源长期配置的战略分析</li>
+                        <li>他们基于物理规律和数据模型，回答"我们未来需要什么"，而非"这个东西怎么造"</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="wings">
+            <h2>二、执行双翼：研究与行动</h2>
+            <div class="org-chart">
+                <div class="org-card research">
+                    <h3>前沿科技局（研究之翼）</h3>
+                    <p class="subtitle">将"未知物理现象"转化为"可用的技术与装备"</p>
+                    <ul>
+                        <li><strong>职能：</strong>将"未知物理现象"转化为"可理解的科学模型"，再将"科学模型"转化为"可用的技术与装备"</li>
+                        <li><strong>下属机构：</strong>
+                            <ul>
+                                <li>异矿研究所</li>
+                                <li>生物特性分析处</li>
+                                <li>应用装备研发中心</li>
+                                <li>"龙骸共鸣体"项目组</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="org-card action">
+                    <h3>特异战术司令部（行动之翼）</h3>
+                    <p class="subtitle">将"可用技术"转化为"战场上的有效战力"</p>
+                    <ul>
+                        <li><strong>职能：</strong>直接应对威胁的拳头，将"可用技术"转化为"战场上的有效战力"</li>
+                        <li><strong>下属单位：</strong>
+                            <ul>
+                                <li>"衡鉴者"战术支队</li>
+                                <li>快速反应小组</li>
+                                <li>侦察与评估小队</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="support">
+            <h2>三、支撑三线：保障、隐匿与人才</h2>
+            <div class="org-chart">
+                <div class="org-card support">
+                    <h3>异矿与后勤总局（保障线）</h3>
+                    <p class="subtitle">NHODO的"血液系统"</p>
+                    <ul>
+                        <li><strong>职能：</strong>负责异矿的战略储备、开采、调配，以及所有常规武器、物资的供应</li>
+                    </ul>
+                </div>
+                
+                <div class="org-card support">
+                    <h3>帷幕协议司（隐匿线）</h3>
+                    <p class="subtitle">NHODO存在的守护神</p>
+                    <ul>
+                        <li><strong>职能：</strong>负责在事件后清理现场、通过神经药物与定向信息覆盖技术管理目击者记忆、引导舆论、制造合理解释</li>
+                        <li>他们是确保社会"正常"表象的战略欺骗专家</li>
+                    </ul>
+                </div>
+                
+                <div class="org-card support">
+                    <h3>人事与训练局（人才线）</h3>
+                    <p class="subtitle">选拔与培养精英人才</p>
+                    <ul>
+                        <li><strong>职能：</strong>负责全球范围内的人才选拔、背景调查、终身性的心理与忠诚度评估与高强度培训</li>
+                        <li>他们不仅评估能力，更评估其科学理性精神与牺牲意志</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="dimensions">
+            <h2>四、协同四维：NHODO的运作维度</h2>
+            <div class="org-chart">
+                <div class="org-card dimension">
+                    <h3>监测维度</h3>
+                    <ul>
+                        <li><strong>全球"涟漪"监测网：</strong>通过卫星、地下地震仪阵列与海洋声呐，7x24小时监控全球异常能量波动与时空结构稳定性</li>
+                        <li><strong>数据分析中心：</strong>利用AI实时分析数据，预测裂隙出现概率与位置，发布预警</li>
+                    </ul>
+                </div>
+                
+                <div class="org-card dimension">
+                    <h3>响应维度</h3>
+                    <ul>
+                        <li><strong>警报等级：</strong>
+                            <ul>
+                                <li>三级（观察）：侦察小队出动</li>
+                                <li>二级（戒备）：快速反应小组预备</li>
+                                <li>一级（交战）："衡鉴者"支队出动，帷幕协议司待命</li>
+                            </ul>
+                        </li>
+                        <li><strong>指挥链：</strong>现场"衡鉴者"拥有战术权，但战略决策必须由后方司令部根据科学战略局的物理效应评估做出</li>
+                    </ul>
+                </div>
+                
+                <div class="org-card dimension">
+                    <h3>研发-反馈维度</h3>
+                    <ul>
+                        <li>这是一个闭环。一线作战数据会立刻反馈给前沿科技局</li>
+                        <li>科技局据此改进技术，再交付给战术司令部</li>
+                        <li>每一次战斗，都是对未知物理现象的又一次数据采集，为下一次战斗奠定基石</li>
+                    </ul>
+                </div>
+                
+                <div class="org-card dimension">
+                    <h3>内部控制维度</h3>
+                    <ul>
+                        <li><strong>"摇篮"协议：</strong>对阳星岚的全方位保护与监控体系</li>
+                        <li><strong>政治委员制度：</strong>在各级单位设立政委，确保组织的纯粹性与战斗力</li>
+                        <li><strong>内部监察部：</strong>负责肃清内奸、调查渎职，防范"净世真理会"的渗透</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section id="tech-tree">
+            <h2>NHODO技术树演进</h2>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <div class="timeline-period">第一阶段（1983-2015）</div>
+                        <h3>基础异矿应用</h3>
+                        <ul>
+                            <li>星璇矿 → 斯特林循环发电机</li>
+                            <li>辉铁 → 被动防御材料</li>
+                            <li>裂光水晶 → 激光武器</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <div class="timeline-period">第二阶段（2016-2045）</div>
+                        <h3>主动调控技术</h3>
+                        <ul>
+                            <li>暮光纱 → 可编程超材料</li>
+                            <li>异矿复合 → 「烛龙」外骨骼</li>
+                            <li>维度传感 → 早期预警系统</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-card">
+                        <div class="timeline-period">第三阶段（2046-2080）</div>
+                        <h3>规则编译时代</h3>
+                        <ul>
+                            <li>现实织机原型机</li>
+                            <li>物理常数编辑技术</li>
+                            <li>跨维度通信协议</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="conclusion">
+            <h2>总结：NHODO的本质</h2>
+            <div class="conclusion">
+                <p>NHODO是一台精密、冷酷而高效的 "高维威胁应对系统"。它的每一个齿轮都为了一个目的而咬合：在阴影中战争，以守护阳光下的平凡。</p>
+                <p>它坚信集体力量与科学方法，但也不得不为了效率而实行严格的等级与控制。它保护阳星岚，但也视其为需要严密监控的最高战略资产与潜在的物理性风险源。这种"保护"与"控制"之间的内在张力，以及这台庞大机器与拥有个人情感的成员（如阳星岚和凌玥）之间的摩擦，正是故事张力的丰富来源。</p>
+                <p>这台机器并非完美，但它是在这个面对未知物理定律的隐秘战争中，人类文明所能锻造出的最坚实的盾牌。</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>© 2023 NHODO - 国土超自然防御办公室 | 机密资料 - 未经授权禁止访问</p>
+    </footer>
+</body>
+</html>

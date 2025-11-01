@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>龙骸总站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0a2a5a;
+            --secondary-color: #1a5fb4;
+            --accent-color: #26a0da;
+            --text-color: #e0e0e0;
+            --background-color: #121212;
+            --card-bg: #1e1e1e;
+            --header-height: 70px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 0 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo i {
+            margin-right: 0.5rem;
+            color: var(--accent-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-links a.active {
+            color: var(--accent-color);
+        }
+        
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* 主要内容区域 */
+        main {
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 4rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #1e8bc3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-small {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--accent-color);
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid var(--accent-color);
+            font-size: 0.9rem;
+            margin: 0.2rem;
+        }
+        
+        .btn-small:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* 页面卡片网格 */
+        .pages-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .page-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .page-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .page-card-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            text-align: center;
+        }
+        
+        .page-card-header i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .page-card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .page-card-content p {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        /* 声明区域 */
+        .declarations-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .declarations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .declaration-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .declaration-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .declaration-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .declaration-card p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        
+        .declaration-content {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 30px rgba(38, 160, 218, 0.3);
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .modal-title i {
+            margin-right: 0.5rem;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-btn:hover {
+            color: var(--accent-color);
+        }
+        
+        .modal-body {
+            line-height: 1.7;
+        }
+        
+        .modal-body h4 {
+            color: var(--accent-color);
+            margin: 1.5rem 0 0.5rem;
+        }
+        
+        .modal-body p {
+            margin-bottom: 1rem;
+        }
+        
+        .modal-body ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-body li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: var(--primary-color);
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: var(--header-height);
+                left: 0;
+                width: 100%;
+                background-color: var(--primary-color);
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .pages-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .declarations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-globe"></i>
+                <span>龙骸世界观</span>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="active">首页</a></li>
+                <li><a href="龙.html">龙的宇宙现象</a></li>
+                <li><a href="时间线.html">时间线</a></li>
+                <li><a href="NHODO.html">NHODO</a></li>
+                <li><a href="地球共产主义联盟.html">地球共产主义联盟</a></li>
+                <li><a href="人物档案.html">人物档案</a></li>
+                <li><a href="物质.html">物质设定</a></li>
+                <li><a href="源质生物.html">源质生物</a></li>
+                <li><a href="欢迎词.html">创作共同体</a></li>
+                <li><a href="宪章整合.html">二创注意</a></li>
+            </ul>
+        </div>
+    </header>
+    
+    <!-- 模态框 -->
+    <div class="modal" id="safetyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-shield-alt"></i> 安全声明</h3>
+                <button class="close-btn" data-modal="safetyModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>作品性质与内容安全声明</h4>
+                <p>「敬告所有读者：</p>
+                <p>本故事是基于唯物史观的科幻文学创作，所有设定均为推动剧情服务的艺术虚构，与现实中的任何个人、组织、事件无关。</p>
+                <p>我们坚定拥护国家法律法规，积极传播科学理性精神，致力于为社会主义文化建设贡献正能量。」</p>
+                
+                <h4>创作立场声明</h4>
+                <p>1. 本作品为纯粹科幻创作，不涉及任何现实政治立场</p>
+                <p>2. 所有设定均为虚构，与现实世界无任何关联</p>
+                <p>3. 作品内容严格遵守国家法律法规和社会主义核心价值观</p>
+                
+                <h4>内容安全保证</h4>
+                <p>✅ 无敏感政治内容</p>
+                <p>✅ 无历史影射</p>
+                <p>✅ 无不当价值导向</p>
+                <p>✅ 符合社会主义文化发展方向</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="creationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-pen-fancy"></i> 创作声明</h3>
+                <button class="close-btn" data-modal="creationModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>全局免责声明模板</h4>
+                <p>【官方抬头】本作品纯属科幻创作，与现实无关</p>
+                <p>【核心价值观】始终拥护社会主义核心价值观</p>
+                <p>【内容属性】全年龄段适宜，积极向上，符合公序良俗</p>
+                <p>【政治正确】坚决反对一切极端主义与分裂主义</p>
+                
+                <h4>创作原则</h4>
+                <p>1. 坚持科学理性，传播正能量</p>
+                <p>2. 弘扬集体主义精神，倡导团结协作</p>
+                <p>3. 尊重事实，反对虚无主义</p>
+                <p>4. 鼓励创新，但坚守底线</p>
+                
+                <h4>内容规范</h4>
+                <p>• 所有角色和情节均为虚构</p>
+                <p>• 不涉及现实敏感话题</p>
+                <p>• 不影射现实政治事件</p>
+                <p>• 不传播不良价值观</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="disclaimerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-balance-scale"></i> 免责声明</h3>
+                <button class="close-btn" data-modal="disclaimerModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>官方免责声明</h4>
+                <p><strong>作品性质声明：</strong>本作品《龙骸宇宙》系列及相关设定均为纯粹的科幻文学创作，所有内容均为虚构，不反映任何现实事件、人物或组织。</p>
+                
+                <p><strong>核心价值观声明：</strong>作品始终秉持积极向上的价值观，弘扬集体主义精神，倡导科学理性，反对一切形式的极端主义和虚无主义。</p>
+                
+                <p><strong>创作边界声明：</strong>严禁任何组织或个人将本作品设定用于现实政治活动、商业宣传或其他可能引起误解的场合。</p>
+                
+                <h4>使用限制</h4>
+                <p>1. 禁止将作品内容与现实政治挂钩</p>
+                <p>2. 禁止利用作品设定进行不当商业利用</p>
+                <p>3. 禁止歪曲作品原意进行恶意解读</p>
+                <p>4. 禁止将虚构设定作为现实依据</p>
+                
+                <h4>法律责任</h4>
+                <p>任何违反上述规定的行为，作者保留追究法律责任的权利。读者应理性看待作品内容，明确区分虚构与现实。</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="isolationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-ban"></i> 现实隔离协议</h3>
+                <button class="close-btn" data-modal="isolationModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>内容安全自查指南</h4>
+                
+                <h4>严格禁止：</h4>
+                <ul>
+                    <li>❌ 使用真实国家、政党、领导人名称</li>
+                    <li>❌ 影射现实历史事件与政治运动</li>
+                    <li>❌ 使用现实敏感符号与标志</li>
+                    <li>❌ 涉及现实宗教与民族问题</li>
+                    <li>❌ 引用现实敏感数据与统计</li>
+                </ul>
+                
+                <h4>鼓励创作：</h4>
+                <ul>
+                    <li>✨ 完全虚构的未来社会架构</li>
+                    <li>✨ 基于科学假说的宇宙观</li>
+                    <li>✨ 普世价值的人文关怀</li>
+                    <li>✨ 积极向上的精神内核</li>
+                    <li>✨ 创新独特的艺术表达</li>
+                </ul>
+                
+                <h4>创作安全自查清单</h4>
+                <p>1. 是否使用了虚构的国家和组织名称？</p>
+                <p>2. 是否避免了现实政治术语的直接引用？</p>
+                <p>3. 是否确保了内容的纯粹科幻性质？</p>
+                <p>4. 是否避免了可能引起误解的现实关联？</p>
+                <p>5. 是否坚持了科学理性的创作基调？</p>
+            </div>
+        </div>
+    </div>
+    
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>龙骸</h1>
+                <p>探索NHODO的隐秘战线、地球共产主义联盟的未来愿景，以及源质生物的神秘世界</p>
+                <a href="#pages" class="btn">开始探索</a>
+            </div>
+        </section>
+        
+        <section id="pages" class="pages-grid">
+            <!-- 龙的宇宙现象卡片 -->
+            <div class="page-card">
+                <div class="page-card-header">
+                    <i class="fas fa-dragon"></i>
+                    <h3>龙的宇宙现象</h3>
+                    <p>非生命性的宇宙现象</p>
+                </div>
+                <div class="page-card-content">
+                    <p>三维神话投影的唯物解释，探索"龙"作为纯粹宇宙尺度物理现象的本质与存在形式。</p>
+                    <a href="龙.html" class="btn">了解龙现象</a>
+                </div>
+            </div>
+            
+            <!-- 时间线卡片 -->
+            <div class="page-card">
+                <div class="page-card-header">
+                    <i class="fas fa-history"></i>
+                    <h3>时间线</h3>
+                    <p>文明发展历程</p>
+                </div>
+                <div class="page-card-content">
+                    <p>从隐秘战争到静默危机，完整呈现人类文明从1983年至今的演进与挑战。</p>
+                    <a href="时间线.html" class="btn">探索时间线</a>
+                </div>
+            </div>
+            
+            <!-- NHODO卡片 -->
+            <div class="page-card">
+                <div class="page-card-header">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>NHODO</h3>
+                    <p>国土超自然防御办公室</p>
+                </div>
+                <div class="page-card-content">
+                    <p>在绝对保密的前提下，以科学规划与集体力量，系统性应对源于高维的能量与物质威胁，守护国泰民安。</p>
+                    <a href="NHODO.html" class="btn">探索NHODO</a>
+                </div>
+            </div>
+            
+            <!-- 地球共产主义联盟卡片 -->
+            <div class="page-card">
+                <div class="page-card-header">
+                    <i class="fas fa-globe-americas"></i>
+                    <h3>地球共产主义联盟</h3>
+                    <p>新时期发展档案</p>
+                </div>
+                <div class="page-card-content">
+                    <p>从被动适应自然到主动塑造生存环境的文明跨越，建立真正意义上的全球共产主义社会形态。</p>
+                    <a href="地球共产主义联盟.html" class="btn">探索联盟</a>
+                </div>
+            </div>
+            
+            <!-- 人物档案卡片 -->
+            <div class="page-card">
+                <div class="page-card-header">
+                    <i class="fas fa-user-secret"></i>
+                    <h3>人物档案</h3>
+                    <p>NHODO/ECDC内部档案</p>
+                </div>
+                <div class="page-card-content">
+                    <p>阳星岚、凌玥等关键人物的详细档案，揭示他们在隐秘战线中的角色与贡献。</p>
+                    <a href="人物档案.html" class="btn">查看档案</a>
+                </div>
+            </div>
+            
+            <!-- 物质设定卡片 -->
+            <div class="page-card">
+                <div class="page-card-header">
+                    <i class="fas fa-atom"></i>
+                    <h3>物质设定总览</h3>
+                    <p>异矿与核心技术装备</p>
+                </div>
+                <div class="page-card-content">
+                    <p>探索NHODO/ECDC对抗异界威胁的核心物质基础，从异矿能源到尖端武器系统。</p>
+                    <a href="物质.html" class="btn">了解物质</a>
+                </div>
+            </div>
+            
+            <!-- 源质生物卡片 -->
+            <div class="page-card">
+                <div class="page-card-header">
+                    <i class="fas fa-dna"></i>
+                    <h3>源质生物数据库</h3>
+                    <p>学术研究与科普平台</p>
+                </div>
+                <div class="page-card-content">
+                    <p>探索遵循原生维度物理法则演化的神秘生命形式，解析其演化逻辑与分类体系。</p>
+                    <a href="源质生物.html" class="btn">探索生物</a>
+                </div>
+            </div>
+            
+            <!-- 创作共同体卡片 -->
+            <div class="page-card">
+                <div class="page-card-header">
+                    <i class="fas fa-users"></i>
+                    <h3>龙骸创作共同体</h3>
+                    <p>集体创作平台</p>
+                </div>
+                <div class="page-card-content">
+                    <p>基于《唯物史诗二创共同体宪章》的创作平台，让每个故事都在正确时空交相辉映。</p>
+                    <a href="欢迎词.html" class="btn">加入创作</a>
+                </div>
+            </div>
+            
+            <!-- 二创注意卡片 -->
+            <div class="page-card">
+                <div class="page-card-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>二创注意</h3>
+                    <p>创作宪章与指南</p>
+                </div>
+                <div class="page-card-content">
+                    <p>了解龙骸宇宙的创作宪章，选择适合您的创作空间，从严谨唯物到无限想象的全方位指南。</p>
+                    <a href="宪章整合.html" class="btn">查看宪章</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 声明区域 -->
+        <section class="declarations-section">
+            <div class="section-title">
+                <h2>官方声明与协议</h2>
+            </div>
+            
+            <div class="declarations-grid">
+                <!-- 安全声明 -->
+                <div class="declaration-card">
+                    <h3><i class="fas fa-shield-alt"></i> 安全声明</h3>
+                    <p>作品性质与内容安全声明</p>
+                    <div class="declaration-content">
+                        「敬告所有读者：<br>
+                        本故事是基于唯物史观的科幻文学创作，<br>
+                        所有设定均为推动剧情服务的艺术虚构，<br>
+                        与现实中的任何个人、组织、事件无关。<br>
+                        我们坚定拥护国家法律法规，<br>
+                        积极传播科学理性精神，<br>
+                        致力于为社会主义文化建设贡献正能量。」
+                    </div>
+                    <button class="btn-small show-modal" data-modal="safetyModal">查看声明</button>
+                </div>
+                
+                <!-- 创作声明 -->
+                <div class="declaration-card">
+                    <h3><i class="fas fa-pen-fancy"></i> 创作声明</h3>
+                    <p>全局免责声明模板</p>
+                    <div class="declaration-content">
+                        【官方抬头】本作品纯属科幻创作，与现实无关<br>
+                        【核心价值观】始终拥护社会主义核心价值观<br>
+                        【内容属性】全年龄段适宜，积极向上，符合公序良俗<br>
+                        【政治正确】坚决反对一切极端主义与分裂主义
+                    </div>
+                    <button class="btn-small show-modal" data-modal="creationModal">查看声明</button>
+                </div>
+                
+                <!-- 免责声明 -->
+                <div class="declaration-card">
+                    <h3><i class="fas fa-balance-scale"></i> 免责声明</h3>
+                    <p>官方免责声明</p>
+                    <div class="declaration-content">
+                        作品性质声明：本作品《龙骸宇宙》系列及相关设定均为纯粹的科幻文学创作...<br><br>
+                        核心价值观声明：作品始终秉持积极向上的价值观，弘扬集体主义精神...<br><br>
+                        创作边界声明：严禁任何组织或个人将本作品设定用于现实政治活动...
+                    </div>
+                    <button class="btn-small show-modal" data-modal="disclaimerModal">查看声明</button>
+                </div>
+                
+                <!-- 现实隔离协议 -->
+                <div class="declaration-card">
+                    <h3><i class="fas fa-ban"></i> 现实隔离协议</h3>
+                    <p>内容安全自查指南</p>
+                    <div class="declaration-content">
+                        严格禁止：<br>
+                        ❌ 使用真实国家、政党、领导人名称<br>
+                        ❌ 影射现实历史事件与政治运动<br>
+                        ❌ 使用现实敏感符号与标志<br><br>
+                        鼓励：<br>
+                        ✨ 完全虚构的未来社会架构<br>
+                        ✨ 基于科学假说的宇宙观<br>
+                        ✨ 普世价值的人文关怀
+                    </div>
+                    <button class="btn-small show-modal" data-modal="isolationModal">查看协议</button>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <p style="opacity: 0.7; font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i> 
+                    所有创作者在发布作品前请仔细阅读以上声明，确保内容安全合规
+                </p>
+                <a href="#pages" class="btn-small">返回探索</a>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="author-info" style="margin-bottom: 1rem; opacity: 0.8; font-size: 0.9rem;">
+                <i class="fas fa-user-edit"></i> 作者：饿了真的不饿 联系方式: 2531651745@qq.com
+            </div>
+            <p>© 2025 龙骸世界观总站 | 理性 · 集体 · 真理 · 进步</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.6;">一切解释权归作者所有</p>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // 点击导航链接后关闭移动菜单
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 模态框功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 显示模态框
+            document.querySelectorAll('.show-modal').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modalId = this.getAttribute('data-modal');
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        document.body.style.overflow = 'hidden'; // 防止背景滚动
+                    }
+                });
+            });
+            
+            // 关闭模态框
+            document.querySelectorAll('.close-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modalId = this.getAttribute('data-modal');
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto'; // 恢复滚动
+                    }
+                });
+            });
+            
+            // 点击模态框外部关闭
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                        document.body.style.overflow = 'auto'; // 恢复滚动
+                    }
+                });
+            });
+            
+            // ESC键关闭模态框
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal').forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                    document.body.style.overflow = 'auto'; // 恢复滚动
+                }
+            });
+        });
+
+        // 添加section-title样式（如果不存在）
+        const style = document.createElement('style');
+        style.textContent = `
+            .section-title {
+                text-align: center;
+                margin-bottom: 3rem;
+                position: relative;
+            }
+            .section-title h2 {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 2.5rem;
+                color: var(--accent-color);
+                display: inline-block;
+                padding: 0 2rem;
+                background-color: transparent;
+                position: relative;
+                z-index: 1;
+            }
+            .section-title::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(to right, transparent, var(--accent-color), transparent);
+                z-index: 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

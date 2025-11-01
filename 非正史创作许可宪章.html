@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《龙骸宇宙》非正史创作协议</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a235a;
+            --secondary-color: #6c3483;
+            --accent-color: #af7ac5;
+            --light-color: #f4ecf7;
+            --dark-color: #1c2833;
+            --border-color: #d7bde2;
+            --highlight-color: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background: linear-gradient(135deg, #f4ecf7 0%, #e8daef 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 顶部区域 */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .tagline {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        /* 主要内容区域 */
+        main {
+            padding: 3rem 0;
+        }
+        
+        .intro-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--accent-color);
+        }
+        
+        .intro-section h2 {
+            font-family: 'Noto Serif SC', serif;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .intro-section p {
+            margin-bottom: 1rem;
+        }
+        
+        /* 协议卡片 */
+        .protocol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .protocol-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .protocol-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+        
+        .card-header h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-body ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-body li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 免责声明 */
+        .disclaimer {
+            background-color: #fff8e1;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .disclaimer h3 {
+            color: #e65100;
+            margin-bottom: 1rem;
+        }
+        
+        /* 创作工具 */
+        .tools-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .tools-section h2 {
+            font-family: 'Noto Serif SC', serif;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .tool-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .tool-card:hover {
+            background-color: #e8daef;
+            transform: scale(1.03);
+        }
+        
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        
+        .tool-card h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .protocol-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部区域 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">龙骸宇宙</div>
+                <div class="subtitle">非正史创作协议</div>
+                <div class="tagline">
+                    在保留核心世界观的基础上，开启无限可能的创作空间
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container">
+        <!-- 介绍部分 -->
+        <section class="intro-section">
+            <h2>欢迎来到非正史创作领域</h2>
+            <p>《龙骸宇宙》非正史创作协议为您提供了更广阔的创作自由，允许在保持核心世界观元素的同时，探索不同的故事可能性、角色发展和情节走向。</p>
+            <p>与正史创作不同，非正史创作不受严格唯物论的限制，您可以尝试更多元化的叙事方式和设定元素。</p>
+            <p>请仔细阅读以下协议内容，了解非正史创作的边界与可能性。</p>
+        </section>
+
+        <!-- 协议内容 -->
+        <section class="protocol-grid">
+            <!-- 协议卡片1 -->
+            <div class="protocol-card">
+                <div class="card-header">
+                    <h3>创作自由度</h3>
+                    <p>探索无限可能的故事空间</p>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>允许对"龙"现象进行有限度的人格化诠释</li>
+                        <li>可以创建平行宇宙或替代时间线</li>
+                        <li>允许角色发展与正史不同的成长路径</li>
+                        <li>可以探索未被正史详细描述的历史时期</li>
+                        <li>允许尝试不同的叙事风格和体裁</li>
+                    </ul>
+                    <p><strong>注意：</strong>请确保创作内容不直接与已确立的正史核心事件相矛盾。</p>
+                </div>
+            </div>
+
+            <!-- 协议卡片2 -->
+            <div class="protocol-card">
+                <div class="card-header">
+                    <h3>角色创作指南</h3>
+                    <p>构建丰富多样的角色群像</p>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>可以创建与正史角色有联系的新角色</li>
+                        <li>允许探索角色在关键时刻的不同选择</li>
+                        <li>可以设计具有特殊能力但需合理限制的角色</li>
+                        <li>允许创作跨阵营或中立立场的角色</li>
+                        <li>可以探索角色背景故事的更多细节</li>
+                    </ul>
+                    <p><strong>注意：</strong>请保持角色行为符合其基本性格设定，避免出现与正史角色严重不符的行为。</p>
+                </div>
+            </div>
+
+            <!-- 协议卡片3 -->
+            <div class="protocol-card">
+                <div class="card-header">
+                    <h3>世界观扩展</h3>
+                    <p>丰富龙骸宇宙的多元面貌</p>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>可以探索未被详细描述的地区或文明</li>
+                        <li>允许设计新的异矿变体或应用方式</li>
+                        <li>可以创作源质生物的新物种或亚种</li>
+                        <li>允许探索不同社会结构或政治体系</li>
+                        <li>可以设计未被正史记载的历史事件</li>
+                    </ul>
+                    <p><strong>注意：</strong>请确保新增元素不与正史核心设定产生不可调和的矛盾。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 免责声明 -->
+        <section class="disclaimer">
+            <h3>重要声明</h3>
+            <p>非正史创作内容被视为《龙骸宇宙》世界观的平行版本或可能性探索，不具有正史地位。</p>
+            <p>非正史创作不应宣称其内容为官方设定，并应在明显位置标注"非正史"或"平行宇宙"标识。</p>
+            <p>创作者需对非正史内容的质量和适当性负责，避免发布可能损害《龙骸宇宙》品牌形象的内容。</p>
+        </section>
+
+        <!-- 创作工具 -->
+        <section class="tools-section">
+            <h2>非正史创作资源</h2>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">📚</div>
+                    <h4>世界观资料库</h4>
+                    <p>访问核心设定元素，确保创作基础稳固</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">🖊️</div>
+                    <h4>创作模板</h4>
+                    <p>使用预设模板快速开始您的非正史创作</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">🔍</div>
+                    <h4>设定检查器</h4>
+                    <p>验证您的创作是否与核心世界观兼容</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">🌐</div>
+                    <h4>创作者社区</h4>
+                    <p>与其他非正史创作者交流想法和经验</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#">返回正史宪章</a>
+                    <a href="#">创作者指南</a>
+                    <a href="#">常见问题</a>
+                    <a href="#">联系我们</a>
+                </div>
+                <div class="copyright">
+                    © ECA历11525年 龙骸宇宙创作委员会 · 非正史创作协议 v2.1
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 简单的交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 卡片悬停效果增强
+            const cards = document.querySelectorAll('.protocol-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                    this.style.boxShadow = '0 12px 25px rgba(0, 0, 0, 0.15)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+                });
+            });
+            
+            // 工具卡片点击效果
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            toolCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // 添加点击反馈
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                    
+                    // 这里可以添加实际功能，比如跳转到对应页面
+                    alert('功能开发中，敬请期待！');
+                });
+            });
+            
+            // 页面加载动画
+            const elements = document.querySelectorAll('.protocol-card, .tool-card');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s, transform 0.5s';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>

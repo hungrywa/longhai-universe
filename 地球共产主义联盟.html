@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地球共产主义联盟 - 新时期发展档案</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0a2e36;
+            --secondary-color: #1d4c5c;
+            --accent-color: #27ae60;
+            --highlight-color: #2ecc71;
+            --text-color: #ecf0f1;
+            --card-bg: rgba(29, 76, 92, 0.7);
+            --section-spacing: 4rem;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary-color), #1a3a48);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: rgba(10, 46, 54, 0.9);
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(46, 204, 113, 0.1), transparent 70%);
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--highlight-color), #3498db);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #bdc3c7;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* 导航样式 */
+        nav {
+            background: rgba(29, 76, 92, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-link {
+            padding: 1rem 2rem;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--highlight-color);
+        }
+        
+        .nav-link.active {
+            color: var(--highlight-color);
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            width: 60%;
+            height: 2px;
+            background: var(--highlight-color);
+        }
+        
+        /* 主要内容区域 */
+        .main-content {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--highlight-color);
+            display: inline-block;
+        }
+        
+        .section-description {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        /* 卡片网格样式 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: var(--section-spacing);
+        }
+        
+        .card {
+            background: linear-gradient(145deg, var(--secondary-color), #2c3e50);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .card-header {
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+            text-align: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            font-style: italic;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+            background: rgba(10, 46, 54, 0.5);
+        }
+        
+        .card-property {
+            margin-bottom: 1rem;
+        }
+        
+        .property-title {
+            font-weight: 600;
+            color: var(--highlight-color);
+            margin-bottom: 0.3rem;
+        }
+        
+        /* 不同类别的卡片样式 */
+        .tech-card .card-header {
+            background: linear-gradient(135deg, #1a5276, #1f618d);
+        }
+        
+        .arch-card .card-header {
+            background: linear-gradient(135deg, #186a3b, #229954);
+        }
+        
+        .vehicle-card .card-header {
+            background: linear-gradient(135deg, #7d3c98, #9b59b6);
+        }
+        
+        .social-card .card-header {
+            background: linear-gradient(135deg, #b7950b, #d4ac0d);
+        }
+        
+        .edu-card .card-header {
+            background: linear-gradient(135deg, #922b21, #c0392b);
+        }
+        
+        .challenge-card .card-header {
+            background: linear-gradient(135deg, #6c3483, #8e44ad);
+        }
+        
+        /* 特色部分样式 */
+        .feature-section {
+            margin-bottom: var(--section-spacing);
+            padding: 2rem;
+            background: rgba(29, 76, 92, 0.3);
+            border-radius: 10px;
+            border-left: 4px solid var(--highlight-color);
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--highlight-color);
+        }
+        
+        .feature-list {
+            list-style-type: none;
+        }
+        
+        .feature-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--highlight-color);
+            font-size: 0.8rem;
+        }
+        
+        /* 时间线样式 */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--highlight-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: var(--highlight-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background: rgba(10, 46, 54, 0.9);
+            padding: 2rem 0;
+            margin-top: 4rem;
+            text-align: center;
+            border-top: 1px solid rgba(46, 204, 113, 0.2);
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .org-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--highlight-color);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-container {
+                flex-wrap: wrap;
+            }
+            
+            .nav-link {
+                padding: 0.8rem 1.2rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>地球共产主义联盟</h1>
+                <p class="subtitle">新时期发展档案 - 从被动适应自然到主动塑造生存环境的文明跨越</p>
+            </div>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container nav-container">
+            <a href="#tech" class="nav-link active">科技突破</a>
+            <a href="#architecture" class="nav-link">建筑与城市</a>
+            <a href="#vehicles" class="nav-link">载具体系</a>
+            <a href="#society" class="nav-link">社会体系</a>
+            <a href="#education" class="nav-link">教育革新</a>
+            <a href="#challenges" class="nav-link">挑战与展望</a>
+        </div>
+    </nav>
+    
+    <main class="container main-content">
+        <!-- 引言部分 -->
+        <section id="intro" class="animate-on-scroll">
+            <h2 class="section-title">新时期发展档案</h2>
+            <p class="section-description">
+                地球共产主义联盟（ECA）在新时期取得了前所未有的科技突破，建立了真正意义上的全球共产主义社会形态，实现了文明的可持续发展。我们已经从被动适应自然的文明，成长为能够主动理解和塑造生存环境的文明。
+            </p>
+        </section>
+        
+        <!-- 科技革命部分 -->
+        <section id="tech" class="animate-on-scroll">
+            <h2 class="section-title">科技革命新突破</h2>
+            <p class="section-description">
+                ECA在现实环境调控、生物共生科技和维度静默应对技术等领域取得了革命性进展，为文明发展提供了坚实的技术基础。
+            </p>
+            
+            <div class="cards-grid">
+                <div class="card tech-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3 class="card-name">现实环境调控技术</h3>
+                        <p class="card-subtitle">从编译到编织的跨越</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">技术突破</div>
+                            <p>成功实现从"物理参数编译"到"环境结构编织"的跨越，能对局部区域的物理常数与能量场进行精密控制与构建。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">效能提升</div>
+                            <p>能耗降低至黄金时代的30%，系统稳定性提升400%。应用领域扩展至日常民生，如精准气候调节、自适应城市规划。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card tech-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-dna"></i>
+                        </div>
+                        <h3 class="card-name">生物共生科技</h3>
+                        <p class="card-subtitle">生命与技术的深度融合</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">技术融合</div>
+                            <p>实现源质生物基因信息与异矿技术的深度融合，开发出自修复建筑材料、自适应能源网络。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">生态循环</div>
+                            <p>生态城市实现能量与物质的闭环循环，大幅提升资源利用效率，减少环境负担。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card tech-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-satellite"></i>
+                        </div>
+                        <h3 class="card-name">维度静默应对技术</h3>
+                        <p class="card-subtitle">应对物理异常的前沿科技</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">涟漪共鸣器</div>
+                            <p>在物理活动性趋于停滞的"静默区"内，维持基本的能量流动与信息交换。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">物理常数稳定锚</div>
+                            <p>能快速在局部异常空间内重新建立并维持标准物理参数的应急设备，保障生命与设施安全。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 建筑与城市部分 -->
+        <section id="architecture" class="animate-on-scroll">
+            <h2 class="section-title">新型建筑与城市形态</h2>
+            <p class="section-description">
+                ECA的城市建设实现了从功能分区到智慧共生的转变，建筑与自然环境和谐共存，形成了独特的城市美学与生活方式。
+            </p>
+            
+            <div class="cards-grid">
+                <div class="card arch-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <h3 class="card-name">智慧共生体城市</h3>
+                        <p class="card-subtitle">生物矿化与自适应形态</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">建筑特征</div>
+                            <p>生物矿化外观，具备自我修复能力；能量自给自足，建筑表皮可进行高效人工光合作用；可适应性形态，能根据需求在一定范围内改变结构和功能。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">代表建筑</div>
+                            <p>寰宇知识方舟：全球最大的动态数据库与交互学习中心；星辰共鸣塔：集前沿科研、宜居居住、主动防御于一体的综合性建筑；生态穹顶社区：实现物质与能量完全自持的封闭生存单元。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card arch-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h3 class="card-name">维度枢纽站</h3>
+                        <p class="card-subtitle">跨维度社区的前沿</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">位置与功能</div>
+                            <p>建立在稳定的维度裂隙之上，成为连接不同物理常数宇宙的跨维度社区。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">技术创新</div>
+                            <p>运用先进的环境调控技术，管理不同物理法则的共存区域，成为跨维度文化交流与科技创新的前沿阵地。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-section">
+                <h3 class="feature-title">城市生态循环系统</h3>
+                <ul class="feature-list">
+                    <li>建筑表面覆盖光合作用材料，实现能源自给</li>
+                    <li>水资源100%循环利用，零排放处理系统</li>
+                    <li>废弃物生物降解，转化为建筑材料或能源</li>
+                    <li>城市农业垂直集成，满足80%食物需求</li>
+                    <li>空气质量主动调控，维持最优生态指标</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- 载具体系部分 -->
+        <section id="vehicles" class="animate-on-scroll">
+            <h2 class="section-title">新一代载具体系</h2>
+            <p class="section-description">
+                ECA的交通系统实现了安全、高效与环保的完美结合，从个人出行到跨维度运输，构建了全方位的立体交通网络。
+            </p>
+            
+            <div class="cards-grid">
+                <div class="card vehicle-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <h3 class="card-name">民用载具</h3>
+                        <p class="card-subtitle">安全高效的出行方案</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">"信风"个人飞行器</div>
+                            <p>采用反重力与维度滑流混合动力系统；智能导航，保持零事故记录；共享网络覆盖全联盟。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">"鲲鹏-N"货运平台</div>
+                            <p>具备万吨级跨维度运输能力；全自动化智能物流网络；应急状态下可快速转换为移动医院或救援中心。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card vehicle-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-space-shuttle"></i>
+                        </div>
+                        <h3 class="card-name">科研探索载具</h3>
+                        <p class="card-subtitle">开拓未知维度的先锋</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">"深空之眼"探测舰</div>
+                            <p>装备最新一代高维传感器阵列（观测窗口）；可自主进行维度勘探；已发现并标记37个物理环境适宜维度。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">"参数方舟"实验舰</div>
+                            <p>移动的极端环境物理研究所；可在异常物理条件下进行长期观测与实验；为跨维度定居提供关键技术支撑。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 社会体系部分 -->
+        <section id="society" class="animate-on-scroll">
+            <h2 class="section-title">新社会体系演进</h2>
+            <p class="section-description">
+                ECA建立了基于贡献度计量、柔性工作与社区治理的新型社会体系，实现了物质丰裕与精神富足的平衡发展。
+            </p>
+            
+            <div class="cards-grid">
+                <div class="card social-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="card-name">贡献度计量系统2.0</h3>
+                        <p class="card-subtitle">多维评估与动态调整</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">评估体系</div>
+                            <p>多维评估：科技创新、文化贡献、社区服务并重；动态调整：根据文明发展的实时需求优化评估权重；全透明化：所有评估数据与标准向全体公民开放。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card social-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
+                        <h3 class="card-name">柔性工作制度</h3>
+                        <p class="card-subtitle">自由选择与全民创作</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">工作模式</div>
+                            <p>基于个人兴趣和社会需求自由选择岗位；每年可申请调整工作领域；全民创作期：每位公民都享有保障基本生活的带薪创作与研究时间。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card social-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <h3 class="card-name">社区治理升级</h3>
+                        <p class="card-subtitle">智能辅助与跨维度协作</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">治理机制</div>
+                            <p>超脑辅助决策：强人工智能提供基于全局数据的最优方案，由人民大会做出最终决定；跨维度议会：各维度定居点代表共同议事，协调发展；实时反馈机制：政策效果实施即时评估与动态调整。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 教育体系部分 -->
+        <section id="education" class="animate-on-scroll">
+            <h2 class="section-title">教育体系革新</h2>
+            <p class="section-description">
+                ECA的教育体系从知识传授转向潜能激发，培养具有跨维度视野、创新能力和文化包容心态的新一代公民。
+            </p>
+            
+            <div class="cards-grid">
+                <div class="card edu-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <h3 class="card-name">全龄段智慧教育</h3>
+                        <p class="card-subtitle">终身学习与发展</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">幼儿期（0-12岁）</div>
+                            <p>潜能开发与兴趣培养，进行多感官协调训练，培养集体生活能力。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">成长期（13-25岁）</div>
+                            <p>通识教育与专业实践结合，通过多维技能认证体系，完成社区服务必修课。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">创造期（26岁后）</div>
+                            <p>享有终身学习账户，可获得跨领域研修机会，并参与导师制传承体系。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card edu-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <h3 class="card-name">特色教育机构</h3>
+                        <p class="card-subtitle">专业化与多元化</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">维度物理学院</div>
+                            <p>专门研究各维度宇宙的物理法则与特性，培养跨维度探索人才。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">环境工程学院</div>
+                            <p>培养现实环境调控技术的高级人才，支撑生态城市建设。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">文明传承中心</div>
+                            <p>保护和发展各文化自治体的独特传统与特色，促进文化多样性。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-section">
+                <h3 class="feature-title">教育理念革新</h3>
+                <ul class="feature-list">
+                    <li>从"知识传授"转向"潜能激发与创造力培养"</li>
+                    <li>强调集体协作中的个性发展</li>
+                    <li>培养跨维度视野和文化包容心态</li>
+                    <li>实践导向，理论与社区服务相结合</li>
+                    <li>终身学习，支持公民在各个阶段的发展需求</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- 挑战与展望部分 -->
+        <section id="challenges" class="animate-on-scroll">
+            <h2 class="section-title">社会张力与未来展望</h2>
+            <p class="section-description">
+                尽管ECA取得了前所未有的成就，但在"后稀缺"社会与外部"静默危机"的双重压力下，新的社会张力正在浮现，同时也面临着前所未有的发展机遇。
+            </p>
+            
+            <div class="cards-grid">
+                <div class="card challenge-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3 class="card-name">新时期的社会张力</h3>
+                        <p class="card-subtitle">成就背后的挑战</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">"指标人生"与创新困境</div>
+                            <p>高度透明的贡献度系统在促进公平的同时，也导致部分公民为"刷贡献度"而倾向于选择安全、易量化的短期项目。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">透明的枷锁与贡献度焦虑</div>
+                            <p>极致的透明化使社会竞争白热化，个体的每一次失败或停滞都会留下永久记录，催生了普遍存在的"贡献度焦虑"与心理压力。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">跨维度社会的分配正义难题</div>
+                            <p>新开拓的维度资源丰富但环境险恶。留守核心区的公民与"边疆公民"之间，因贡献度评估标准难以统一，开始出现资源分配和话语权的摩擦。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card challenge-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="card-name">未来展望</h3>
+                        <p class="card-subtitle">向着维度深处前进</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-property">
+                            <div class="property-title">成就总结</div>
+                            <p>完全掌握跨维度环境改造与构建技术；建成了首个真正意义上的、全球范围的共产主义社会形态；实现了文明的可持续发展。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">面临挑战</div>
+                            <p>维度静默危机的深度影响与根本解决方案；在失去外部生存压力后，维持社会持续创新与发展的内在动力；跨维度文明接触与融合过程中产生的复杂伦理问题。</p>
+                        </div>
+                        <div class="card-property">
+                            <div class="property-title">文明愿景</div>
+                            <p>"我们已经从被动适应自然的文明，成长为能够主动理解和塑造生存环境的文明。在这个新的起点上，地球人民将继续携手，向着更遥远的维度深处前进。"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container footer-content">
+            <div class="org-logo">地球共产主义联盟（ECA）</div>
+            <p>致力于建设全球范围的共产主义社会形态，实现文明的可持续发展</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.7;">档案维护：ECA发展规划总局 · 更新日期：ECA历11525年 · 访问权限：公开级</p>
+        </div>
+    </footer>
+    
+    <script>
+        // 导航激活效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有active类
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // 添加active类到当前链接
+                    this.classList.add('active');
+                    
+                    // 滚动到目标部分
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // 滚动时高亮导航
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section');
+                const navLinks = document.querySelectorAll('.nav-link');
+                
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            
+            // 滚动动画效果
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>

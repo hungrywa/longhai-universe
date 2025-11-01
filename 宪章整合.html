@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>龙骸宇宙创作宪章中心</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d3748;
+            --accent: #c53030;
+            --light: #f7fafc;
+            --dark: #1A252F;
+            --allowed: #38a169;
+            --forbidden: #e53e3e;
+            --greyzone: #d69e2e;
+            --border: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.6;
+            color: var(--secondary);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 顶部区域 */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(243, 156, 18, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(231, 76, 60, 0.1) 0%, transparent 50%);
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 主要内容区域 */
+        main {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            display: inline-block;
+            padding: 0 2rem;
+            background-color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+            z-index: 0;
+        }
+        
+        /* 宪章卡片 */
+        .charter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .charter-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .charter-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .charter-header {
+            padding: 2rem;
+            color: white;
+            text-align: center;
+        }
+        
+        .charter-header h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .charter-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .charter-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .charter-description {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .charter-features {
+            margin-bottom: 1.5rem;
+        }
+        
+        .charter-features ul {
+            padding-left: 1.5rem;
+        }
+        
+        .charter-features li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .charter-actions {
+            margin-top: auto;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.3s;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        /* 创作指南 */
+        .guide-section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 4rem;
+        }
+        
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .guide-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .guide-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .guide-item.allowed {
+            background-color: #f0fff4;
+            border-left: 4px solid var(--allowed);
+        }
+        
+        .guide-item.forbidden {
+            background-color: #fff5f5;
+            border-left: 4px solid var(--forbidden);
+        }
+        
+        .guide-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        .guide-item.allowed .guide-icon {
+            color: var(--allowed);
+        }
+        
+        .guide-item.forbidden .guide-icon {
+            color: var(--forbidden);
+        }
+        
+        /* 宣言 */
+        .manifesto {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+        }
+        
+        .manifesto h3 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .manifesto p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .charter-grid, .guide-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部区域 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🐉</div>
+                <h1>龙骸宇宙创作宪章中心</h1>
+                <div class="subtitle">从严谨唯物到无限想象的全方位创作指南</div>
+                <div class="tagline">
+                    无论您是严谨的唯物主义者、哲学思辨者，还是天马行空的创作者，这里都有适合您的创作空间。
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container">
+        <!-- 创作宪章介绍 -->
+        <section>
+            <div class="section-title">
+                <h2>创作宪章选择</h2>
+            </div>
+            
+            <div class="charter-grid">
+                <!-- 正史创作许可宪章 -->
+                <div class="charter-card">
+                    <div class="charter-header" style="background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);">
+                        <div class="charter-icon">📜</div>
+                        <h3>正史创作许可宪章</h3>
+                        <p>严谨唯物 · 科学理性 · 集体主义</p>
+                    </div>
+                    <div class="charter-body">
+                        <div class="charter-description">
+                            <p>基于严格唯物主义立场，维护世界观内在一致性的创作指南。适合希望创作与官方设定高度一致内容的创作者。</p>
+                        </div>
+                        <div class="charter-features">
+                            <ul>
+                                <li>严格唯物论基础</li>
+                                <li>科学理性叙事</li>
+                                <li>集体主义价值观</li>
+                                <li>官方设定一致性</li>
+                            </ul>
+                        </div>
+                        <div class="charter-actions">
+                            <a href="正史创作许可宪章.html" class="btn">进入正史宪章</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 非正史创作许可宪章 -->
+                <div class="charter-card">
+                    <div class="charter-header" style="background: linear-gradient(135deg, #4a235a 0%, #6c3483 100%);">
+                        <div class="charter-icon">🌟</div>
+                        <h3>非正史创作协议</h3>
+                        <p>平行宇宙 · 可能性探索 · 扩展叙事</p>
+                    </div>
+                    <div class="charter-body">
+                        <div class="charter-description">
+                            <p>在保留核心世界观的基础上，开启无限可能的创作空间。允许探索不同的故事可能性、角色发展和情节走向。</p>
+                        </div>
+                        <div class="charter-features">
+                            <ul>
+                                <li>平行宇宙设定</li>
+                                <li>角色发展探索</li>
+                                <li>世界观扩展</li>
+                                <li>非官方地位</li>
+                            </ul>
+                        </div>
+                        <div class="charter-actions">
+                            <a href="非正史创作许可宪章.html" class="btn">进入非正史协议</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 抽象创作许可宪章 -->
+                <div class="charter-card">
+                    <div class="charter-header" style="background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);">
+                        <div class="charter-icon">🌀</div>
+                        <h3>抽象性质创作宪章</h3>
+                        <p>概念解构 · 哲学思辨 · 艺术重构</p>
+                    </div>
+                    <div class="charter-body">
+                        <div class="charter-description">
+                            <p>概念解构、哲学思辨与艺术重构的纯粹实验场。探索世界观核心元素的符号性、隐喻性与哲学潜力。</p>
+                        </div>
+                        <div class="charter-features">
+                            <ul>
+                                <li>概念解构与重组</li>
+                                <li>形式实验</li>
+                                <li>哲学拷问</li>
+                                <li>隐喻与象征</li>
+                            </ul>
+                        </div>
+                        <div class="charter-actions">
+                            <a href="抽象创作许可宪章.html" class="btn">进入抽象宪章</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 无限创作许可宪章 -->
+                <div class="charter-card">
+                    <div class="charter-header" style="background: linear-gradient(135deg, #8A2BE2 0%, #FF6B8B 100%);">
+                        <div class="charter-icon">🚀</div>
+                        <h3>无限创作特区宪章</h3>
+                        <p>创意狂欢 · 想象力星空 · 无垠可能</p>
+                    </div>
+                    <div class="charter-body">
+                        <div class="charter-description">
+                            <p>创意的狂欢节，想象力的无垠星空！放下严谨，拥抱可能；抛开唯物，尽情幻想！唯一的限制就是内心的善良与底线。</p>
+                        </div>
+                        <div class="charter-features">
+                            <ul>
+                                <li>概念彻底重构</li>
+                                <li>世界观任意融合</li>
+                                <li>角色性格颠覆</li>
+                                <li>创作形式无限</li>
+                            </ul>
+                        </div>
+                        <div class="charter-actions">
+                            <a href="无限创作许可宪章.html" class="btn">进入无限特区</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 创作指南 -->
+        <section>
+            <div class="section-title">
+                <h2>创作指南</h2>
+            </div>
+            
+            <div class="guide-section">
+                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary);">如何选择适合您的创作空间</h3>
+                <div class="guide-grid">
+                    <div class="guide-item allowed">
+                        <div class="guide-icon">✅</div>
+                        <div>如果您追求科学严谨、唯物论基础 → 选择【正史创作许可宪章】</div>
+                    </div>
+                    <div class="guide-item allowed">
+                        <div class="guide-icon">✅</div>
+                        <div>如果您想在官方框架内探索不同可能性 → 选择【非正史创作协议】</div>
+                    </div>
+                    <div class="guide-item allowed">
+                        <div class="guide-icon">✅</div>
+                        <div>如果您希望进行哲学思辨与概念艺术 → 选择【抽象性质创作宪章】</div>
+                    </div>
+                    <div class="guide-item allowed">
+                        <div class="guide-icon">✅</div>
+                        <div>如果您想要完全自由的创意表达 → 选择【无限创作特区宪章】</div>
+                    </div>
+                    <div class="guide-item forbidden">
+                        <div class="guide-icon">❌</div>
+                        <div>请勿将不同宪章的内容混淆，尤其是无限区作品不得声称对正史的"纠正"</div>
+                    </div>
+                    <div class="guide-item forbidden">
+                        <div class="guide-icon">❌</div>
+                        <div>所有创作必须遵守各自宪章的标识规范，明确标注创作类型</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 宣言 -->
+        <section>
+            <div class="manifesto">
+                <h3>龙骸宇宙创作宣言</h3>
+                <p>我们相信，每一个伟大的世界观都需要多元的创作空间。</p>
+                <p>从严谨的唯物科学到自由的哲学思辨，从官方叙事的延伸到大开脑洞的平行宇宙，</p>
+                <p>每一种创作都有其独特的价值与魅力。</p>
+                <p>在这里，我们为每一种创作精神都提供了专属的空间与指南。</p>
+                <p style="margin-top: 2rem; font-weight: bold; font-size: 1.5rem;">选择您的创作之路，开启属于您的龙骸宇宙篇章！</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">🐉✨</div>
+                <div class="footer-links">
+                    <a href="#">返回顶部</a>
+                    <a href="#">创作者社区</a>
+                    <a href="#">常见问题</a>
+                    <a href="#">联系我们</a>
+                </div>
+                <div class="copyright">
+                    © ECA历11525年 龙骸宇宙创作委员会 · 创作宪章中心 v1.0
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 简单的交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 卡片悬停效果增强
+            const cards = document.querySelectorAll('.charter-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                    this.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.15)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                });
+            });
+            
+            // 指南项目点击效果
+            const guideItems = document.querySelectorAll('.guide-item');
+            
+            guideItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 添加点击反馈
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+            
+            // 页面加载动画
+            const elements = document.querySelectorAll('.charter-card, .guide-item');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s, transform 0.5s';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《龙骸宇宙·抽象性质创作宪章》</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --secondary: #34495E;
+            --accent: #E74C3C;
+            --light: #ECF0F1;
+            --dark: #1A252F;
+            --text: #BDC3C7;
+            --highlight: #F39C12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 粒子背景 */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        /* 顶部区域 */
+        header {
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(26, 37, 47, 0.95) 100%);
+            color: var(--light);
+            padding: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(236, 240, 241, 0.1);
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(243, 156, 18, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(231, 76, 60, 0.1) 0%, transparent 50%);
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--light);
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+            font-style: italic;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            background-color: rgba(236, 240, 241, 0.1);
+            padding: 1.5rem;
+            border-radius: 5px;
+            border-left: 4px solid var(--accent);
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+        
+        /* 主要内容区域 */
+        main {
+            padding: 4rem 0;
+        }
+        
+        section {
+            margin-bottom: 5rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--light);
+            display: inline-block;
+            padding: 0 2rem;
+            background-color: var(--dark);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+            z-index: 0;
+        }
+        
+        /* 根本定义 */
+        .fundamental {
+            background-color: rgba(44, 62, 80, 0.7);
+            border-radius: 5px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border-left: 5px solid var(--highlight);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .fundamental h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .definition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .definition-card {
+            background-color: rgba(52, 73, 94, 0.5);
+            border-radius: 5px;
+            padding: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(236, 240, 241, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .definition-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent), var(--highlight));
+        }
+        
+        .definition-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .definition-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--highlight);
+            opacity: 0.8;
+        }
+        
+        .definition-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+        
+        /* 创作领域 */
+        .creation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .creation-card {
+            background-color: rgba(44, 62, 80, 0.7);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(236, 240, 241, 0.1);
+        }
+        
+        .creation-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, rgba(52, 73, 94, 0.9) 0%, rgba(44, 62, 80, 0.9) 100%);
+            color: var(--light);
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(236, 240, 241, 0.1);
+        }
+        
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-body ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-body li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+        
+        .card-body li::before {
+            content: '•';
+            color: var(--highlight);
+            font-weight: bold;
+            position: absolute;
+            left: -1rem;
+        }
+        
+        /* 禁区 */
+        .forbidden-section {
+            background-color: rgba(44, 62, 80, 0.7);
+            border-radius: 5px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-left: 5px solid var(--accent);
+        }
+        
+        .forbidden-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .forbidden-content {
+            background-color: rgba(231, 76, 60, 0.1);
+            padding: 2rem;
+            border-radius: 5px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .forbidden-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .example {
+            display: flex;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(236, 240, 241, 0.1);
+            padding-top: 2rem;
+        }
+        
+        .allowed-example, .forbidden-example {
+            flex: 1;
+            padding: 1.5rem;
+            border-radius: 5px;
+        }
+        
+        .allowed-example {
+            background-color: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            margin-right: 1rem;
+        }
+        
+        .forbidden-example {
+            background-color: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .example h4 {
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+        
+        /* 标识规范 */
+        .identification-section {
+            background-color: rgba(44, 62, 80, 0.7);
+            border-radius: 5px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 3rem;
+        }
+        
+        .identification-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .identification-content {
+            background-color: rgba(52, 73, 94, 0.5);
+            padding: 2rem;
+            border-radius: 5px;
+            border: 1px solid rgba(236, 240, 241, 0.1);
+            font-family: monospace;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: center;
+        }
+        
+        /* 导航指南 */
+        .navigation-guide {
+            background-color: rgba(44, 62, 80, 0.7);
+            border-radius: 5px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 3rem;
+        }
+        
+        .navigation-guide h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .guide-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-radius: 5px;
+            transition: transform 0.3s;
+            background-color: rgba(52, 73, 94, 0.5);
+            border: 1px solid rgba(236, 240, 241, 0.1);
+        }
+        
+        .guide-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .guide-item.allowed {
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .guide-item.forbidden {
+            border-left: 4px solid var(--accent);
+        }
+        
+        .guide-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        .guide-item.allowed .guide-icon {
+            color: #2ecc71;
+        }
+        
+        .guide-item.forbidden .guide-icon {
+            color: var(--accent);
+        }
+        
+        /* 宣言 */
+        .manifesto {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(26, 37, 47, 0.95) 100%);
+            color: var(--light);
+            border-radius: 5px;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(236, 240, 241, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .manifesto::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(243, 156, 18, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(231, 76, 60, 0.1) 0%, transparent 50%);
+        }
+        
+        .manifesto-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .manifesto h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--light);
+        }
+        
+        .manifesto p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-style: italic;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--light);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: 2px solid var(--highlight);
+            margin-top: 1.5rem;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--highlight);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: var(--dark);
+            color: var(--text);
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(236, 240, 241, 0.1);
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: var(--text);
+            margin: 0 1rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--highlight);
+        }
+        
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .definition-grid, .creation-grid, .guide-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .example {
+                flex-direction: column;
+            }
+            
+            .allowed-example {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 粒子背景 -->
+    <div id="particles-js"></div>
+
+    <!-- 顶部区域 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🌀</div>
+                <h1>龙骸宇宙·抽象性质创作宪章</h1>
+                <div class="subtitle">概念解构、哲学思辨与艺术重构的纯粹实验场</div>
+                <div class="tagline">
+                    我们不再讲述关于龙、共鸣者与共产主义的故事。我们拆解这些概念，将其化为纯粹的思想材料，去构建关于无限、牺牲与集体性的哲学艺术品。
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container">
+        <!-- 根本定义 -->
+        <section>
+            <div class="section-title">
+                <h2>根本定义</h2>
+            </div>
+            
+            <div class="fundamental">
+                <h3>抽象创作特区的核心原则</h3>
+                <div class="definition-grid">
+                    <div class="definition-card">
+                        <div class="definition-icon">🎭</div>
+                        <h4>本质</h4>
+                        <p>本区域为「概念解构、哲学思辨与艺术重构」的纯粹实验场。</p>
+                    </div>
+                    <div class="definition-card">
+                        <div class="definition-icon">🔮</div>
+                        <h4>目的</h4>
+                        <p>探索世界观核心元素的符号性、隐喻性与哲学潜力，脱离具体叙事约束。</p>
+                    </div>
+                    <div class="definition-card">
+                        <div class="definition-icon">📍</div>
+                        <h4>定位</h4>
+                        <p>既非「正史」的延续，亦非「逸闻」的补充，而是「元叙事」层面的创造性破坏与重建。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 抽象创作开放领域 -->
+        <section>
+            <div class="section-title">
+                <h2>抽象创作开放领域</h2>
+            </div>
+            
+            <div class="creation-grid">
+                <!-- 概念解构与重组 -->
+                <div class="creation-card">
+                    <div class="card-header">
+                        <h3>概念解构与重组</h3>
+                        <p>将核心概念转化为哲学符号</p>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>将"龙"解构为「无限性的物理隐喻」，可创作纯概念艺术</li>
+                            <li>将"异矿"视为「秩序与混沌的辩证体」，进行哲学诗创作</li>
+                            <li>将"源质生物"抽象为「他者性（Otherness）的具象化」，进行存在主义探讨</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 形式实验 -->
+                <div class="creation-card">
+                    <div class="card-header">
+                        <h3>形式实验</h3>
+                        <p>打破传统叙事结构的束缚</p>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>装置艺术说明文（如：《关于一个由辉铁和眼泪构成的纪念碑的设想》）</li>
+                            <li>意识流独白（如：《阳星岚在高烧中看见的数学公式》）</li>
+                            <li>程式代码诗（如：《用Python描述"维度涟漪"的衰减》）</li>
+                            <li>纯粹的声音/视觉设计（如：《"静默危机"的听觉可视化》）</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 哲学拷问 -->
+                <div class="creation-card">
+                    <div class="card-header">
+                        <h3>哲学拷问</h3>
+                        <p>在唯物框架内进行极致思想实验</p>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>"如果'为人民服务'是一个物理常数？"</li>
+                            <li>"阳星岚的疼痛，在宇宙尺度上是否可观测？"</li>
+                            <li>"ECA的集体意识，是否是一种宏观的生命形态？"</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 隐喻与象征 -->
+                <div class="creation-card">
+                    <div class="card-header">
+                        <h3>隐喻与象征</h3>
+                        <p>将设定元素转化为个人化象征</p>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>将"龙骸"视为"所有牺牲者的物质凝结"</li>
+                            <li>将"净世真理会"视为"理性走向自身反面的悲剧性冲动"</li>
+                            <li>将"凌玥的疤痕"视为"守护行为在物理世界留下的拓扑学痕迹"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 抽象创作唯一禁区 -->
+        <section>
+            <div class="section-title">
+                <h2>抽象创作唯一禁区</h2>
+            </div>
+            
+            <div class="forbidden-section">
+                <h3>禁止将抽象创作的结果反向强加于正史或非正史的解释体系</h3>
+                <div class="forbidden-content">
+                    <p>禁止声称"正史的龙其实是我诗中描述的那个意思"。</p>
+                    <p>禁止用你的哲学实验，去「纠正」或「颠覆」具体的正史设定。</p>
+                    
+                    <div class="example">
+                        <div class="allowed-example">
+                            <h4>✅ 允许</h4>
+                            <p>"在我的这首诗里，'龙'是我对孤独的隐喻。"</p>
+                        </div>
+                        <div class="forbidden-example">
+                            <h4>❌ 禁止</h4>
+                            <p>"根据我的诗，正史里的'龙'其实是孤独的化身。"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 抽象创作标识规范 -->
+        <section>
+            <div class="section-title">
+                <h2>抽象创作标识规范</h2>
+            </div>
+            
+            <div class="identification-section">
+                <h3>所有此类作品必须在开头使用统一标识</h3>
+                <div class="identification-content">
+                    【龙骸形而上·概念实验】<br>
+                    （本作品为抽象思辨创作，与正史及逸闻的具体设定无关）
+                </div>
+            </div>
+        </section>
+
+        <!-- 形而上特区导航 -->
+        <section>
+            <div class="section-title">
+                <h2>形而上特区导航</h2>
+            </div>
+            
+            <div class="navigation-guide">
+                <h3>哲学思辨指南</h3>
+                <div class="guide-grid">
+                    <div class="guide-item allowed">
+                        <div class="guide-icon">🤯</div>
+                        <div>你想用一段舞蹈表现"维度裂隙"的开合？ → 欢迎！请打上标识。</div>
+                    </div>
+                    <div class="guide-item allowed">
+                        <div class="guide-icon">📜</div>
+                        <div>你想写一篇《论"辉铁"在后现代建筑中的美学价值》的假想论文？ → 欢迎！请打上标识。</div>
+                    </div>
+                    <div class="guide-item allowed">
+                        <div class="guide-icon">🎨</div>
+                        <div>你想画一幅《凌玥的凝视作为一种高维测量工具》的概念画？ → 欢迎！请打上标识。</div>
+                    </div>
+                    <div class="guide-item forbidden">
+                        <div class="guide-icon">❌</div>
+                        <div>你想宣称"正史的阳星岚其实理解错了自己的能力本质"？ → 禁止！你触及了唯一禁区。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 形而上特区宣言 -->
+        <section>
+            <div class="manifesto">
+                <div class="manifesto-content">
+                    <h3>形而上特区宣言</h3>
+                    <p>在这里，我们不再讲述关于龙、共鸣者与共产主义的故事。</p>
+                    <p>我们拆解这些概念，将其化为纯粹的思想材料，去构建关于无限、牺牲与集体性的哲学艺术品。</p>
+                    <p>这是理性的狂欢，是唯物论者在概念宇宙中的极限跳跃。</p>
+                    <p>我们不定义龙骸宇宙是什么，我们只探索它——可以是什么。</p>
+                    <a href="#start" class="cta-button">开始思辨</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">🌀</div>
+                <div class="footer-links">
+                    <a href="#">返回正史宪章</a>
+                    <a href="#">非正史协议</a>
+                    <a href="#">无限创作特区</a>
+                    <a href="#">思辨者社区</a>
+                </div>
+                <div class="copyright">
+                    © ECA历11525年 龙骸宇宙创作委员会 · 抽象性质创作宪章 v1.0
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 粒子效果库 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // 初始化粒子背景
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#BDC3C7"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#BDC3C7",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.5
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        // 简单的交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 卡片悬停效果增强
+            const cards = document.querySelectorAll('.creation-card, .definition-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                    this.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.4)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+                });
+            });
+            
+            // 指南项目点击效果
+            const guideItems = document.querySelectorAll('.guide-item');
+            
+            guideItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 添加点击反馈
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+            
+            // CTA按钮点击效果
+            const ctaButton = document.querySelector('.cta-button');
+            
+            ctaButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 添加点击反馈
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+                
+                // 这里可以添加实际功能，比如跳转到创作页面
+                alert('欢迎进入形而上特区！准备好开始你的哲学思辨之旅了吗？');
+            });
+            
+            // 页面加载动画
+            const elements = document.querySelectorAll('.creation-card, .definition-card, .guide-item');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s, transform 0.5s';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>

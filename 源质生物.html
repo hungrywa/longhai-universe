@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>源质生物数据库 - 官方整合平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#7B61FF',
+                        accent: '#00F0FF',
+                        dark: '#0F172A',
+                        darker: '#0A0F1C',
+                        light: '#E2E8F0'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .bg-grid {
+                background-image: linear-gradient(rgba(22, 93, 255, 0.1) 1px, transparent 1px),
+                                linear-gradient(90deg, rgba(22, 93, 255, 0.1) 1px, transparent 1px);
+                background-size: 20px 20px;
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(22, 93, 255, 0.1), 0 10px 10px -5px rgba(22, 93, 255, 0.04);
+            }
+        }
+    </style>
+</head>
+
+<body class="font-inter bg-darker text-light min-h-screen">
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-darker/80 backdrop-blur-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                    <i class="fa fa-dna text-white text-xl"></i>
+                </div>
+                <h1 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-accent text-gradient">源质生物数据库</h1>
+            </div>
+            
+            <!-- 桌面导航 -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#overview" class="hover:text-accent transition-colors">概览</a>
+                <a href="#classification" class="hover:text-accent transition-colors">分类体系</a>
+                <a href="#threats" class="hover:text-accent transition-colors">威胁与应对</a>
+                <a href="#updates" class="hover:text-accent transition-colors">最新修订</a>
+                <a href="#species" class="hover:text-accent transition-colors">物种图鉴</a>
+            </nav>
+            
+            <!-- 搜索按钮 -->
+            <button id="searchBtn" class="p-2 rounded-full hover:bg-primary/20 transition-colors">
+                <i class="fa fa-search"></i>
+            </button>
+            
+            <!-- 移动端菜单按钮 -->
+            <button id="menuBtn" class="md:hidden p-2 rounded-full hover:bg-primary/20 transition-colors">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- 移动端导航菜单 -->
+        <div id="mobileMenu" class="md:hidden hidden bg-dark/95 backdrop-blur-md">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                <a href="#overview" class="py-2 hover:text-accent transition-colors">概览</a>
+                <a href="#classification" class="py-2 hover:text-accent transition-colors">分类体系</a>
+                <a href="#threats" class="py-2 hover:text-accent transition-colors">威胁与应对</a>
+                <a href="#updates" class="py-2 hover:text-accent transition-colors">最新修订</a>
+                <a href="#species" class="py-2 hover:text-accent transition-colors">物种图鉴</a>
+                <a href="#" id="contactMobile" class="py-2 hover:text-accent transition-colors">联系我们</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 搜索模态框 -->
+    <div id="searchModal" class="fixed inset-0 z-50 flex items-center justify-center bg-darker/90 backdrop-blur-md hidden">
+        <div class="bg-dark rounded-lg p-6 w-full max-w-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">搜索源质生物</h3>
+                <button id="closeSearch" class="p-2 hover:text-accent transition-colors">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="输入物种名、目名或特征..." 
+                       class="w-full bg-darker border border-primary/30 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-primary">
+                <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-primary">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+            <div id="searchResults" class="mt-4 max-h-60 overflow-y-auto">
+                <!-- 搜索结果将在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 联系模态框 -->
+    <div id="contactModal" class="fixed inset-0 z-50 flex items-center justify-center bg-darker/90 backdrop-blur-md hidden">
+        <div class="bg-dark rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">联系我们</h3>
+                <button id="closeContact" class="p-2 hover:text-accent transition-colors">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="text-center py-6">
+                <div class="w-16 h-16 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mx-auto mb-4">
+                    <i class="fa fa-users text-white text-2xl"></i>
+                </div>
+                <h4 class="text-lg font-medium mb-2">加入源质生物研究社区</h4>
+                <p class="text-gray-400 mb-4">扫描二维码或点击链接加入我们的讨论群</p>
+                <div class="bg-white p-4 rounded-lg inline-block mb-4">
+                    <!-- 使用真实的群二维码图片 -->
+                    <img src="f43aba0dbddb10df58d4a51deb95ee9d.png" alt="龙骸二创群二维码" class="w-32 h-32 mx-auto">
+                </div>
+                <div class="bg-darker rounded-lg p-4">
+                    <p class="text-sm text-gray-400 mb-2">群号</p>
+                    <p class="text-xl font-mono font-bold text-accent mb-4">780068097</p>
+                    <a href="https://qm.qq.com/q/9kygnJPvNK" target="_blank" class="text-primary hover:text-accent transition-colors text-sm">
+                        点击链接加入群聊【龙骸二创群】
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 英雄区域 -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-32 bg-grid overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-darker"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                    <span class="bg-gradient-to-r from-primary to-accent text-gradient">源质生物</span>
+                    <br>学术研究与科普平台
+                </h1>
+                <p class="text-xl text-gray-300 mb-8">探索遵循原生维度物理法则演化的神秘生命形式，解析其演化逻辑与分类体系</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#overview" class="px-8 py-3 bg-primary hover:bg-primary/90 rounded-lg transition-colors">
+                        开始探索 <i class="fa fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#species" class="px-8 py-3 bg-transparent border border-primary/50 hover:border-primary rounded-lg transition-colors">
+                        浏览物种图鉴
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 装饰元素 -->
+        <div class="absolute top-1/4 left-10 w-40 h-40 bg-secondary/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/4 right-10 w-60 h-60 bg-primary/20 rounded-full blur-3xl"></div>
+    </section>
+
+    <!-- 概览部分 -->
+    <section id="overview" class="py-20 bg-dark">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-10">
+                    <div class="w-12 h-1 bg-primary mr-4"></div>
+                    <h2 class="text-3xl md:text-4xl font-bold">源质生物概览</h2>
+                </div>
+                
+                <div class="mb-12">
+                    <h3 class="text-2xl font-semibold mb-4 text-accent">本质定义</h3>
+                    <p class="text-gray-300 mb-6">源质生物是遵循原生维度物理法则演化的自然生命，核心特征包括：</p>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-darker p-6 rounded-lg border border-primary/10 card-hover">
+                            <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
+                                <i class="fa fa-flask text-primary text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold mb-2">物质基础</h4>
+                            <p class="text-gray-400 text-sm">由地球未知的半能量半物质胶状「源质」构成</p>
+                        </div>
+                        <div class="bg-darker p-6 rounded-lg border border-primary/10 card-hover">
+                            <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
+                                <i class="fa fa-bolt text-primary text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold mb-2">生命核心</h4>
+                            <p class="text-gray-400 text-sm">依赖高度有序的高维能量核心维持生理功能</p>
+                        </div>
+                        <div class="bg-darker p-6 rounded-lg border border-primary/10 card-hover">
+                            <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-4">
+                                <i class="fa fa-balance-scale text-primary text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold mb-2">属性中立</h4>
+                            <p class="text-gray-400 text-sm">存在本身无善恶属性，威胁源于生态竞争与物理干扰</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 text-accent">核心演化假说</h3>
+                    <p class="text-gray-300 mb-6">所有源质生物共享单细胞祖先——<strong>「原始源质囊泡」</strong>，演化路径关键驱动因素：</p>
+                    
+                    <div class="relative pl-8 mb-6 before:absolute before:left-3 before:top-0 before:bottom-0 before:w-0.5 before:bg-primary/30">
+                        <div class="relative mb-8">
+                            <div class="absolute left-[-32px] w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                                <span class="text-xs">1</span>
+                            </div>
+                            <p>祖先通过半透膜直接从维度背景辐射中汲取能量</p>
+                        </div>
+                        <div class="relative mb-8">
+                            <div class="absolute left-[-32px] w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                                <span class="text-xs">2</span>
+                            </div>
+                            <p>随扩散进入不同维度，适应差异化物理环境</p>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute left-[-32px] w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                                <span class="text-xs">3</span>
+                            </div>
+                            <p>经自然选择「辐射演化」，形成能量摄食、物质摄食、内温动物三大核心支系</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 演化树图表 -->
+                    <div class="mt-10 bg-darker p-6 rounded-lg border border-primary/10">
+                        <h4 class="text-lg font-medium mb-4">源质生物演化树示意图</h4>
+                        <div class="w-full h-64">
+                            <canvas id="evolutionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 分类体系部分 -->
+    <section id="classification" class="py-20 bg-darker bg-grid">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex items-center mb-10">
+                    <div class="w-12 h-1 bg-secondary mr-4"></div>
+                    <h2 class="text-3xl md:text-4xl font-bold">演化树与分类体系</h2>
+                </div>
+                
+                <!-- 分类标签页 -->
+                <div class="mb-8 border-b border-gray-700">
+                    <div class="flex overflow-x-auto pb-2 space-x-1 md:space-x-4">
+                        <button class="category-tab active whitespace-nowrap px-4 py-2 text-accent border-b-2 border-accent" data-category="energy">
+                            能量摄食支
+                        </button>
+                        <button class="category-tab whitespace-nowrap px-4 py-2 text-gray-400 hover:text-white" data-category="matter">
+                            物质摄食支
+                        </button>
+                        <button class="category-tab whitespace-nowrap px-4 py-2 text-gray-400 hover:text-white" data-category="endothermic">
+                            内温动物支
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 能量摄食支 -->
+                <div class="category-content" id="energy-content">
+                    <h3 class="text-2xl font-semibold mb-6 text-accent">能量摄食支</h3>
+                    <p class="text-gray-300 mb-8">以环境辐射/电磁/动能为核心能量来源，是源质生物中最古老的演化支系之一</p>
+                    
+                    <!-- 涡面目 -->
+                    <div class="mb-12">
+                        <h4 class="text-xl font-semibold mb-4 flex items-center">
+                            <span class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
+                                <i class="fa fa-circle-o text-primary"></i>
+                            </span>
+                            涡面目
+                        </h4>
+                        
+                        <div class="bg-dark p-6 rounded-lg border border-primary/10 mb-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h5 class="font-medium text-accent mb-2">生理特征</h5>
+                                    <p class="text-gray-400 text-sm mb-4">分裂生殖，无定型身体，异温动物（体温随环境能量场变化）</p>
+                                    
+                                    <h5 class="font-medium text-accent mb-2">生态位定位</h5>
+                                    <p class="text-gray-400 text-sm">能量生态系的"基础消费者"与"主动掠食者"</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-accent mb-2">特化器官</h5>
+                                    <ul class="text-gray-400 text-sm space-y-2">
+                                        <li>• 能量鳃：体表生物膜，通过电化学梯度"呼吸"辐射能/电磁能</li>
+                                        <li>• 聚焦晶簇：体内生物晶体，用于移动、沟通、防御</li>
+                                        <li>• <span class="text-primary text-xs">最新发现</span> 拓扑绝缘体结构（能量鳃本质），存在与环境能量的量子纠缠</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 代表物种 -->
+                        <h5 class="font-medium mb-4">代表物种</h5>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-dark rounded-lg overflow-hidden border border-primary/10 card-hover">
+                                <div class="h-40 bg-gradient-to-r from-primary/20 to-secondary/20 relative overflow-hidden">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fa fa-lightbulb-o text-6xl text-primary/50"></i>
+                                    </div>
+                                    <div class="absolute top-3 right-3 bg-primary/80 text-white text-xs px-2 py-1 rounded">
+                                        低威胁
+                                    </div>
+                                </div>
+                                <div class="p-5">
+                                    <h6 class="font-semibold text-lg mb-2">浮游光灵</h6>
+                                    <p class="text-gray-400 text-sm mb-3">水母状半透明，体内生物微晶簇可反射聚焦辐射</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <span class="flex items-center mr-4"><i class="fa fa-map-marker mr-1"></i> 大气/海洋</span>
+                                        <span class="flex items-center"><i class="fa fa-cutlery mr-1"></i> 太阳能/宇宙射线</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-dark rounded-lg overflow-hidden border border-primary/10 card-hover">
+                                <div class="h-40 bg-gradient-to-r from-primary/30 to-accent/20 relative overflow-hidden">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fa fa-bolt text-6xl text-accent/50"></i>
+                                    </div>
+                                    <div class="absolute top-3 right-3 bg-yellow-500/80 text-white text-xs px-2 py-1 rounded">
+                                        中威胁
+                                    </div>
+                                </div>
+                                <div class="p-5">
+                                    <h6 class="font-semibold text-lg mb-2">风暴水母</h6>
+                                    <p class="text-gray-400 text-sm mb-3">体型巨大，可穿梭雷暴，头部有「引雷晶角」主动引导吸收大气电荷</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <span class="flex items-center mr-4"><i class="fa fa-map-marker mr-1"></i> 雷暴区域</span>
+                                        <span class="flex items-center"><i class="fa fa-cutlery mr-1"></i> 闪电能量</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 物质摄食支 -->
+                <div class="category-content hidden" id="matter-content">
+                    <h3 class="text-2xl font-semibold mb-6 text-accent">物质摄食支</h3>
+                    <p class="text-gray-300 mb-8">通过摄取实体物质获取能量与营养，是生态系统物质循环的重要参与者</p>
+                    
+                    <!-- 织影目 -->
+                    <div class="mb-12">
+                        <h4 class="text-xl font-semibold mb-4 flex items-center">
+                            <span class="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center mr-2">
+                                <i class="fa fa-eye-slash text-secondary"></i>
+                            </span>
+                            织影目（外温潜伏猎手）
+                        </h4>
+                        
+                        <div class="bg-dark p-6 rounded-lg border border-secondary/10 mb-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h5 class="font-medium text-accent mb-2">生理特征</h5>
+                                    <p class="text-gray-400 text-sm mb-4">卵生，外骨骼/液压骨骼，外温动物（变温）</p>
+                                    
+                                    <h5 class="font-medium text-accent mb-2">生态位定位</h5>
+                                    <p class="text-gray-400 text-sm">中小型猎手/食腐者，擅长潜伏与突袭</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-accent mb-2">特化能力</h5>
+                                    <ul class="text-gray-400 text-sm space-y-2">
+                                        <li>• 镜面表皮：可控色素细胞+鸟嘌呤晶体层，实现高效光学伪装</li>
+                                        <li>• 阴影同化：压扁身体+体色控制，完成物理拟态</li>
+                                        <li>• 生物次声波发生器：震慑天敌/混乱猎物神经系统</li>
+                                        <li>• <span class="text-primary text-xs">最新发现</span> 拟态能力源于可编程色素细胞，可通过量子隧穿效应穿透障碍</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 代表物种 -->
+                        <h5 class="font-medium mb-4">代表物种</h5>
+                        <div class="grid md:grid-cols-1 gap-6">
+                            <div class="bg-dark rounded-lg overflow-hidden border border-secondary/10 card-hover">
+                                <div class="h-40 bg-gradient-to-r from-secondary/20 to-purple-500/20 relative overflow-hidden">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fa fa-moon-o text-6xl text-secondary/50"></i>
+                                    </div>
+                                    <div class="absolute top-3 right-3 bg-yellow-500/80 text-white text-xs px-2 py-1 rounded">
+                                        中威胁
+                                    </div>
+                                </div>
+                                <div class="p-5">
+                                    <h6 class="font-semibold text-lg mb-2">拟态影鱿</h6>
+                                    <p class="text-gray-400 text-sm mb-3">类似乌贼，触手韧性强，皮肤光学伪装能力卓越，拥有「暗影雾腺」可制造感官遮蔽区</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <span class="flex items-center mr-4"><i class="fa fa-map-marker mr-1"></i> 阴暗区域</span>
+                                        <span class="flex items-center"><i class="fa fa-cutlery mr-1"></i> 小型生物/腐肉</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 蚀骨目 -->
+                    <div class="mb-12">
+                        <h4 class="text-xl font-semibold mb-4 flex items-center">
+                            <span class="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center mr-2">
+                                <i class="fa fa-recycle text-secondary"></i>
+                            </span>
+                            蚀骨目（特化分解者）
+                        </h4>
+                        
+                        <div class="bg-dark p-6 rounded-lg border border-secondary/10 mb-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h5 class="font-medium text-accent mb-2">生理特征</h5>
+                                    <p class="text-gray-400 text-sm mb-4">出芽生殖/释放孢子，菌丝体/海绵状结构，代谢产热</p>
+                                    
+                                    <h5 class="font-medium text-accent mb-2">生态位定位</h5>
+                                    <p class="text-gray-400 text-sm">生态系统物质循环基石，负责分解有机与无机物质</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-accent mb-2">特化器官</h5>
+                                    <ul class="text-gray-400 text-sm space-y-2">
+                                        <li>• 分解腺：分泌强效生物催化酶，可分解绝大多数有机物/无机物</li>
+                                        <li>• 吸收膜：体表微绒毛，高效吸收营养</li>
+                                        <li>• <span class="text-primary text-xs">最新发现</span> 分泌酶含非标准氨基酸，分解过程产生可控核聚变</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 代表物种 -->
+                        <h5 class="font-medium mb-4">代表物种</h5>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-dark rounded-lg overflow-hidden border border-secondary/10 card-hover">
+                                <div class="h-40 bg-gradient-to-r from-secondary/20 to-green-500/20 relative overflow-hidden">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fa fa-th text-6xl text-secondary/50"></i>
+                                    </div>
+                                    <div class="absolute top-3 right-3 bg-green-500/80 text-white text-xs px-2 py-1 rounded">
+                                        低威胁
+                                    </div>
+                                </div>
+                                <div class="p-5">
+                                    <h6 class="font-semibold text-lg mb-2">蚀菌群</h6>
+                                    <p class="text-gray-400 text-sm mb-3">粘稠色彩斑斓的菌毯，通过催化酶加速物质分解，支撑生态循环</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <span class="flex items-center mr-4"><i class="fa fa-map-marker mr-1"></i> 各类表面</span>
+                                        <span class="flex items-center"><i class="fa fa-cutlery mr-1"></i> 有机与无机物质</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-dark rounded-lg overflow-hidden border border-secondary/10 card-hover">
+                                <div class="h-40 bg-gradient-to-r from-secondary/30 to-green-500/30 relative overflow-hidden">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fa fa-car text-6xl text-secondary/50"></i>
+                                    </div>
+                                    <div class="absolute top-3 right-3 bg-green-500/80 text-white text-xs px-2 py-1 rounded">
+                                        低威胁
+                                    </div>
+                                </div>
+                                <div class="p-5">
+                                    <h6 class="font-semibold text-lg mb-2">净化巨蜗</h6>
+                                    <p class="text-gray-400 text-sm mb-3">小汽车大小，外壳为高度压缩的代谢废物，分解路径上的污染物与废弃物</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <span class="flex items-center mr-4"><i class="fa fa-map-marker mr-1"></i> 污染区域</span>
+                                        <span class="flex items-center"><i class="fa fa-cutlery mr-1"></i> 污染物/废弃物</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 内温动物支 -->
+                <div class="category-content hidden" id="endothermic-content">
+                    <h3 class="text-2xl font-semibold mb-6 text-accent">内温动物支</h3>
+                    <p class="text-gray-300 mb-8">高效代谢维持恒定体温，支持高能耗活动，是源质生物中最复杂的类群</p>
+                    
+                    <!-- 裂躯目 -->
+                    <div class="mb-12">
+                        <h4 class="text-xl font-semibold mb-4 flex items-center">
+                            <span class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center mr-2">
+                                <i class="fa fa-shield text-accent"></i>
+                            </span>
+                            裂躯目（顶级掠食者与巨兽）
+                        </h4>
+                        
+                        <div class="bg-dark p-6 rounded-lg border border-accent/10 mb-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h5 class="font-medium text-accent mb-2">生理特征</h5>
+                                    <p class="text-gray-400 text-sm mb-4">胎生，内骨骼，内温动物（恒温）</p>
+                                    
+                                    <h5 class="font-medium text-accent mb-2">生态位定位</h5>
+                                    <p class="text-gray-400 text-sm">顶级掠食者与巨型植食动物，对生态系统有重要影响</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-accent mb-2">核心能力</h5>
+                                    <ul class="text-gray-400 text-sm space-y-2">
+                                        <li>• 能量利用效率极高，拥有复杂的社会结构</li>
+                                        <li>• <span class="text-primary text-xs">最新发现</span> 能量利用效率达87%，超越卡诺极限</li>
+                                        <li>• <span class="text-primary text-xs">最新发现</span> 新增「晶核心脏」解剖特征</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 代表物种 -->
+                        <h5 class="font-medium mb-4">代表物种</h5>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-dark rounded-lg overflow-hidden border border-accent/10 card-hover">
+                                <div class="h-40 bg-gradient-to-r from-accent/20 to-blue-500/20 relative overflow-hidden">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fa fa-paw text-6xl text-accent/50"></i>
+                                    </div>
+                                    <div class="absolute top-3 right-3 bg-red-500/80 text-white text-xs px-2 py-1 rounded">
+                                        高威胁
+                                    </div>
+                                </div>
+                                <div class="p-5">
+                                    <h6 class="font-semibold text-lg mb-2">披甲裂爪兽</h6>
+                                    <p class="text-gray-400 text-sm mb-3">熊与穿山甲混合体，覆盖厚重生物甲片，前肢有可收缩的"破甲爪"</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <span class="flex items-center mr-4"><i class="fa fa-map-marker mr-1"></i> 山区/森林</span>
+                                        <span class="flex items-center"><i class="fa fa-cutlery mr-1"></i> 大型生物</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-dark rounded-lg overflow-hidden border border-accent/10 card-hover">
+                                <div class="h-40 bg-gradient-to-r from-accent/30 to-green-500/20 relative overflow-hidden">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fa fa-mountain text-6xl text-accent/50"></i>
+                                    </div>
+                                    <div class="absolute top-3 right-3 bg-yellow-500/80 text-white text-xs px-2 py-1 rounded">
+                                        中威胁
+                                    </div>
+                                </div>
+                                <div class="p-5">
+                                    <h6 class="font-semibold text-lg mb-2">群山兽</h6>
+                                    <p class="text-gray-400 text-sm mb-3">如移动小山，背部甲壳积累泥土并生长植物，形成微型生态系统</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <span class="flex items-center mr-4"><i class="fa fa-map-marker mr-1"></i> 平原/丘陵</span>
+                                        <span class="flex items-center"><i class="fa fa-cutlery mr-1"></i> 低矮植被</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 巨构目 -->
+                    <div class="mb-12">
+                        <h4 class="text-xl font-semibold mb-4 flex items-center">
+                            <span class="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center mr-2">
+                                <i class="fa fa-building text-accent"></i>
+                            </span>
+                            巨构目（真社会性环境工程师）
+                        </h4>
+                        
+                        <div class="bg-dark p-6 rounded-lg border border-accent/10 mb-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h5 class="font-medium text-accent mb-2">生理特征</h5>
+                                    <p class="text-gray-400 text-sm mb-4">有性+无性繁殖结合，内骨骼，真社会性（个体严格分工）</p>
+                                    
+                                    <h5 class="font-medium text-accent mb-2">生态位定位</h5>
+                                    <p class="text-gray-400 text-sm">环境改造者，通过群体行为改变局部生态系统</p>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-accent mb-2">核心能力</h5>
+                                    <ul class="text-gray-400 text-sm space-y-2">
+                                        <li>• 建造复杂结构，改变地形与物质分布</li>
+                                        <li>• <span class="text-primary text-xs">最新发现</span> 建筑结构符合分形几何最优解</li>
+                                        <li>• <span class="text-primary text-xs">最新发现</span> 群体智能达到图灵完备</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 代表物种 -->
+                        <h5 class="font-medium mb-4">代表物种</h5>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-dark rounded-lg overflow-hidden border border-accent/10 card-hover">
+                                <div class="h-40 bg-gradient-to-r from-accent/20 to-amber-500/20 relative overflow-hidden">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fa fa-cubes text-6xl text-accent/50"></i>
+                                    </div>
+                                    <div class="absolute top-3 right-3 bg-yellow-500/80 text-white text-xs px-2 py-1 rounded">
+                                        中威胁
+                                    </div>
+                                </div>
+                                <div class="p-5">
+                                    <h6 class="font-semibold text-lg mb-2">磐石筑巢蚁</h6>
+                                    <p class="text-gray-400 text-sm mb-3">工体小，兵体有高强度生物颚部，建造生物分泌物+岩石混合的坚固巢穴网络</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <span class="flex items-center mr-4"><i class="fa fa-map-marker mr-1"></i> 岩石区域</span>
+                                        <span class="flex items-center"><i class="fa fa-cutlery mr-1"></i> 矿物质/小型生物</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-dark rounded-lg overflow-hidden border border-accent/10 card-hover">
+                                <div class="h-40 bg-gradient-to-r from-accent/30 to-purple-500/20 relative overflow-hidden">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fa fa-diamond text-6xl text-accent/50"></i>
+                                    </div>
+                                    <div class="absolute top-3 right-3 bg-yellow-500/80 text-white text-xs px-2 py-1 rounded">
+                                        中威胁
+                                    </div>
+                                </div>
+                                <div class="p-5">
+                                    <h6 class="font-semibold text-lg mb-2">晶歌蜂群</h6>
+                                    <p class="text-gray-400 text-sm mb-3">个体似蜜蜂，身体为半透明生物晶体外壳，建造可通过物理共振收集储存环境能量的晶体蜂巢</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <span class="flex items-center mr-4"><i class="fa fa-map-marker mr-1"></i> 高能量区域</span>
+                                        <span class="flex items-center"><i class="fa fa-cutlery mr-1"></i> 能量束花蜜</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 威胁与应对部分 -->
+    <section id="threats" class="py-20 bg-dark">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-10">
+                    <div class="w-12 h-1 bg-red-500 mr-4"></div>
+                    <h2 class="text-3xl md:text-4xl font-bold">威胁本质与应对策略</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-6 text-red-400">威胁核心</h3>
+                        
+                        <div class="bg-darker p-6 rounded-lg border border-red-500/20 mb-6">
+                            <h4 class="font-semibold mb-3 flex items-center">
+                                <i class="fa fa-exclamation-triangle text-red-400 mr-2"></i>
+                                生态位竞争
+                            </h4>
+                            <p class="text-gray-400 text-sm">挤占地球生物生存空间，破坏现有生态平衡，导致本土物种灭绝与生态系统崩溃</p>
+                        </div>
+                        
+                        <div class="bg-darker p-6 rounded-lg border border-red-500/20">
+                            <h4 class="font-semibold mb-3 flex items-center">
+                                <i class="fa fa-random text-red-400 mr-2"></i>
+                                现实扭曲（能量污染）
+                            </h4>
+                            <p class="text-gray-400 text-sm">其高维能量场将原生维度物理常数（局部光速、引力常数、电磁力强度）叠加于地球环境，导致地球基础物理过程失效，引发灾难（如局部重力异常、电磁紊乱）</p>
+                        </div>
+                        
+                        <div class="mt-8 p-5 bg-primary/10 rounded-lg border border-primary/20">
+                            <p class="text-gray-300 italic text-sm">
+                                "它们不是恶魔，只是来自异乡的、遵循着另一套物理定律的生命。但生存空间的竞争，从来都是宇宙中最残酷的篇章。"
+                                <br><br>— ECDC生物特性分析处
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-6 text-green-400">ECA 科学应对体系</h3>
+                        
+                        <div class="mb-6">
+                            <p class="text-gray-300 mb-4">核心原则：<strong class="text-green-400">"理解生态逻辑与生理弱点，而非基于恐惧的消灭"</strong></p>
+                            
+                            <div class="space-y-4">
+                                <div class="bg-darker p-5 rounded-lg border border-green-500/20">
+                                    <div class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center mt-1 mr-3 flex-shrink-0">
+                                            <i class="fa fa-eye text-green-400"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-1">监测预警</h4>
+                                            <p class="text-gray-400 text-sm">建立能量污染强度与生态威胁度评估模型，实时追踪源质生物活动</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-darker p-5 rounded-lg border border-green-500/20">
+                                    <div class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center mt-1 mr-3 flex-shrink-0">
+                                            <i class="fa fa-shield text-green-400"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-1">应对手段</h4>
+                                            <p class="text-gray-400 text-sm">运用针对性能量武器与物理手段，优先采取"驱逐/控制"，必要时进行"清除"</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-darker p-5 rounded-lg border border-green-500/20">
+                                    <div class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center mt-1 mr-3 flex-shrink-0">
+                                            <i class="fa fa-flask text-green-400"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold mb-1">研究与开发</h4>
+                                            <p class="text-gray-400 text-sm">深入研究源质生物的生理机制，开发新型防护技术与能源利用方案</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 威胁等级图表 -->
+                        <div class="bg-darker p-5 rounded-lg border border-gray-700">
+                            <h4 class="font-medium mb-4">源质生物威胁等级分布</h4>
+                            <div class="w-full h-64">
+                                <canvas id="threatChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 最新修订部分 -->
+    <section id="updates" class="py-20 bg-darker bg-grid">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-10">
+                    <div class="w-12 h-1 bg-accent mr-4"></div>
+                    <h2 class="text-3xl md:text-4xl font-bold">最新分类学修订</h2>
+                </div>
+                
+                <p class="text-gray-300 mb-8">基于最新基因测序与解剖学研究，对源质生物分类体系进行的重要修订，为科研提供前沿参考：</p>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-full bg-dark rounded-lg overflow-hidden">
+                        <thead>
+                            <tr class="bg-primary/10 border-b border-primary/20">
+                                <th class="py-4 px-6 text-left font-semibold">目名</th>
+                                <th class="py-4 px-6 text-left font-semibold">新增关键特征</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-800 hover:bg-darker/50 transition-colors">
+                                <td class="py-4 px-6 font-medium">裂躯目</td>
+                                <td class="py-4 px-6 text-gray-400">
+                                    <ul class="list-disc list-inside space-y-1 text-sm">
+                                        <li>新增「晶核心脏」解剖特征</li>
+                                        <li>能量利用效率达87%，超越卡诺极限</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-800 hover:bg-darker/50 transition-colors">
+                                <td class="py-4 px-6 font-medium">织影目</td>
+                                <td class="py-4 px-6 text-gray-400">
+                                    <ul class="list-disc list-inside space-y-1 text-sm">
+                                        <li>拟态能力源于"可编程色素细胞"</li>
+                                        <li>具备量子隧穿效应，可穿透障碍</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-800 hover:bg-darker/50 transition-colors">
+                                <td class="py-4 px-6 font-medium">涡面目</td>
+                                <td class="py-4 px-6 text-gray-400">
+                                    <ul class="list-disc list-inside space-y-1 text-sm">
+                                        <li>「能量鳃」本质是"拓扑绝缘体结构"</li>
+                                        <li>存在与环境能量的量子纠缠现象</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-800 hover:bg-darker/50 transition-colors">
+                                <td class="py-4 px-6 font-medium">蚀骨目</td>
+                                <td class="py-4 px-6 text-gray-400">
+                                    <ul class="list-disc list-inside space-y-1 text-sm">
+                                        <li>分泌酶含"非标准氨基酸"</li>
+                                        <li>分解过程伴随"可控核聚变"（安全边界待研究）</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-darker/50 transition-colors">
+                                <td class="py-4 px-6 font-medium">巨构目</td>
+                                <td class="py-4 px-6 text-gray-400">
+                                    <ul class="list-disc list-inside space-y-1 text-sm">
+                                        <li>建筑结构符合"分形几何最优解"</li>
+                                        <li>群体智能达到"图灵完备"（具备逻辑计算能力）</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-10 p-6 bg-dark rounded-lg border border-primary/10">
+                    <h3 class="text-xl font-semibold mb-4 text-accent">研究进展时间线</h3>
+                    <div class="relative pl-8 before:absolute before:left-3 before:top-0 before:bottom-0 before:w-0.5 before:bg-primary/30">
+                        <div class="relative mb-8">
+                            <div class="absolute left-[-32px] w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                                <i class="fa fa-flask text-xs"></i>
+                            </div>
+                            <h4 class="font-medium">2047年3月</h4>
+                            <p class="text-gray-400 text-sm mt-1">首次发现裂躯目「晶核心脏」结构，颠覆传统心血管系统认知</p>
+                        </div>
+                        <div class="relative mb-8">
+                            <div class="absolute left-[-32px] w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                                <i class="fa fa-flask text-xs"></i>
+                            </div>
+                            <h4 class="font-medium">2047年7月</h4>
+                            <p class="text-gray-400 text-sm mt-1">织影目量子隧穿效应得到证实，为新型材料研发提供思路</p>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute left-[-32px] w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                                <i class="fa fa-flask text-xs"></i>
+                            </div>
+                            <h4 class="font-medium">2048年1月</h4>
+                            <p class="text-gray-400 text-sm mt-1">巨构目群体智能达到图灵完备性的研究成果发表于《维度生物学》期刊</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 物种图鉴部分 -->
+    <section id="species" class="py-20 bg-dark">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex items-center mb-10">
+                    <div class="w-12 h-1 bg-secondary mr-4"></div>
+                    <h2 class="text-3xl md:text-4xl font-bold">物种图鉴</h2>
+                </div>
+                
+                <p class="text-gray-300 mb-8">按"目→物种"索引，提炼每个物种核心信息（生态位、关键能力、威胁等级），方便快速识别：</p>
+                
+                <!-- 筛选器 -->
+                <div class="mb-8 flex flex-wrap gap-3">
+                    <button class="filter-btn active px-4 py-2 bg-secondary/20 text-secondary rounded-full text-sm" data-filter="all">
+                        全部物种
+                    </button>
+                    <button class="filter-btn px-4 py-2 bg-dark border border-gray-700 hover:border-secondary/50 rounded-full text-sm" data-filter="energy">
+                        能量摄食支
+                    </button>
+                    <button class="filter-btn px-4 py-2 bg-dark border border-gray-700 hover:border-secondary/50 rounded-full text-sm" data-filter="matter">
+                        物质摄食支
+                    </button>
+                    <button class="filter-btn px-4 py-2 bg-dark border border-gray-700 hover:border-secondary/50 rounded-full text-sm" data-filter="endothermic">
+                        内温动物支
+                    </button>
+                </div>
+                
+                <!-- 物种表格 -->
+                <div class="overflow-x-auto bg-darker rounded-lg border border-gray-800">
+                    <table class="w-full min-w-full">
+                        <thead>
+                            <tr class="bg-secondary/10 border-b border-gray-800">
+                                <th class="py-4 px-6 text-left font-semibold">目名</th>
+                                <th class="py-4 px-6 text-left font-semibold">物种</th>
+                                <th class="py-4 px-6 text-left font-semibold">生态位</th>
+                                <th class="py-4 px-6 text-left font-semibold">关键能力</th>
+                                <th class="py-4 px-6 text-left font-semibold">威胁等级</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 能量摄食支 -->
+                            <tr class="species-row border-b border-gray-800 hover:bg-dark/50 transition-colors" data-category="energy">
+                                <td class="py-4 px-6">涡面目</td>
+                                <td class="py-4 px-6 font-medium">浮游光灵</td>
+                                <td class="py-4 px-6 text-gray-400">能量浮游生物</td>
+                                <td class="py-4 px-6 text-gray-400">滤食辐射能，无主动攻击</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">低</span>
+                                </td>
+                            </tr>
+                            <tr class="species-row border-b border-gray-800 hover:bg-dark/50 transition-colors" data-category="energy">
+                                <td class="py-4 px-6">涡面目</td>
+                                <td class="py-4 px-6 font-medium">风暴水母</td>
+                                <td class="py-4 px-6 text-gray-400">能量掠食者</td>
+                                <td class="py-4 px-6 text-gray-400">吸收闪电，引雷晶角储能</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs">中</span>
+                                </td>
+                            </tr>
+                            
+                            <!-- 物质摄食支 -->
+                            <tr class="species-row border-b border-gray-800 hover:bg-dark/50 transition-colors" data-category="matter">
+                                <td class="py-4 px-6">织影目</td>
+                                <td class="py-4 px-6 font-medium">拟态影鱿</td>
+                                <td class="py-4 px-6 text-gray-400">中小型猎手/食腐者</td>
+                                <td class="py-4 px-6 text-gray-400">光学伪装，暗影雾遮蔽</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs">中</span>
+                                </td>
+                            </tr>
+                            <tr class="species-row border-b border-gray-800 hover:bg-dark/50 transition-colors" data-category="matter">
+                                <td class="py-4 px-6">蚀骨目</td>
+                                <td class="py-4 px-6 font-medium">蚀菌群</td>
+                                <td class="py-4 px-6 text-gray-400">微观分解者</td>
+                                <td class="py-4 px-6 text-gray-400">强效催化酶，分解有机物</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">低</span>
+                                </td>
+                            </tr>
+                            <tr class="species-row border-b border-gray-800 hover:bg-dark/50 transition-colors" data-category="matter">
+                                <td class="py-4 px-6">蚀骨目</td>
+                                <td class="py-4 px-6 font-medium">净化巨蜗</td>
+                                <td class="py-4 px-6 text-gray-400">大型移动分解者</td>
+                                <td class="py-4 px-6 text-gray-400">分解污染物，外壳坚硬</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">低</span>
+                                </td>
+                            </tr>
+                            
+                            <!-- 内温动物支 -->
+                            <tr class="species-row border-b border-gray-800 hover:bg-dark/50 transition-colors" data-category="endothermic">
+                                <td class="py-4 px-6">裂躯目</td>
+                                <td class="py-4 px-6 font-medium">披甲裂爪兽</td>
+                                <td class="py-4 px-6 text-gray-400">顶级掠食者</td>
+                                <td class="py-4 px-6 text-gray-400">破甲爪，厚重甲片</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-2 py-1 bg-red-500/20 text-red-400 rounded-full text-xs">高</span>
+                                </td>
+                            </tr>
+                            <tr class="species-row border-b border-gray-800 hover:bg-dark/50 transition-colors" data-category="endothermic">
+                                <td class="py-4 px-6">裂躯目</td>
+                                <td class="py-4 px-6 font-medium">群山兽</td>
+                                <td class="py-4 px-6 text-gray-400">巨型食草动物/环境改造者</td>
+                                <td class="py-4 px-6 text-gray-400">移动生态系统，改变地貌</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs">中</span>
+                                </td>
+                            </tr>
+                            <tr class="species-row border-b border-gray-800 hover:bg-dark/50 transition-colors" data-category="endothermic">
+                                <td class="py-4 px-6">巨构目</td>
+                                <td class="py-4 px-6 font-medium">磐石筑巢蚁</td>
+                                <td class="py-4 px-6 text-gray-400">初级环境工程师</td>
+                                <td class="py-4 px-6 text-gray-400">筑巢改地形，兵体碎岩石</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs">中</span>
+                                </td>
+                            </tr>
+                            <tr class="species-row hover:bg-dark/50 transition-colors" data-category="endothermic">
+                                <td class="py-4 px-6">巨构目</td>
+                                <td class="py-4 px-6 font-medium">晶歌蜂群</td>
+                                <td class="py-4 px-6 text-gray-400">能量-物质双利用者</td>
+                                <td class="py-4 px-6 text-gray-400">共振储能，采集能量束</td>
+                                <td class="py-4 px-6">
+                                    <span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded-full text-xs">中</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 物种对比工具 -->
+                <div class="mt-12 p-6 bg-darker rounded-lg border border-primary/10">
+                    <h3 class="text-xl font-semibold mb-6">物种对比工具</h3>
+                    <p class="text-gray-400 text-sm mb-6">选择2-3个物种进行详细特征对比：</p>
+                    
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <select id="species1" class="bg-dark border border-gray-700 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option value="">选择第一个物种...</option>
+                            <option value="light-spirit">浮游光灵</option>
+                            <option value="storm-jelly">风暴水母</option>
+                            <option value="shadow-squid">拟态影鱿</option>
+                            <option value="etching-colony">蚀菌群</option>
+                            <option value="purifying-snail">净化巨蜗</option>
+                            <option value="armored-claw">披甲裂爪兽</option>
+                            <option value="mountain-beast">群山兽</option>
+                            <option value="rock-ant">磐石筑巢蚁</option>
+                            <option value="crystal-bee">晶歌蜂群</option>
+                        </select>
+                        <select id="species2" class="bg-dark border border-gray-700 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option value="">选择第二个物种...</option>
+                            <option value="light-spirit">浮游光灵</option>
+                            <option value="storm-jelly">风暴水母</option>
+                            <option value="shadow-squid">拟态影鱿</option>
+                            <option value="etching-colony">蚀菌群</option>
+                            <option value="purifying-snail">净化巨蜗</option>
+                            <option value="armored-claw">披甲裂爪兽</option>
+                            <option value="mountain-beast">群山兽</option>
+                            <option value="rock-ant">磐石筑巢蚁</option>
+                            <option value="crystal-bee">晶歌蜂群</option>
+                        </select>
+                        <select id="species3" class="bg-dark border border-gray-700 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option value="">选择第三个物种（可选）...</option>
+                            <option value="light-spirit">浮游光灵</option>
+                            <option value="storm-jelly">风暴水母</option>
+                            <option value="shadow-squid">拟态影鱿</option>
+                            <option value="etching-colony">蚀菌群</option>
+                            <option value="purifying-snail">净化巨蜗</option>
+                            <option value="armored-claw">披甲裂爪兽</option>
+                            <option value="mountain-beast">群山兽</option>
+                            <option value="rock-ant">磐石筑巢蚁</option>
+                            <option value="crystal-bee">晶歌蜂群</option>
+                        </select>
+                    </div>
+                    
+                    <button id="compareBtn" class="px-6 py-3 bg-primary hover:bg-primary/90 rounded-lg transition-colors">
+                        对比物种特征
+                    </button>
+                </div>
+                
+                <!-- 对比结果展示区域 -->
+                <div id="comparisonResults" class="mt-8 hidden">
+                    <div class="bg-darker rounded-lg border border-primary/10 overflow-hidden">
+                        <div class="bg-primary/10 p-4 border-b border-primary/20">
+                            <h3 class="text-lg font-semibold">物种特征对比</h3>
+                        </div>
+                        <div id="comparisonTable" class="p-4 overflow-x-auto">
+                            <!-- 对比表格将在这里动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-darker py-12 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="grid md:grid-cols-4 gap-10">
+                    <div class="md:col-span-2">
+                        <div class="flex items-center space-x-2 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                                <i class="fa fa-dna text-white text-xl"></i>
+                            </div>
+                            <h2 class="text-xl font-bold bg-gradient-to-r from-primary to-accent text-gradient">源质生物数据库</h2>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-6">本平台整合源质生物相关研究文献，提供权威、全面的学术资料与科普内容，助力科研人员与公众深入了解这一神秘生命形式。</p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-10 h-10 rounded-full bg-dark flex items-center justify-center hover:bg-primary/20 transition-colors">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-dark flex items-center justify-center hover:bg-primary/20 transition-colors">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-dark flex items-center justify-center hover:bg-primary/20 transition-colors">
+                                <i class="fa fa-github"></i>
+                            </a>
+                            <a href="#" id="contactFooter" class="w-10 h-10 rounded-full bg-dark flex items-center justify-center hover:bg-primary/20 transition-colors">
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold mb-4">快速导航</h3>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#overview" class="hover:text-accent transition-colors">源质生物概览</a></li>
+                            <li><a href="#classification" class="hover:text-accent transition-colors">分类体系</a></li>
+                            <li><a href="#threats" class="hover:text-accent transition-colors">威胁与应对</a></li>
+                            <li><a href="#updates" class="hover:text-accent transition-colors">最新修订</a></li>
+                            <li><a href="#species" class="hover:text-accent transition-colors">物种图鉴</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-semibold mb-4">资源链接</h3>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#" class="hover:text-accent transition-colors">原始文献下载</a></li>
+                            <li><a href="#" class="hover:text-accent transition-colors">研究团队介绍</a></li>
+                            <li><a href="#" class="hover:text-accent transition-colors">数据开放平台</a></li>
+                            <li><a href="#" class="hover:text-accent transition-colors">学术会议信息</a></li>
+                            <li><a href="#" id="contactLink" class="hover:text-accent transition-colors">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-12 pt-6 border-t border-gray-800 text-center text-gray-500 text-sm">
+                    <p>© 2048 源质生物研究中心 | 数据来源于《源质生物演化树与分类体系》《源质生物》《源质生物分类学》</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-lg opacity-0 invisible transition-all z-40">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 物种详细数据
+        const speciesData = {
+            'light-spirit': {
+                name: '浮游光灵',
+                order: '涡面目',
+                category: '能量摄食支',
+                niche: '能量浮游生物',
+                habitat: '大气/海洋',
+                diet: '太阳能/宇宙射线',
+                abilities: '滤食辐射能，无主动攻击',
+                features: '水母状半透明，体内生物微晶簇可反射聚焦辐射',
+                threat: '低',
+                threatColor: 'green'
+            },
+            'storm-jelly': {
+                name: '风暴水母',
+                order: '涡面目',
+                category: '能量摄食支',
+                niche: '能量掠食者',
+                habitat: '雷暴区域',
+                diet: '闪电能量',
+                abilities: '吸收闪电，引雷晶角储能',
+                features: '体型巨大，可穿梭雷暴，头部有「引雷晶角」主动引导吸收大气电荷',
+                threat: '中',
+                threatColor: 'yellow'
+            },
+            'shadow-squid': {
+                name: '拟态影鱿',
+                order: '织影目',
+                category: '物质摄食支',
+                niche: '中小型猎手/食腐者',
+                habitat: '阴暗区域',
+                diet: '小型生物/腐肉',
+                abilities: '光学伪装，暗影雾遮蔽',
+                features: '类似乌贼，触手韧性强，皮肤光学伪装能力卓越，拥有「暗影雾腺」可制造感官遮蔽区',
+                threat: '中',
+                threatColor: 'yellow'
+            },
+            'etching-colony': {
+                name: '蚀菌群',
+                order: '蚀骨目',
+                category: '物质摄食支',
+                niche: '微观分解者',
+                habitat: '各类表面',
+                diet: '有机与无机物质',
+                abilities: '强效催化酶，分解有机物',
+                features: '粘稠色彩斑斓的菌毯，通过催化酶加速物质分解，支撑生态循环',
+                threat: '低',
+                threatColor: 'green'
+            },
+            'purifying-snail': {
+                name: '净化巨蜗',
+                order: '蚀骨目',
+                category: '物质摄食支',
+                niche: '大型移动分解者',
+                habitat: '污染区域',
+                diet: '污染物/废弃物',
+                abilities: '分解污染物，外壳坚硬',
+                features: '小汽车大小，外壳为高度压缩的代谢废物，分解路径上的污染物与废弃物',
+                threat: '低',
+                threatColor: 'green'
+            },
+            'armored-claw': {
+                name: '披甲裂爪兽',
+                order: '裂躯目',
+                category: '内温动物支',
+                niche: '顶级掠食者',
+                habitat: '山区/森林',
+                diet: '大型生物',
+                abilities: '破甲爪，厚重甲片',
+                features: '熊与穿山甲混合体，覆盖厚重生物甲片，前肢有可收缩的"破甲爪"',
+                threat: '高',
+                threatColor: 'red'
+            },
+            'mountain-beast': {
+                name: '群山兽',
+                order: '裂躯目',
+                category: '内温动物支',
+                niche: '巨型食草动物/环境改造者',
+                habitat: '平原/丘陵',
+                diet: '低矮植被',
+                abilities: '移动生态系统，改变地貌',
+                features: '如移动小山，背部甲壳积累泥土并生长植物，形成微型生态系统',
+                threat: '中',
+                threatColor: 'yellow'
+            },
+            'rock-ant': {
+                name: '磐石筑巢蚁',
+                order: '巨构目',
+                category: '内温动物支',
+                niche: '初级环境工程师',
+                habitat: '岩石区域',
+                diet: '矿物质/小型生物',
+                abilities: '筑巢改地形，兵体碎岩石',
+                features: '工体小，兵体有高强度生物颚部，建造生物分泌物+岩石混合的坚固巢穴网络',
+                threat: '中',
+                threatColor: 'yellow'
+            },
+            'crystal-bee': {
+                name: '晶歌蜂群',
+                order: '巨构目',
+                category: '内温动物支',
+                niche: '能量-物质双利用者',
+                habitat: '高能量区域',
+                diet: '能量束花蜜',
+                abilities: '共振储能，采集能量束',
+                features: '个体似蜜蜂，身体为半透明生物晶体外壳，建造可通过物理共振收集储存环境能量的晶体蜂巢',
+                threat: '中',
+                threatColor: 'yellow'
+            }
+        };
+
+        // 威胁等级颜色映射
+        const threatColorMap = {
+            '低': 'green',
+            '中': 'yellow',
+            '高': 'red'
+        };
+
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('py-2', 'shadow-lg', 'bg-darker/95');
+                navbar.classList.remove('py-3', 'bg-darker/80');
+                
+                backToTop.classList.remove('opacity-0', 'invisible');
+                backToTop.classList.add('opacity-100', 'visible');
+            } else {
+                navbar.classList.add('py-3', 'bg-darker/80');
+                navbar.classList.remove('py-2', 'shadow-lg', 'bg-darker/95');
+                
+                backToTop.classList.add('opacity-0', 'invisible');
+                backToTop.classList.remove('opacity-100', 'visible');
+            }
+        });
+        
+        // 移动端菜单
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 关闭移动菜单
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // 返回顶部
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 分类标签页切换
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const categoryContents = document.querySelectorAll('.category-content');
+        
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // 移除所有活动状态
+                categoryTabs.forEach(t => {
+                    t.classList.remove('active', 'text-accent', 'border-b-2', 'border-accent');
+                    t.classList.add('text-gray-400');
+                });
+                
+                // 添加当前活动状态
+                tab.classList.add('active', 'text-accent', 'border-b-2', 'border-accent');
+                tab.classList.remove('text-gray-400');
+                
+                // 隐藏所有内容
+                categoryContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // 显示对应内容
+                const category = tab.getAttribute('data-category');
+                document.getElementById(`${category}-content`).classList.remove('hidden');
+            });
+        });
+        
+        // 物种筛选
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const speciesRows = document.querySelectorAll('.species-row');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 移除所有活动状态
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-secondary/20', 'text-secondary');
+                    b.classList.add('bg-dark', 'border', 'border-gray-700', 'hover:border-secondary/50');
+                });
+                
+                // 添加当前活动状态
+                btn.classList.add('active', 'bg-secondary/20', 'text-secondary');
+                btn.classList.remove('bg-dark', 'border', 'border-gray-700', 'hover:border-secondary/50');
+                
+                // 筛选物种
+                const filter = btn.getAttribute('data-filter');
+                
+                speciesRows.forEach(row => {
+                    if (filter === 'all' || row.getAttribute('data-category') === filter) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // 搜索功能
+        const searchBtn = document.getElementById('searchBtn');
+        const closeSearch = document.getElementById('closeSearch');
+        const searchModal = document.getElementById('searchModal');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        
+        searchBtn.addEventListener('click', () => {
+            searchModal.classList.remove('hidden');
+            searchInput.focus();
+        });
+        
+        closeSearch.addEventListener('click', () => {
+            searchModal.classList.add('hidden');
+            searchResults.innerHTML = '';
+            searchInput.value = '';
+        });
+        
+        // 点击模态框外部关闭
+        searchModal.addEventListener('click', (e) => {
+            if (e.target === searchModal) {
+                searchModal.classList.add('hidden');
+                searchResults.innerHTML = '';
+                searchInput.value = '';
+            }
+        });
+        
+        // 搜索功能实现
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            searchResults.innerHTML = '';
+            
+            if (searchTerm.length < 2) return;
+            
+            // 模拟搜索结果
+            const species = [
+                { name: '浮游光灵', category: '涡面目', content: '能量摄食支，水母状半透明，滤食太阳能与宇宙射线' },
+                { name: '风暴水母', category: '涡面目', content: '能量摄食支，体型巨大，可穿梭雷暴，吸收闪电能量' },
+                { name: '拟态影鱿', category: '织影目', content: '物质摄食支，类似乌贼，皮肤光学伪装能力卓越' },
+                { name: '蚀菌群', category: '蚀骨目', content: '物质摄食支，粘稠色彩斑斓的菌毯，高效分解有机物' },
+                { name: '净化巨蜗', category: '蚀骨目', content: '物质摄食支，小汽车大小，分解路径上的污染物与废弃物' },
+                { name: '披甲裂爪兽', category: '裂躯目', content: '内温动物支，熊与穿山甲混合体，顶级掠食者' },
+                { name: '群山兽', category: '裂躯目', content: '内温动物支，如移动小山，背部甲壳积累泥土并生长植物' },
+                { name: '磐石筑巢蚁', category: '巨构目', content: '内温动物支，建造生物分泌物+岩石混合的坚固巢穴网络' },
+                { name: '晶歌蜂群', category: '巨构目', content: '内温动物支，建造可通过物理共振收集储存环境能量的晶体蜂巢' }
+            ];
+            
+            const matchedSpecies = species.filter(s => 
+                s.name.toLowerCase().includes(searchTerm) || 
+                s.category.toLowerCase().includes(searchTerm) ||
+                s.content.toLowerCase().includes(searchTerm)
+            );
+            
+            if (matchedSpecies.length === 0) {
+                searchResults.innerHTML = '<p class="text-gray-400 text-center py-4">未找到匹配的物种</p>';
+                return;
+            }
+            
+            matchedSpecies.forEach(s => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'p-3 border-b border-gray-800 hover:bg-dark transition-colors cursor-pointer';
+                resultItem.innerHTML = `
+                    <h4 class="font-medium">${s.name}</h4>
+                    <p class="text-xs text-gray-500">${s.category}</p>
+                    <p class="text-sm text-gray-400 mt-1">${s.content}</p>
+                `;
+                
+                resultItem.addEventListener('click', () => {
+                    // 关闭搜索模态框
+                    searchModal.classList.add('hidden');
+                    searchResults.innerHTML = '';
+                    searchInput.value = '';
+                    
+                    // 滚动到物种图鉴部分
+                    document.getElementById('species').scrollIntoView({ behavior: 'smooth' });
+                });
+                
+                searchResults.appendChild(resultItem);
+            });
+        });
+        
+        // 联系模态框功能
+        const contactLinks = document.querySelectorAll('#contactLink, #contactFooter, #contactMobile');
+        const contactModal = document.getElementById('contactModal');
+        const closeContact = document.getElementById('closeContact');
+        
+        contactLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                contactModal.classList.remove('hidden');
+            });
+        });
+        
+        closeContact.addEventListener('click', () => {
+            contactModal.classList.add('hidden');
+        });
+        
+        // 点击模态框外部关闭
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.add('hidden');
+            }
+        });
+        
+        // 物种对比功能
+        const compareBtn = document.getElementById('compareBtn');
+        const species1 = document.getElementById('species1');
+        const species2 = document.getElementById('species2');
+        const species3 = document.getElementById('species3');
+        const comparisonResults = document.getElementById('comparisonResults');
+        const comparisonTable = document.getElementById('comparisonTable');
+        
+        compareBtn.addEventListener('click', () => {
+            const selectedSpecies = [];
+            
+            // 获取选中的物种
+            if (species1.value) selectedSpecies.push(species1.value);
+            if (species2.value) selectedSpecies.push(species2.value);
+            if (species3.value) selectedSpecies.push(species3.value);
+            
+            // 验证至少选择了两个物种
+            if (selectedSpecies.length < 2) {
+                alert('请至少选择两个物种进行对比');
+                return;
+            }
+            
+            // 生成对比表格
+            generateComparisonTable(selectedSpecies);
+            
+            // 显示对比结果
+            comparisonResults.classList.remove('hidden');
+            
+            // 滚动到对比结果
+            comparisonResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        
+        // 生成对比表格
+        function generateComparisonTable(selectedSpecies) {
+            // 清空表格
+            comparisonTable.innerHTML = '';
+            
+            // 创建表格
+            const table = document.createElement('table');
+            table.className = 'w-full text-sm text-left text-gray-400';
+            
+            // 表头
+            const thead = document.createElement('thead');
+            thead.className = 'text-xs uppercase bg-gray-700 text-gray-400';
+            thead.innerHTML = `
+                <tr>
+                    <th scope="col" class="px-6 py-3">特征</th>
+                    ${selectedSpecies.map(id => `<th scope="col" class="px-6 py-3">${speciesData[id].name}</th>`).join('')}
+                </tr>
+            `;
+            table.appendChild(thead);
+            
+            // 表体
+            const tbody = document.createElement('tbody');
+            
+            // 添加各行数据
+            const rows = [
+                { label: '目名', key: 'order' },
+                { label: '分类支系', key: 'category' },
+                { label: '生态位', key: 'niche' },
+                { label: '栖息地', key: 'habitat' },
+                { label: '食性', key: 'diet' },
+                { label: '关键能力', key: 'abilities' },
+                { label: '特征描述', key: 'features' },
+                { label: '威胁等级', key: 'threat' }
+            ];
+            
+            rows.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-gray-700';
+                
+                // 特征标签
+                const th = document.createElement('th');
+                th.scope = 'row';
+                th.className = 'px-6 py-4 font-medium whitespace-nowrap text-white';
+                th.textContent = row.label;
+                tr.appendChild(th);
+                
+                // 各物种数据
+                selectedSpecies.forEach(id => {
+                    const td = document.createElement('td');
+                    td.className = 'px-6 py-4';
+                    
+                    if (row.key === 'threat') {
+                        // 威胁等级特殊处理
+                        const threat = speciesData[id][row.key];
+                        const color = threatColorMap[threat];
+                        td.innerHTML = `<span class="px-2 py-1 bg-${color}-500/20 text-${color}-400 rounded-full text-xs">${threat}</span>`;
+                    } else {
+                        td.textContent = speciesData[id][row.key];
+                    }
+                    
+                    tr.appendChild(td);
+                });
+                
+                tbody.appendChild(tr);
+            });
+            
+            table.appendChild(tbody);
+            comparisonTable.appendChild(table);
+        }
+        
+        // 演化树图表
+        const evolutionCtx = document.getElementById('evolutionChart').getContext('2d');
+        new Chart(evolutionCtx, {
+            type: 'radar',
+            data: {
+                labels: ['能量摄食支', '物质摄食支', '内温动物支'],
+                datasets: [{
+                    label: '演化复杂度',
+                    data: [65, 80, 95],
+                    backgroundColor: 'rgba(22, 93, 255, 0.2)',
+                    borderColor: 'rgba(22, 93, 255, 1)',
+                    pointBackgroundColor: 'rgba(22, 93, 255, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(22, 93, 255, 1)'
+                }, {
+                    label: '生态影响力',
+                    data: [70, 90, 85],
+                    backgroundColor: 'rgba(123, 97, 255, 0.2)',
+                    borderColor: 'rgba(123, 97, 255, 1)',
+                    pointBackgroundColor: 'rgba(123, 97, 255, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(123, 97, 255, 1)'
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        pointLabels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        },
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.5)',
+                            backdropColor: 'transparent'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // 威胁等级图表
+        const threatCtx = document.getElementById('threatChart').getContext('2d');
+        new Chart(threatCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['低威胁', '中威胁', '高威胁'],
+                datasets: [{
+                    data: [3, 5, 1],
+                    backgroundColor: [
+                        'rgba(72, 187, 120, 0.7)',
+                        'rgba(237, 137, 54, 0.7)',
+                        'rgba(237, 66, 69, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(72, 187, 120, 1)',
+                        'rgba(237, 137, 54, 1)',
+                        'rgba(237, 66, 69, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)',
+                            padding: 20
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

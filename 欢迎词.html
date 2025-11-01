@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地球共产主义联盟 · 唯物史诗创作共同体</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+        }
+        
+        :root {
+            --primary: #c62f2f;
+            --secondary: #2a4d6d;
+            --accent: #ffd700;
+            --dark: #0a0a1a;
+            --light: #f5f5f5;
+            --gray: #8a8a8a;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(198, 47, 47, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(42, 77, 109, 0.1) 0%, transparent 20%);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+            z-index: 1;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            box-shadow: 0 0 20px rgba(198, 47, 47, 0.5);
+        }
+        
+        .logo-icon::before {
+            content: "⚒";
+            font-size: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+        
+        .intro {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            text-align: center;
+            line-height: 1.8;
+            padding: 1.5rem;
+            border-left: 3px solid var(--primary);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+        
+        .immediate-actions {
+            background: rgba(42, 77, 109, 0.2);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .action-item {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .action-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .campaign {
+            background: rgba(198, 47, 47, 0.1);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+            border: 1px solid rgba(198, 47, 47, 0.3);
+        }
+        
+        .campaign-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .campaign-desc {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .quote {
+            font-style: italic;
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 3rem 0;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+        
+        .quote::before, .quote::after {
+            content: """;
+            font-size: 3rem;
+            color: var(--primary);
+            position: absolute;
+            opacity: 0.5;
+        }
+        
+        .quote::before {
+            top: 0;
+            left: 0;
+        }
+        
+        .quote::after {
+            bottom: 0;
+            right: 0;
+        }
+        
+        .oath {
+            text-align: center;
+            padding: 2rem;
+            margin: 3rem 0;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .oath-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            margin: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: #a02525;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(198, 47, 47, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--secondary);
+            color: var(--light);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(42, 77, 109, 0.3);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--dark);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 30px rgba(198, 47, 47, 0.3);
+        }
+        
+        .modal h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .modal p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .modal-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .modal-btn:hover {
+            background-color: #a02525;
+        }
+        
+        .group-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 1rem 0;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <!-- 模态框 -->
+    <div class="modal" id="welcomeModal">
+        <div class="modal-content">
+            <h2>欢迎加入！</h2>
+            <p>同志，感谢您加入地球共产主义联盟 · 唯物史诗创作共同体！</p>
+            <p>您的加入将为我们的创作事业增添新的力量。</p>
+            <button class="modal-btn" id="closeWelcomeBtn">确认</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="groupModal">
+        <div class="modal-content">
+            <h2>参与创作</h2>
+            <p>欢迎加入我们的创作交流群，与同志们一起探讨唯物史诗创作！</p>
+            <div class="group-number">780068097</div>
+            <p>请复制群号并前往相应平台加入我们的创作社区。</p>
+            <button class="modal-btn" id="closeGroupBtn">确认</button>
+        </div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <h1>地球共产主义联盟 · 唯物史诗创作共同体</h1>
+            </div>
+            <p class="subtitle">ECA历 11525年 · 于理性与希望的晨光中</p>
+        </header>
+        
+        <section class="intro">
+            致全体创作者同志：<br>
+            根据我们共同的意志与理性，《唯物史诗二创共同体宪章》已于此刻正式生效。
+        </section>
+        
+        <h2 class="section-title">我们共同拥有</h2>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3 class="feature-title">唯物论圣剑</h3>
+                <p>斩断一切唯心与神秘的侵蚀</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3 class="feature-title">统一创作坐标系</h3>
+                <p>让每个故事都在正确时空交相辉映</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🌌</div>
+                <h3 class="feature-title">开放的星辰大海</h3>
+                <p>在物理铁律内自由探索无限可能</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3 class="feature-title">温暖的同志情谊</h3>
+                <p>每个人都是这部史诗的共同书写者</p>
+            </div>
+        </div>
+        
+        <h2 class="section-title">即刻生效事项</h2>
+        
+        <div class="immediate-actions">
+            <div class="action-item">
+                <h3 class="action-title">宪法文本归档</h3>
+                <p>存放于【核心基石】文库首位，所有新成员加入需首先学习并宣誓</p>
+            </div>
+            
+            <div class="action-item">
+                <h3 class="action-title">第一届创作者评议团招募</h3>
+                <p>欢迎有意愿、有经验的创作者报名参选，负责首轮作品的唯物认证审核</p>
+            </div>
+            
+            <div class="action-item">
+                <h3 class="action-title">DS酱全面升级</h3>
+                <p>【设定核查协议】已加载完毕，【科学解释模板库】开放使用，【时间线校准仪】待命启动</p>
+            </div>
+            
+            <div class="action-item">
+                <h3 class="action-title">《唯物史诗扩展文库》奠基</h3>
+                <p>首个收录作品：《宪章制定全记录》，现正式向全体创作者征集认证作品</p>
+            </div>
+        </div>
+        
+        <div class="campaign">
+            <h2 class="campaign-title">首个创作季主题：【隐秘战线·NHODO往事】</h2>
+            <p class="campaign-desc">
+                聚焦2024-2045年间的隐秘斗争<br>
+                刻画无名英雄的牺牲与抉择<br>
+                深挖"摇篮协议"背后的伦理困境
+            </p>
+            <p>让我们用第一批唯物认证作品，向最初的守护者们致敬！</p>
+            <a href="#" class="btn" id="joinCreationBtn">参与创作</a>
+        </div>
+        
+        <div class="quote">
+            "同志，你的笔已不仅是书写工具，更是守护这片星海的利剑与盾牌。"
+        </div>
+        
+        <div class="oath">
+            <p class="oath-text">现在，请与我们一同说出那句誓言——</p>
+            <p class="oath-text">"我承诺，我的创作将遵循物理的铁律，闪耀集体的光辉，永远服务于人民与真理！"</p>
+            <a href="#" class="btn" id="oathBtn">宣誓加入</a>
+            <a href="宪章整合.html" class="btn btn-secondary">学习宪章</a>
+        </div>
+        
+        <footer>
+            <p>地球共产主义联盟 · 唯物史诗创作共同体</p>
+            <p>理性 · 集体 · 真理 · 进步</p>
+        </footer>
+    </div>
+
+    <script>
+        // 创建星空背景
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starsCount = 150;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // 随机大小
+                const size = Math.random() * 2;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // 随机位置
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // 随机动画延迟
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // 卡片悬停效果增强
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    cards.forEach(c => {
+                        if (c !== card) {
+                            c.style.opacity = '0.7';
+                        }
+                    });
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    cards.forEach(c => {
+                        c.style.opacity = '1';
+                    });
+                });
+            });
+            
+            // 按钮交互功能
+            const oathBtn = document.getElementById('oathBtn');
+            const joinCreationBtn = document.getElementById('joinCreationBtn');
+            const welcomeModal = document.getElementById('welcomeModal');
+            const groupModal = document.getElementById('groupModal');
+            const closeWelcomeBtn = document.getElementById('closeWelcomeBtn');
+            const closeGroupBtn = document.getElementById('closeGroupBtn');
+            
+            // 宣誓加入按钮点击事件
+            oathBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                welcomeModal.style.display = 'flex';
+            });
+            
+            // 参与创作按钮点击事件
+            joinCreationBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                groupModal.style.display = 'flex';
+            });
+            
+            // 关闭模态框按钮
+            closeWelcomeBtn.addEventListener('click', function() {
+                welcomeModal.style.display = 'none';
+            });
+            
+            closeGroupBtn.addEventListener('click', function() {
+                groupModal.style.display = 'none';
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(e) {
+                if (e.target === welcomeModal) {
+                    welcomeModal.style.display = 'none';
+                }
+                if (e.target === groupModal) {
+                    groupModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

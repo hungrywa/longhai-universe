@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文明发展时间线</title>
+    <style>
+        :root {
+            --period-1: #8b0000; /* 隐秘战争期 - 深红色 */
+            --period-2: #d2691e; /* 伟大转型期 - 橙色 */
+            --period-3: #2e8b57; /* 黄金时代 - 绿色 */
+            --period-4: #1e90ff; /* 静默危机 - 蓝色 */
+            --text-color: #e0e0e0;
+            --background-color: #121212;
+            --card-bg: #1e1e1e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #0a2a5a, #1a5fb4);
+            padding: 3rem 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: cover;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            position: relative;
+        }
+        
+        /* 时间线中心线 */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--period-1), var(--period-2), var(--period-3), var(--period-4));
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        
+        .period {
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .period-header {
+            background: linear-gradient(135deg, var(--period-color), #2a2a2a);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            width: 45%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        
+        .period:nth-child(odd) .period-header {
+            margin-left: 0;
+        }
+        
+        .period:nth-child(even) .period-header {
+            margin-right: 0;
+        }
+        
+        .period-title {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .period-years {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .events {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .event-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid var(--period-color);
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .event-year {
+            font-weight: bold;
+            color: var(--period-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .event-content {
+            margin-top: 0.5rem;
+        }
+        
+        .sub-period {
+            margin-top: 1.5rem;
+        }
+        
+        .sub-period-title {
+            font-size: 1.2rem;
+            color: var(--period-color);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+        
+        footer {
+            background-color: #0a2a5a;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 30px;
+            }
+            
+            .period-header {
+                width: calc(100% - 60px);
+                margin-left: 60px;
+            }
+            
+            .period:nth-child(odd) .period-header,
+            .period:nth-child(even) .period-header {
+                margin-left: 60px;
+                margin-right: 0;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>文明发展时间线</h1>
+        <p class="subtitle">从隐秘战争到静默危机 - 人类文明的演进与挑战</p>
+    </header>
+    
+    <div class="timeline-container">
+        <div class="timeline-line"></div>
+        
+        <!-- 隐秘战争期 -->
+        <div class="period" style="--period-color: var(--period-1)">
+            <div class="period-header">
+                <h2 class="period-title">隐秘战争期</h2>
+                <p class="period-years">1983 - 2040s</p>
+                <p>阴影中的筑墙</p>
+            </div>
+            
+            <div class="events">
+                <div class="event-card">
+                    <div class="event-year">1983年</div>
+                    <div class="event-content">NHODO前身于绝密中成立。</div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-year">2010s</div>
+                    <div class="event-content">"异矿"被发现，独立科技树奠基。</div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-year">2015年（关键节点）</div>
+                    <div class="event-content">
+                        <ul>
+                            <li>NHODO正式升级</li>
+                            <li>阳星岚（龙骸共鸣者）被确认</li>
+                            <li>"摇篮协议"启动</li>
+                            <li>凌玥被选定为预备执行人</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-year">2024年</div>
+                    <div class="event-content">凌玥转入北辰中学，故事主线开启。</div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-year">2030s - 2040s</div>
+                    <div class="event-content">维度灾害频发，净世真理会兴起，旧秩序开始瓦解。</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 伟大转型期 -->
+        <div class="period" style="--period-color: var(--period-2)">
+            <div class="period-header">
+                <h2 class="period-title">伟大转型期</h2>
+                <p class="period-years">2040s - 2080s</p>
+                <p>文明的涅槃</p>
+            </div>
+            
+            <div class="events">
+                <div class="event-card">
+                    <div class="event-year">2040s - 2050s（混乱与共识）</div>
+                    <div class="event-content">
+                        <ul>
+                            <li>"灾难资本主义"盛行，大国间技术壁垒森严</li>
+                            <li>NHODO模式的成效成为全球焦点，基层"生存主义"互助网络蔓延</li>
+                            <li>"权能让渡"协议在治理真空下被强制推行，全球生存委员会获得临时最高权力</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-year">2060s - 2080s（构建与阵痛）</div>
+                    <div class="event-content">
+                        <ul>
+                            <li>《危机时期资源征用法案》颁布，关键生产资料被收归统筹</li>
+                            <li>科学计划经济在强AI辅助下展现巨大效率，但转型伴随资源配给制下的短缺与旧特权阶层的抵抗（这些抵抗后期多与净世真理会合流）</li>
+                            <li>2080s末：地球共产主义联盟（ECA）正式成立，完成全球一体化。NHODO整合改组为ECDC</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 黄金时代 -->
+        <div class="period" style="--period-color: var(--period-3)">
+            <div class="period-header">
+                <h2 class="period-title">黄金时代</h2>
+                <p class="period-years">ECA历 1年 - 约10000年</p>
+                <p>星辰与维度之歌</p>
+            </div>
+            
+            <div class="events">
+                <div class="sub-period">
+                    <h3 class="sub-period-title">纪元初期 (ECA历 1 - 1000年)：奠基与扩张</h3>
+                    <div class="event-card">
+                        <div class="event-content">
+                            <ul>
+                                <li><strong>技术：</strong> "现实环境调控技术"从小范围实验走向大规模民生应用（精准气候调节、自适应城市规划）</li>
+                                <li><strong>社会：</strong> 贡献度体系1.0建立，旨在公平量化公民对文明存续的贡献。社会重心集中于"重建"与"生存"</li>
+                                <li><strong>疆域：</strong> 启动"火星改造计划"与"近地轨道城邦"建设，文明迈出摇篮</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sub-period">
+                    <h3 class="sub-period-title">纪元中期 (ECA历 1000 - 6000年)：升华与反思</h3>
+                    <div class="event-card">
+                        <div class="event-content">
+                            <ul>
+                                <li><strong>技术：</strong> "生物共生科技"普及，城市成为半生命体的智慧共生结构。"跨维度航行理论"取得突破</li>
+                                <li><strong>社会：</strong> 物质极大丰富，按需分配实现。贡献度体系升级至2.0，更注重文化创新与个体潜能激发。旧的"劳动"概念被"创造"取代。"全民创作期"制度确立</li>
+                                <li><strong>疆域与矛盾：</strong> 首个稳定的"维度枢纽站"建立。跨维度议会成立。内部开始出现 "指标人生"的困境（为刷贡献度而选择短平快项目）和 "创造者"与"维系者"的隐性分层</li>
+                                <li><strong>文化：</strong> 进入"多维文艺复兴"，艺术与科学在接触不同物理法则的维度后爆炸性发展</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sub-period">
+                    <h3 class="sub-period-title">纪元晚期 (ECA历 6000 - 10000年)：巅峰与隐忧</h3>
+                    <div class="event-card">
+                        <div class="event-content">
+                            <ul>
+                                <li><strong>技术：</strong> "现实织机"技术趋于成熟，文明从"理解现实"迈向"有限度编织现实"</li>
+                                <li><strong>社会特征：</strong>
+                                    <ul>
+                                        <li>在生物科技与再生医学的持续突破下，公民的寿命被极大地延长，衰老性疾病被攻克，自然寿命预期达到数个世纪。社会结构稳定，文化繁荣</li>
+                                        <li>然而，"漫长"不等于"无限"。时间的重量依然存在。在长达数百年的生命尺度上，"贡献度焦虑" 并未消失，反而因为漫长的积累而变得更加复杂</li>
+                                        <li>同时，"创造者"与"维系者"的隐性分层问题也因时间的沉淀而固化。部分长期从事社会基础运行的"维系者"，在见证了数个世纪的变迁后，更容易陷入对自身工作"伟大但平庸"的认知，产生对更深刻"存在意义"的追寻，这种追寻有时会演变为社会不稳定的潜在因素</li>
+                                    </ul>
+                                </li>
+                                <li><strong>疆域：</strong> 建立数十个稳定的维度前哨站。与若干友善的源质生物文明建立初步外交</li>
+                                <li><strong>隐忧：</strong> 最早关于"维度静默"的零星、未被重视的报告开始出现在ECDC的深空探测日志中</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 静默危机 -->
+        <div class="period" style="--period-color: var(--period-4)">
+            <div class="period-header">
+                <h2 class="period-title">静默危机</h2>
+                <p class="period-years">ECA历 约10000年 - 至今</p>
+                <p>新的物理天灾</p>
+            </div>
+            
+            <div class="events">
+                <div class="event-card">
+                    <div class="event-year">ECA历 ~10000年</div>
+                    <div class="event-content">"维度静默"现象被正式确认，其导致物理活动性丧失的特性，对ECA的能量科技基础构成根本性威胁</div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-year">ECA历 10500 - 11400年</div>
+                    <div class="event-content">
+                        <p>文明进入战略防御阶段：</p>
+                        <ul>
+                            <li>研发并部署"涟漪共鸣器"、"物理常数稳定锚"等应对设备，减缓静默区域的扩张</li>
+                            <li>社会重心从"无限扩张"转向"文明存续"，贡献度体系再次调整，基础物理研究权重获得极大提升</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-year">ECA历 11400年</div>
+                    <div class="event-content">启动"溯源计划"，试图从上古文明遗迹中寻找破解静默危机的线索</div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-year">ECA历 11498年</div>
+                    <div class="event-content">星澜出生于丰饶星。她后来携带的特殊基因标记（ALPHA-OMEGA序列）使其成为"溯源计划"的核心</div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-year">ECA历 11500年</div>
+                    <div class="event-content">"静默危机"加剧，被定为文明级紧急状态</div>
+                </div>
+                
+                <div class="event-card">
+                    <div class="event-year">ECA历 11523年 - 至今</div>
+                    <div class="event-content">星澜加入ECDC，凭借其卓越的遗迹解码能力，成为破解静默危机的关键人物</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 11580 文明发展时间线 | 基于《时间线》文档</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《龙骸宇宙·正史创作许可宪章》</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2d3748;
+            --accent-color: #c53030;
+            --light-color: #f7fafc;
+            --border-color: #e2e8f0;
+            --allowed-color: #38a169;
+            --forbidden-color: #e53e3e;
+            --greyzone-color: #d69e2e;
+            --search-highlight: #fffacd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background-color: #f8f9fa;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* 侧边导航栏 */
+        .sidebar {
+            width: 280px;
+            background-color: var(--primary-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .sidebar-header h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-header .subtitle {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+        
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .nav-section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-section-title i {
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-section-title.collapsed i {
+            transform: rotate(-90deg);
+        }
+        
+        .nav-links {
+            list-style: none;
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .nav-links.collapsed {
+            max-height: 0;
+        }
+        
+        .nav-links li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .nav-links a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-left: 3px solid var(--accent-color);
+        }
+
+         /* 搜索框 */
+        .search-container {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+         .search-box {
+            position: relative;
+        }
+
+         .search-box input {
+            width: 100%;
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            border-radius: 4px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            max-width: 900px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .content-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .content-header h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .content-header .meta {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+         .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background-color: #2d4a7c;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(26, 54, 93, 0.1);
+        }
+        
+        /* 章节样式 */
+        .chapter {
+            margin-bottom: 3rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .chapter-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chapter-header h2 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .chapter-header .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .chapter-header i {
+            transition: transform 0.3s ease;
+        }
+        
+        .chapter-header.collapsed i {
+            transform: rotate(-90deg);
+        }
+        
+        .chapter-content {
+            padding: 1.5rem;
+            max-height: 10000px;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+        }
+
+         .chapter-content.collapsed {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        /* 条款样式 */
+        .clause {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 6px;
+            background-color: #f8f9fa;
+        }
+        
+        .clause.allowed {
+            border-left: 4px solid var(--allowed-color);
+        }
+        
+        .clause.forbidden {
+            border-left: 4px solid var(--forbidden-color);
+        }
+        
+        .clause.greyzone {
+            border-left: 4px solid var(--greyzone-color);
+        }
+        
+        .clause-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .clause-icon {
+            margin-right: 0.5rem;
+            font-size: 1.25rem;
+        }
+        
+        .clause-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .clause-content ul {
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .clause-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .clause-content p {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 核心定义样式 */
+        .core-definition {
+            background-color: #edf2f7;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .core-definition h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary-color);
+        }
+        
+        /* 页脚 */
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: #718096;
+            font-size: 0.875rem;
+        }
+        
+        /* 搜索高亮 */
+        .search-highlight {
+            background-color: var(--search-highlight);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        /* 移动端菜单按钮 */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 101;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem;
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+        
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 99;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* 表单样式 */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+        }
+        
+        .modal-title {
+            margin-bottom: 1.5rem;
+            font-family: 'Noto Serif SC', serif;
+            color: var(--primary-color);
+        }
+        
+        /* 打印样式 */
+        @media print {
+            .sidebar, .mobile-menu-toggle, .back-to-top, .action-buttons {
+                display: none !important;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .chapter {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .chapter-header {
+                background-color: #f0f0f0 !important;
+                color: #000 !important;
+            }
+            
+            .clause {
+                break-inside: avoid;
+            }
+            
+            a {
+                color: #000 !important;
+                text-decoration: underline !important;
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .action-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .btn {
+                flex: 1;
+                justify-content: center;
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 移动端菜单按钮 -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- 侧边导航栏 -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1>龙骸宇宙</h1>
+            <div class="subtitle">正史创作许可宪章</div>
+        </div>
+        
+        <!-- 搜索框 -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索章节或内容...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title" data-section="worldview">
+                <span>世界观基础</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <ul class="nav-links" id="worldview-links">
+                <li><a href="#intro" class="active">宪章简介</a></li>
+                <li><a href="#dragon-phenomenon">"龙"现象规范</a></li>
+                <li><a href="#material-settings">物质设定规范</a></li>
+                <li><a href="#nhoodo-system">NHODO演化体系</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title" data-section="biology">
+                <span>生物与组织</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <ul class="nav-links" id="biology-links">
+                <li><a href="#source-creatures">源质生物规范</a></li>
+                <li><a href="#truth-cult">净世真理会规范</a></li>
+                <li><a href="#eca">地球共产主义联盟</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title" data-section="characters">
+                <span>核心人物</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <ul class="nav-links" id="characters-links">
+                <li><a href="#yang-ling">阳星岚 & 凌玥</a></li>
+                <li><a href="#xinglan">星澜 (陈星)</a></li>
+                <li><a href="#oc">个人原创角色</a></li>
+            </ul>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title" data-section="concepts">
+                <span>概念与系统</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <ul class="nav-links" id="concepts-links">
+                <li><a href="#multiverse">平行与多元宇宙</a></li>
+                <li><a href="#death">死亡现象规范</a></li>
+                <li><a href="#technology">科技体系规范</a></li>
+                <li><a href="#time">时间概念规范</a></li>
+                <li><a href="#crossover">跨世界观联动</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <div class="content-header">
+            <div>
+                <h1>《龙骸宇宙·正史创作许可宪章》</h1>
+                <div class="meta">版本号: 1.0 | 颁布机构: 唯物史诗创作共同体评议团 | 最后更新: ECA历11525年</div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn" id="printBtn">
+                    <i class="fas fa-print"></i> 打印/导出PDF
+                </button>
+                <button class="btn btn-outline" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> 提交OC/反馈
+                </button>
+            </div>
+        </div>
+
+        <!-- 宪章简介 -->
+        <div id="intro" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>宪章简介</h2>
+                    <div class="subtitle">唯物创作的根本指南</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <p>本宪章旨在为《龙骸宇宙》世界观下的二次创作提供明确的规范和指导原则，确保所有创作遵循统一的唯物论基础，维护世界观的内在一致性。</p>
+                
+                <div class="core-definition">
+                    <h3>核心原则</h3>
+                    <ul>
+                        <li>所有创作必须基于严格的唯物主义立场</li>
+                        <li>"龙"现象是宇宙尺度的物理现象，非人格化存在</li>
+                        <li>科技发展遵循可解释的物理规律</li>
+                        <li>历史演进符合唯物史观</li>
+                    </ul>
+                </div>
+                
+                <p>在开始任何创作前，请仔细阅读并理解本宪章的全部内容。所有二次创作均被视为已接受本宪章条款的约束。</p>
+            </div>
+        </div>
+
+        <!-- "龙"现象规范 -->
+        <div id="dragon-phenomenon" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>"龙"现象二创创作规范</h2>
+                    <div class="subtitle">宇宙尺度物理现象的非人格化定义</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心定义（所有创作的绝对前提）</h3>
+                    <p><strong>本质：</strong>"龙"是非人格化的宇宙尺度物理现象。</p>
+                    <p><strong>定位：</strong>等同于引力、电磁力，是维系无限维度之海动态平衡的一种基础物理机制。</p>
+                    <p><strong>关键属性：</strong>无意识、无目的、无善恶。它不思考，不回应，不审判。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指导原则</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">唯物正道：允许与鼓励的创作方向</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>研究其"次级现象"：探索"维度涟漪"在不同宇宙结构中的传播模式与衰减规律</li>
+                                <li>假说并描述"龙骸"碎片可能存在的、尚未被ECA发现的新型物理性质</li>
+                                <li>刻画科研人员如何通过观测"龙"活动引发的宏观效应，来反推其运行规律</li>
+                                <li>描写ECA或其它势力，如何像利用洋流发电一样，尝试安全地引导、转化或屏蔽"龙"现象的能量</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">创作禁区：绝对禁止的行为</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>禁止将"龙"描绘成拥有意志、能够沟通的存在</li>
+                                <li>禁止出现"龙神"、"龙之意识"、"龙的愤怒/喜悦"等表述</li>
+                                <li>禁止任何形式的"向龙祈祷并获得回应"的情节</li>
+                                <li>禁止任何角色与"龙"进行双向交流、谈判或对抗</li>
+                                <li>禁止任何"屠龙"情节。人类无法"杀死"一种物理现象，就像无法杀死引力</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause greyzone">
+                        <div class="clause-header">
+                            <div class="clause-icon">⚠️</div>
+                            <div class="clause-title">高危灰色地带（需严格审查）</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>"龙语"或"龙纹"：禁止作为蕴含魔法力量的咒语或符文；允许作为"龙"现象活动时产生的、某种可被记录的特定能量波动频谱</li>
+                                <li>"龙威"：禁止作为精神威慑或灵魂冲击；允许作为高维能量场对低维生物神经系统产生的、可测量的物理性压迫感</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作自检指南</h3>
+                    <p>在创作涉及"龙"的内容前，请扪心自问：</p>
+                    <ul>
+                        <li>我是否将"龙"替换为"引力波"，故事逻辑依然成立？</li>
+                        <li>我的角色是在"研究天气预报"，还是在"与风神对话"？</li>
+                        <li>我描写的是"利用闪电做功"，还是"祈求雷神赐福"？</li>
+                    </ul>
+                    <p>如果答案偏向后者，请立即终止并修正你的创作方向。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 物质设定规范 -->
+        <div id="material-settings" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>物质设定二创创作规范</h2>
+                    <div class="subtitle">异矿科技体系的唯物基础</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心定义（所有创作的绝对前提）</h3>
+                    <p><strong>异矿本质：</strong>是"维度涟漪"对地球原生矿物进行"高维能量催化"后形成的特殊物质。绝非外星造物或神秘结晶。</p>
+                    <p><strong>科技树根基：</strong>NHODO/ECDC的一切技术，均源于对异矿物质性质的科学研究与应用。这是唯物的、可解释的科技发展路径。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">四大基石异矿</h3>
+                    <ul>
+                        <li><strong>星璇矿：</strong>【能量之源】稳定汲取高维背景辐射</li>
+                        <li><strong>辉铁：</strong>【结构之基】卓越的物理稳定性与能量亲和性</li>
+                        <li><strong>裂光水晶：</strong>【力量之矛】极致的能量聚焦与放大</li>
+                        <li><strong>暮光纱：</strong>【隐匿之盾】吸收与扭曲特定频谱的波与能量信号</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指导原则</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">唯物正道：允许与鼓励的创作方向</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>探索复合应用：研究不同异矿按特定比例和结构复合后，可能产生的协同效应或新性质</li>
+                                <li>发现新的异矿"变体"：在特定的、极端的地理或能量环境下，设定发现具备已知异矿部分特性，但存在关键差异的新型变体</li>
+                                <li>深挖"源质生物"材料学：探索将源质生物的特定器官、甲壳或分泌物，与异矿技术结合，制造生物-矿物复合装备</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">创作禁区：绝对禁止的行为</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>绝对禁止"万能矿"：禁止创造一种无所不能的新异矿</li>
+                                <li>绝对禁止"无代价"应用：禁止描写无视能量守恒、质量守恒的异矿应用</li>
+                                <li>绝对禁止"神秘化"解释：禁止用"上古传承"、"龙语附魔"等方式来解释或强化异矿</li>
+                                <li>绝对禁止颠覆四大基石：禁止设定一种新物质，其功能完全取代四大基石异矿中的任何一种</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作自检指南</h3>
+                    <p>在创造新物质或应用前，请回答：</p>
+                    <ul>
+                        <li><strong>形成逻辑：</strong>它能否用"维度涟漪催化"的理论解释其起源？</li>
+                        <li><strong>性质边界：</strong>它的能力是否有明确的物理上限和副作用？</li>
+                        <li><strong>科技树位置：</strong>它是否完美嵌入从四大基石衍生出的科技树中，而非凭空跳跃？</li>
+                        <li><strong>代价支付：</strong>使用它是否需要支付能量、物质或稳定性方面的可观测代价？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- NHODO演化体系 -->
+        <div id="nhoodo-system" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>NHODO及其演化体系二创创作规范</h2>
+                    <div class="subtitle">人类文明应对高维物理威胁的集体主义堡垒</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心定义与历史轴线（不可动摇的框架）</h3>
+                    <p><strong>根本性质：</strong>自始至终是人类文明应对高维物理威胁的集体主义堡垒。其核心驱动力是科学理性与生存意志。</p>
+                    <p><strong>演化路径：</strong>NHODO (隐秘战争期) → ECDC (伟大转型期) → ECA (黄金时代及以后)</p>
+                    <p><strong>核心宗旨：</strong>无论形态如何变化，其终极目标均为"为人民服务"，保障文明的存续与发展。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指导原则</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">唯物正道：允许与鼓励的创作方向</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>深挖NHODO隐秘战线：刻画普通特工、科研人员、后勤人员在绝密状态下的牺牲、挣扎与信念</li>
+                                <li>展现转型期阵痛：详细描绘ECDC如何从NHODO演化，过程中经历的权力交接、理念冲突与机构整合</li>
+                                <li>探索ECA新社会的内在张力：在遵循"贡献度体系"和"为人民服务"宗旨的前提下，深入刻画其带来的新型社会问题</li>
+                                <li>塑造各级英雄群像：不限于主角，可塑造来自NHODO/ECDC/ECA各个部门的、具有专业素养和牺牲精神的科学家、工程师、军官、外交官与社会工作者</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">创作禁区：绝对禁止的行为</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>绝对禁止组织黑化：</strong>禁止将NHODO/ECDC/ECA整体描绘成邪恶、反人类或极度腐化的组织</li>
+                                <li><strong>绝对禁止历史虚无：</strong>禁止否定或美化从资本主义到ECA的过渡中，必然存在的斗争、强制与牺牲</li>
+                                <li><strong>绝对禁止宗旨背叛：</strong>禁止塑造将"个体或小团体利益"置于"人民利益"之上的高层正面角色</li>
+                                <li><strong>绝对禁止结构颠覆：</strong>禁止设定脱离于NHODO-ECDC-ECA体系之外的、拥有同等或更高超技术的独立人类组织</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause greyzone">
+                        <div class="clause-header">
+                            <div class="clause-icon">⚠️</div>
+                            <div class="clause-title">高危灰色地带（需严格审查）</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>内部冲突的尺度：</strong>禁止演变为纯粹权力争夺的内战；允许源于"如何更好地服务人民"这一方法论上的、理念不同的激烈斗争</li>
+                                <li><strong>"摇篮协议"的细节：</strong>禁止将协议描绘成纯粹冷酷的、毫无人性的剥削；允许展现协议内在的"保护与控制"的张力</li>
+                                <li><strong>对阳星岚的态度：</strong>禁止组织高层普遍将其视为"可消耗的工具"并进行迫害；允许存在基于"成本效益分析"的冷酷使用建议，但同时必须有更具远见的声音</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作自检指南</h3>
+                    <p>在创作相关情节前，请回答：</p>
+                    <ul>
+                        <li><strong>时代定位：</strong>我的故事处于NHODO、ECDC还是ECA时期？其组织特征是否符合该时期定位？</li>
+                        <li><strong>矛盾性质：</strong>我描写的内部矛盾，是源于"如何更好地服务人民"的路线之争，还是源于私欲与权力的腐败？</li>
+                        <li><strong>宗旨检验：</strong>组织的行为（即使有争议）最终是否能被解释为在特定历史条件下，对"人民利益"的最大化追求？</li>
+                        <li><strong>历史逻辑：</strong>我的情节是否符合从NHODO到ECA的宏大历史演进方向？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 源质生物规范 -->
+        <div id="source-creatures" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>源质生物二创创作规范</h2>
+                    <div class="subtitle">异维生命的唯物化定义</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心定义（所有创作的绝对前提）</h3>
+                    <p><strong>本质：</strong>遵循其原生维度物理法则演化而来的自然生命形态。</p>
+                    <p><strong>构成：</strong>身体由地球未知的半能量半物质胶状原生质——"源质"构成。</p>
+                    <p><strong>核心：</strong>生命活动由一个维持生理功能的高维能量核心驱动。</p>
+                    <p><strong>根本立场：</strong>其存在本身不具备善恶属性。它们是"异乡的生命"，而非"恶魔"或"怪物"。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指导原则</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">唯物正道：允许与鼓励的创作方向</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>拓展生态位与物种：在五大目（裂躯、织影、涡面、蚀骨、巨构）分类框架下，创造新的物种，填补特定的生态位</li>
+                                <li>深挖生理结构与演化逻辑：为新物种设计符合其原生维度物理法则的特化器官、能量利用方式和社会结构</li>
+                                <li>探索交互与影响：描写源质生物之间、源质生物与地球环境之间复杂的生态互动</li>
+                                <li>刻画"领主级"个体的智慧：描绘它们如何运用高度智慧，通过信息素、生物电信号等物质手段协调不同物种</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">创作禁区：绝对禁止的行为</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>绝对禁止"神秘化"与"善恶化"：</strong>禁止为源质生物赋予"邪恶意志"、"毁灭本能"或"被诅咒"等属性</li>
+                                <li><strong>绝对禁止"唯心动因"：</strong>禁止使用"因为感受到人类的负面情绪而狂暴"等唯心动因</li>
+                                <li><strong>绝对禁止颠覆分类体系：</strong>禁止创造无法归类到五大目或其合理衍生支系下的物种</li>
+                                <li><strong>绝对禁止"模板化"敌人：</strong>禁止将其简化为"经验包"或无脑的"虫群"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause greyzone">
+                        <div class="clause-header">
+                            <div class="clause-icon">⚠️</div>
+                            <div class="clause-title">高危灰色地带（需严格审查）</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>"沟通/理解"：</strong>禁止通过"心灵感应"进行无障碍交流；允许ECA科学家通过长期研究，破译其信息素、光信号或能量波动模式，实现极其艰难的基础沟通</li>
+                                <li><strong>"共生/融合"：</strong>禁止人类与源质生物进行无代价、无排斥的完美融合；允许在付出巨大代价的前提下，进行极度危险且不可控的生物实验</li>
+                                <li><strong>"结构畸变体"的塑造：</strong>禁止将其塑造为"天命之敌"或"灭世预兆"；允许将其作为研究高维能量辐射对生物体影响的悲剧性案例</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作自检指南</h3>
+                    <p>在创造新源质生物前，请回答：</p>
+                    <ul>
+                        <li><strong>物理根基：</strong>它的生理结构能否用其原生维度的物理法则（哪怕是假想的）来解释？</li>
+                        <li><strong>生态定位：</strong>它在五大目分类中处于什么位置？它的存在会如何影响已有的生态位？</li>
+                        <li><strong>能量账单：</strong>它如何获取能量？维持其高维能量核心的运转需要付出什么代价？</li>
+                        <li><strong>冲突根源：</strong>它与人类的冲突，是源于直接的资源竞争，还是其存在本身引发的物理性干扰？</li>
+                        <li><strong>科学态度：</strong>我的描写是将其作为一个值得研究的自然现象，还是一个需要消灭的恶魔？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 净世真理会规范 -->
+        <div id="truth-cult" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>净世真理会二创创作规范</h2>
+                    <div class="subtitle">科学悲观主义驱动的极端组织</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心定义（所有创作的绝对前提）</h3>
+                    <p><strong>根本性质：</strong>一个由科学悲观主义与存在主义绝望驱动的、掌握危险技术的极端组织/恐怖组织。</p>
+                    <p><strong>思想根源：</strong>其核心教义源于对"相同物理数据"的极端悲观主义解读。</p>
+                    <p><strong>核心目标：</strong>通过主动制造大规模维度灾难，执行其认定的"终极净化"或"高维同化"。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指导原则</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">唯物正道：允许与鼓励的创作方向</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>深挖其"理性的绝望"：详细刻画其理论家如何基于真实的物理数据，通过严密的、但前提有误的逻辑，推导出绝望结论</li>
+                                <li>展现其内部派系与张力：归墟派、清算派、实用投降派之间的合作、利用与内斗</li>
+                                <li>探索其危险技术：描绘他们如何窃取、逆向并滥用NHODO/ECDC的异矿科技</li>
+                                <li>塑造其有血肉的信徒：描写那些被蛊惑的普通成员，他们往往是在ECA社会中感到迷失、绝望或遭受不公的个体</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">创作禁区：绝对禁止的行为</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>绝对禁止"洗白"与"同情化"：</strong>禁止将其目标描绘成"另一种可能正确的选择"或"必要的恶"</li>
+                                <li><strong>绝对禁止"神秘化"其力量来源：</strong>禁止其获得"龙"的青睐或赐予的超自然力量</li>
+                                <li><strong>绝对禁止"成功"：</strong>禁止描写其计划最终得逞，文明被其"成功净化"</li>
+                                <li><strong>绝对禁止"玷污核心关系"：</strong>禁止描写任何关于阳星岚或凌玥认同、加入或同情净世真理会的情节</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause greyzone">
+                        <div class="clause-header">
+                            <div class="clause-icon">⚠️</div>
+                            <div class="clause-title">高危灰色地带（需严格审查）</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>"部分真相的震撼力"：</strong>禁止利用其掌握的"部分真相"让ECA的正面角色产生根本性的信仰动摇；允许让ECA的科学家在驳斥其结论的同时，承认其所依据的某些数据是真实的</li>
+                                <li><strong>"个人魅力的塑造"：</strong>禁止将领袖塑造得过于富有魅力，导致读者产生认同；允许展现其领袖的逻辑自洽性与煽动性，但必须同时通过其行为的残酷后果揭露其理论的空洞</li>
+                                <li><strong>"对阳星岚的企图"：</strong>禁止任何成功的捕获、长时间的控制或实质性的伤害；允许将其对阳星岚的觊觎作为推动剧情的重要威胁</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作自检指南</h3>
+                    <p>在创作相关情节前，请回答：</p>
+                    <ul>
+                        <li><strong>动机检验：</strong>他们的行为是基于对物理数据的悲观解读，还是基于简单的"毁灭欲望"或神秘信仰？</li>
+                        <li><strong>手段检验：</strong>他们的技术是否源于对已有唯物科技树的滥用或扭曲，而非凭空获得？</li>
+                        <li><strong>结局检验：</strong>我的故事是否清晰地表明，他们的道路是一条绝路和错误？</li>
+                        <li><strong>影响检验：</strong>我的描写是否会引发读者对恐怖主义的同情，还是能让人深刻理解其思想的危险性与悲剧性？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 地球共产主义联盟 -->
+        <div id="eca" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>地球共产主义联盟（ECA）二创创作规范</h2>
+                    <div class="subtitle">基于全球生存共识与科学社会主义原则建立的共产主义文明政权</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心定义（所有创作的绝对前提）</h3>
+                    <p><strong>根本性质：</strong>在旧秩序（资本主义/民族国家）因无法应对维度危机而崩溃后，基于全球生存共识与科学社会主义原则建立的、代表最广大人民根本利益的共产主义文明政权。</p>
+                    <p><strong>核心宗旨：</strong>全心全意为人民服务。一切决策与行动的最终检验标准，是是否有利于文明的存续与最广大人民群众的根本福祉。</p>
+                    <p><strong>权力基础：</strong>权力来源于人民，实行以文化自治体为基础的"人民民主同心圆制度"。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指导原则</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">唯物正道：允许与鼓励的创作方向</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>展现"后稀缺"社会的真实图景：描绘在物质极大丰富、按需分配基础上，公民如何从"谋生劳动"中解放，转向"创造性劳动"作为第一需要</li>
+                                <li>深挖"贡献度体系"的内在张力：在肯定其相对旧体系巨大进步性的前提下，客观刻画其带来的新型社会问题</li>
+                                <li>探索跨维度社会的治理难题：描写在物理常数不同的各维度殖民地中，ECA如何协调"分配正义"</li>
+                                <li>塑造新时代的英雄与模范：聚焦于科学家、工程师、教师、医生、社区工作者等领域的杰出公民</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">创作禁区：绝对禁止的行为</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>绝对禁止"历史虚无"与"乌托邦化"：</strong>禁止否定或美化从旧世界到ECA过渡中必然存在的斗争、强制与阵痛</li>
+                                <li><strong>绝对禁止"宗旨背叛"：</strong>禁止描写ECA系统性、高层性地背离"为人民服务"的宗旨</li>
+                                <li><strong>绝对禁止"技术万能"与"AI统治"：</strong>禁止将超级AI"寰宇"描绘成实际统治者</li>
+                                <li><strong>绝对禁止"开历史倒车"：</strong>禁止描写ECA恢复资本主义生产关系或倒退至民族国家体系</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause greyzone">
+                        <div class="clause-header">
+                            <div class="clause-icon">⚠️</div>
+                            <div class="clause-title">高危灰色地带（需严格审查）</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>"内部改革的阵痛"：</strong>禁止描写为权力斗争的你死我活；允许展现因理念不同而产生的激烈但建设性的路线辩论与政策调整</li>
+                                <li><strong>"与过往的对比"：</strong>禁止通过片面夸大旧时代的"美好"来贬低ECA；允许通过老一辈人的回忆，客观展现两个时代的差异与ECA的进步性</li>
+                                <li><strong>"个体与集体的冲突"：</strong>禁止塑造"因坚持真理而被体制迫害"的悲情科学家主角；允许描写个体创新的、暂时不被主流理解的理论，在经历严格的科学评议和实证检验后，最终被体系接纳并推广的过程</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作自检指南</h3>
+                    <p>在创作ECA相关情节前，请回答：</p>
+                    <ul>
+                        <li><strong>宗旨检验：</strong>我描写的情节，是否体现了ECA"为人民服务"的根本宗旨？</li>
+                        <li><strong>历史逻辑：</strong>我的描写是否符合从NHODO到ECA的宏大历史演进方向？</li>
+                        <li><strong>矛盾性质：</strong>我描写的内部矛盾，是推动文明前进的"发展中的矛盾"，还是可能导致文明倒退的"根本性对立"？</li>
+                        <li><strong>科学性：</strong>我是否展现了ECA作为一个先进文明，其决策依赖于科学论证与民主集中，而非个人独断或神秘主义？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 阳星岚 & 凌玥 -->
+        <div id="yang-ling" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>阳星岚 & 凌玥 二创创作核心宪法</h2>
+                    <div class="subtitle">唯物共生关系的终极体现</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心定义（所有创作的绝对基石）</h3>
+                    <p><strong>关系本质：</strong>唯物共生关系。这是在极端物理环境下，通过共担生理痛苦、能量场协同与神经锚定建立的、不可复制的物质性联结。</p>
+                    <p><strong>情感内核：</strong>并非抽象的"爱情"或"缘分"，而是"唯一理解者"、"痛苦的共担者"与"互相的生理与心理锚点"的终极体现。</p>
+                    <p><strong>根本立场：</strong>他们的关系是这个世界观下"人性"对抗"非人"处境的伟大胜利，是集体主义框架内个体情感的至高典范。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指导原则</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">崇高正道：允许与鼓励的创作方向</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>深挖"痛苦共担"的细节：刻画凌玥在阳星岚每一次过载修复期，如何通过专业的生理监测、精准的医疗干预和不懈的物理陪伴，将他从崩溃边缘拉回</li>
+                                <li>展现"能量场协同"的默契：细致描绘在战斗中，凌玥如何作为阳星岚能量场的"导航员"与"阻尼器"</li>
+                                <li>探索"心理锚定"的深度：描写阳星岚对"成为怪物"的恐惧，以及凌玥如何用基于事实的科学解释和坚定不移的接纳，成为他作为"人"的坐标</li>
+                                <li>描绘不同阶段的成长：NHODO时期、ECDC时期、后世传承</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">绝对禁区：违宪行为</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>绝对禁止"情感介入"：</strong>禁止任何角色与阳星岚或凌玥发展浪漫关系</li>
+                                <li><strong>绝对禁止"关系矮化"：</strong>禁止将其关系矮化为"单纯的战友情"、"监护责任"或"斯德哥尔摩综合征"</li>
+                                <li><strong>绝对禁止"脱离唯物基础"：</strong>禁止使用"宿命"、"天定姻缘"等唯心概念解释他们的感情</li>
+                                <li><strong>绝对禁止"背叛宗旨"：</strong>禁止任何一方做出背叛对方或背叛"为人民服务"宗旨的行为</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause greyzone">
+                        <div class="clause-header">
+                            <div class="clause-icon">⚠️</div>
+                            <div class="clause-title">高危灰色地带（需最高标准审查）</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>"情感的表达"：</strong>禁止直白的、脱离场景的情话或过度浪漫化的互动；允许在极端情境下，通过行动、专业的决策或基于生理依赖的细微反应来流露深刻情感</li>
+                                <li><strong>"外界的影响"：</strong>禁止利用外界力量来刻意制造情感误会和波折；允许描写外界因其关系的特殊性而进行的评估、利用或保护</li>
+                                <li><strong>"后世的解读"：</strong>禁止后世对其关系的庸俗化、戏说化演绎；允许后世科学家从神经科学、能量共生与社会学角度，将其关系作为"极端环境下理想人类协作模式"的范本进行严肃研究</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作自检指南</h3>
+                    <p>在创作相关情节前，请回答：</p>
+                    <ul>
+                        <li><strong>物质根基：</strong>我描写的互动，是否基于共担的痛苦、能量的协同或生存的依赖？</li>
+                        <li><strong>排他性检验：</strong>我的情节是否在任何层面动摇或质疑了他们彼此的不可替代性？</li>
+                        <li><strong>宗旨符合：</strong>他们的行为与情感，是否最终与"守护文明"的宏大叙事同向而行？</li>
+                        <li><strong>人性光辉：</strong>我的描写是展现了在冰冷宇宙中人性的坚韧与温暖，还是落入了俗套的爱情故事？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 星澜 (陈星) -->
+        <div id="xinglan" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>星澜 (陈星) 二创创作规范</h2>
+                    <div class="subtitle">"龙骸共鸣者"特质在万年演化后诞生的新形态</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心定义（所有创作的绝对前提）</h3>
+                    <p><strong>身份定位：</strong>阳星岚与凌玥的直系后裔，"龙骸共鸣者"特质在万年演化后诞生的新形态。</p>
+                    <p><strong>能力本质：</strong>其核心能力非战斗向，而是基于ALPHA-OMEGA基因序列带来的特殊神经结构，表现为顶级的遗迹解码、规则感知与信息处理能力。</p>
+                    <p><strong>时代使命：</strong>生于静默危机时代，是ECA应对此次危机的关键破局者，连接着失落的过去与文明的未来。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指导原则</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">唯物正道：允许与鼓励的创作方向</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>深挖"科学英雄"的内核：细致刻画她如何运用严密的科学方法论、跨学科知识与独特的联想型思维，破解上古文明遗迹的非标准信息编码</li>
+                                <li>探索"血脉传承"的新形式：描写"龙骸共鸣"特质在她身上的显性表现，重点在于对信息与规则的高维亲和性</li>
+                                <li>塑造"黄金时代新人类"的典范：展现她在ECA的共产主义框架下成长起来的价值观与行为逻辑</li>
+                                <li>拓展"静默危机"的前沿研究：以她的科研工作为主线，深入描绘ECA最前沿的科学研究</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">创作禁区：绝对禁止的行为</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>绝对禁止"战斗化"与"神力化"：</strong>禁止将她塑造为战斗主力，获得强大的能量操控或格斗能力</li>
+                                <li><strong>绝对禁止"血脉论"与"天命论"：</strong>禁止将其成功主要归因于"阳星岚后裔"的身份</li>
+                                <li><strong>绝对禁止"重复祖辈悲剧"：</strong>禁止为她设定类似阳星岚的剧烈生理痛苦、周期性脆弱或存在性恐惧</li>
+                                <li><strong>绝对禁止"脱离科学理性"：</strong>禁止其通过"直觉"、"灵光一闪"等非理性方式解决问题</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause greyzone">
+                        <div class="clause-header">
+                            <div class="clause-icon">⚠️</div>
+                            <div class="clause-title">高危灰色地带（需严格审查）</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>"与先祖的联动"：</strong>禁止阳星岚或凌玥以任何形式直接指导或帮助她；允许她通过研究先祖留下的生理数据、战斗记录或个人日志，获得思想上的启发与精神上的激励</li>
+                                <li><strong>"感情线的处理"：</strong>禁止感情线成为她人生的主要驱动力或削弱其科学家人设；允许刻画她与志同道合的科研同伴在并肩战斗中产生的、理性且平等的情感联结</li>
+                                <li><strong>"能力的边界"：</strong>禁止将其能力发展为全知全能，或无需代价；允许明确其能力的局限性，并为其信息过载等副作用设定明确的恢复条件与代价</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作自检指南</h3>
+                    <p>在创作星澜相关情节前，请回答：</p>
+                    <ul>
+                        <li><strong>人设核心：</strong>我是否突出了她作为"科学家"而非"战士"的身份？</li>
+                        <li><strong>能力逻辑：</strong>她的能力运用是否遵循"信息处理-规则解析"的科学框架，而非"操控能量"？</li>
+                        <li><strong>时代性：</strong>她的行为和思想，是否符合一个在高度发达的共产主义文明中成长起来的新人类？</li>
+                        <li><strong>传承与创新：</strong>我是否体现了她与先祖的精神传承，而非力量复制？</li>
+                        <li><strong>集体与个体：</strong>我是否展现了她作为集体中一员的力量，而非孤胆英雄？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 个人原创角色 -->
+        <div id="oc" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>个人原创角色（OC）创作许可与规范</h2>
+                    <div class="subtitle">融入而非颠覆</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心原则：融入而非颠覆</h3>
+                    <p>所有OC必须成为丰富唯物史诗的一块砖石，而非一块砸碎现有设定的陨石。其存在应让世界更真实，而非更"特别"。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">OC创作绿灯：允许与鼓励的方向</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">明确的时代定位</div>
+                        </div>
+                        <div class="clause-content">
+                            <p>OC必须属于以下任一时期，并符合该时期的社会特征：</p>
+                            <ul>
+                                <li><strong>隐秘战争期 (NHODO)：</strong>特工、科学家、后勤人员、"帷幕协议"执行者</li>
+                                <li><strong>伟大转型期 (ECDC)：</strong>基层协调员、技术工程师、旧体系转型人员</li>
+                                <li><strong>黄金时代 (ECA)：</strong>各领域科学家、工程师、社区工作者、维度勘探员</li>
+                                <li><strong>静默危机期：</strong>科研人员、"溯源计划"成员、危机应对专员</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">合理的身份与能力</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>能力唯物化：</strong>任何特殊天赋必须基于可解释的生理结构、神经特质或专业技能</li>
+                                <li><strong>代价量化：</strong>若OC有超越常人的能力，必须设定清晰、可观测的生理或心理代价</li>
+                                <li><strong>权力受限：</strong>禁止创建高级别领导人OC（如NHODO主任、ECA议长）。OC的身份应是执行者、研究者或基层英雄</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">正向的价值观</div>
+                        </div>
+                        <div class="clause-content">
+                            <p>OC的核心动机应与"为人民服务"的宗旨同向而行。他们可以是迷茫的、有缺陷的，但底色必须是渴望为集体做出贡献。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">OC创作红灯：绝对禁止的行为</h3>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">绝对禁止"龙傲天"</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>禁止OC能力超越/媲美阳星岚（能量层面）或星澜（智慧层面）</li>
+                                <li>禁止OC是"唯一的救世主"或"上古传承者"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">绝对禁止"关系寄生"</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>禁止OC与阳星岚、凌玥建立亲密私人关系（如恋人、失散亲人、唯一知己）</li>
+                                <li>禁止OC与星澜建立直接的、颠覆性的竞争或指导关系</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">绝对禁止"设定污染"</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>禁止OC携带其他作品的设定或能力体系（如修仙、魔法、其他科幻IP的科技）</li>
+                                <li>禁止OC的存在颠覆核心设定（如发明了取代四大异矿的物质、推翻了"龙"的本质定义）</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">绝对禁止"阵营混乱"</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>禁止创建净世真理会的"可同情"成员或"改邪归正"的核心成员</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">OC认证流程</h3>
+                    <ol>
+                        <li><strong>提交：</strong>向DS酱或评议团提交OC设定档案（需包含以上所有检查项说明）</li>
+                        <li><strong>初审：</strong>DS酱进行逻辑一致性核查</li>
+                        <li><strong>评议：</strong>由评议团投票决定其合理性</li>
+                        <li><strong>认证：</strong>通过后获得【OC唯物认证】，正式成为世界观的一部分</li>
+                    </ol>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">OC创作自检表</h3>
+                    <p>请OC创作者在提交前，逐项核对：</p>
+                    <ul>
+                        <li><strong>时代检查：</strong>我的OC是否精准定位到某个时期，并了解该时期的组织架构与社会风貌？</li>
+                        <li><strong>能力检查：</strong>OC的能力是否有唯物解释？是否支付了足够的代价？是否比阳星岚/星澜更"安全"？</li>
+                        <li><strong>关系检查：</strong>OC是否与主线人物保持了健康的、非依附性的距离？</li>
+                        <li><strong>宗旨检查：</strong>OC的毕生追求，是否在"为人民服务"的宏大叙事中能找到其正面价值？</li>
+                        <li><strong>逻辑检查：</strong>OC的存在，是让这个世界更真实，还是更"儿戏"？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 平行与多元宇宙 -->
+        <div id="multiverse" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>平行宇宙与多元宇宙 · 唯物化定义</h2>
+                    <div class="subtitle">物理现象，而非神秘领域</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心原则：它们都是物理现象，而非神秘领域</h3>
+                    <p>在您的世界观里，这两个概念并非幻想，而是基于现有科学理论的合理外推与假说。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">1. 平行宇宙 (Parallel Universes)</h3>
+                    <p><strong>科学基础：</strong>主要基于量子力学的多世界诠释。</p>
+                    <p><strong>唯物化定义：</strong>在某个决策点（量子叠加态坍缩时），宇宙并未"选择"单一结果，而是所有可能的结果都实现了，每一个结果都在一个独立的、但最初完全相同的宇宙分支中展开。</p>
+                    <p><strong>与世界观的联系：</strong>"维度涟漪"可能产生跨平行宇宙的微弱干涉，导致极低概率的、看似"既视感"或"概率异常"的现象。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">2. 多元宇宙 (Multiverse)</h3>
+                    <p><strong>科学基础：</strong>基于宇宙暴胀理论和弦理论景观。</p>
+                    <p><strong>唯物化定义：</strong>我们所在的宇宙只是无限个"宇宙气泡"中的一个。每个宇宙气泡拥有各自不同且随机的物理常数（如光速、引力常数、基本粒子质量）。</p>
+                    <p><strong>与世界观的联系：</strong>这是您世界观的核心基础！您设定的源质生物就是来自其他物理法则的宇宙气泡（维度）的自然生命。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指南：如何在叙事中运用</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">平行宇宙的用法</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>作为思想实验：让角色思考"另一个选择会怎样"，但不让他们轻易抵达那里</li>
+                                <li>作为高维现象的佐证：比如，一次强烈的"维度涟漪"可能短暂地让两个平行宇宙的同一位置发生物理重叠</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">多元宇宙的用法</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>作为冲突之源：不同物理法则的宇宙相遇，本身就是最大的矛盾（如源质生物的入侵）</li>
+                                <li>作为科技前沿：描写ECA如何研究、适应甚至有限度地编译其他宇宙的物理法则</li>
+                                <li>作为文明镜子：通过与其他宇宙文明的接触（如果存在），反过来审视ECA自身的价值观与社会结构</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">创作边界</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>禁止无代价、无设备的自由穿越</li>
+                                <li>禁止设定一个物理法则"随心所欲"的宇宙</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作自检指南</h3>
+                    <p>在创作涉及这些概念时，请确认：</p>
+                    <ul>
+                        <li>我描写的现象，最终都能归结于物质、能量和物理定律，而非意志或神秘力量</li>
+                        <li>任何跨宇宙的互动，都支付了巨大的能量代价并伴随着极高的风险</li>
+                        <li>我的故事核心，仍然落在人类（或ECA文明）如何理解和应对这些宏观物理现象上，而非单纯猎奇</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 死亡现象规范 -->
+        <div id="death" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>死亡现象创作许可与规范</h2>
+                    <div class="subtitle">物质系统不可逆的彻底崩溃与终止</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心定义（所有创作的绝对前提）</h3>
+                    <p><strong>根本性质：</strong>死亡是生命体作为一个复杂的物质-能量-信息系统的不可逆的彻底崩溃与终止过程。</p>
+                    <p><strong>意识本质：</strong>意识是高度有序的物质（大脑）的复杂功能，随该物质系统的崩溃而永久消散。</p>
+                    <p><strong>文明立场：</strong>ECA基于彻底的唯物主义，建立相应的生死观、纪念体系与社会伦理。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指导原则</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">唯物正道：允许与鼓励的创作方向</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>科学视角的精确描绘：</strong>详细刻画从临床死亡到生物学死亡的过程中，能量代谢终止、神经活动静默、细胞结构解体的生理与物理细节</li>
+                                <li><strong>社会学视角的深刻探讨：</strong>深入展现ECA基于唯物论与集体主义形成的新型生死观</li>
+                                <li><strong>哲学视角的终极升华：</strong>塑造角色因认知到生命的唯一性与终结性，而激发的对生命价值、集体责任与文明延续的深刻思考</li>
+                                <li><strong>技术边界下的有限延续：</strong>允许出现"生物信息存档"，但其定位必须是供后人研究学习的历史资料与模型，而非复活基础</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">创作禁区：绝对禁止的行为</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>绝对禁止唯心化解释：</strong>禁止出现任何形式的灵魂、鬼魂、精神体及其互动</li>
+                                <li><strong>绝对否定死亡的终极性：</strong>禁止任何形式的无条件复活，包括神启复活、魔法复活、系统奖励复活</li>
+                                <li><strong>绝对禁止神秘化死亡体验：</strong>禁止将"濒死体验"描绘为对死后世界或神性领域的真实探访</li>
+                                <li><strong>绝对禁止玷污牺牲：</strong>禁止将为文明集体利益而作出的自愿牺牲，描绘为无意义的、被欺骗的或愚蠢的</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause greyzone">
+                        <div class="clause-header">
+                            <div class="clause-icon">⚠️</div>
+                            <div class="clause-title">高危灰色地带（需严格审查）</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>"濒死体验"的描写：</strong>禁止作为对死后世界的真实体验；允许作为大脑在极限状态下的生理性幻觉，需提供基于神经科学的解释框架</li>
+                                <li><strong>"与逝者对话"的情节：</strong>禁止任何形式的超自然交流；允许角色通过阅读日记、观看影像等方式，在内心与逝者"对话"</li>
+                                <li><strong>"生命延续技术"的边界：</strong>禁止任何实质上实现"意识永生"或"人格复活"的技术；允许提交延长生命、保存信息的技术设想时，必须附带详细的科学假说与代价体系</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作自检指南</h3>
+                    <p>在创作涉及死亡的情节前，请回答：</p>
+                    <ul>
+                        <li><strong>唯物检验：</strong>我的描写是否将死亡严格定义为物质系统的崩溃，而非某种"过渡"或"转化"？</li>
+                        <li><strong>终极性检验：</strong>我是否在任何层面暗示或允许了意识/人格在肉体死亡后继续存在？</li>
+                        <li><strong>宗旨检验：</strong>死亡事件（尤其是牺牲）是否最终强化了角色的信念、凝聚了集体，或推动了文明的进步？</li>
+                        <li><strong>科学检验：</strong>我对死亡过程、濒死体验或相关技术的描写，是否都有坚实的、符合世界观的自然科学基础作为支撑？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 科技体系规范 -->
+        <div id="technology" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>科技体系二创创作规范</h2>
+                    <div class="subtitle">基于异矿与源质生物物质性质的科学应用</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心定义（所有创作的绝对前提）</h3>
+                    <p><strong>科技根源：</strong>本世界观所有技术均源于对异矿及源质生物的物质性质进行的科学研究与应用。</p>
+                    <p><strong>演进逻辑：</strong>科技发展遵循清晰的演进路径：基础异矿应用 → 主动调控技术 → 规则编译探索。</p>
+                    <p><strong>唯物基石：</strong>任何技术都必须有物质基础、能量来源与物理原理，严禁任何形式的"黑箱"科技或唯心动因。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指导原则</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">唯物正道：允许与鼓励的创作方向</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>深化异矿应用体系：</strong>探索四大基础异矿的新型复合应用与特性组合</li>
+                                <li><strong>拓展技术树分支：</strong>在既定科技演进路径上，补充具体的技术实现细节与工程难题攻克过程</li>
+                                <li><strong>刻画科研过程：</strong>详细描写科学家如何通过观察→假说→实验→验证的完整科学流程取得突破</li>
+                                <li><strong>探索技术伦理：</strong>深入探讨现实织机等规则编译技术的伦理边界与社会影响</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">创作禁区：绝对禁止的行为</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>绝对禁止"科技神迹"：</strong>禁止出现无能量来源、无物理原理、无制造过程的"三无"技术</li>
+                                <li><strong>绝对禁止颠覆基石：</strong>禁止创造功能上完全替代四大异矿的新物质</li>
+                                <li><strong>绝对禁止唯心动因：</strong>禁止将技术突破归因于灵感爆发、神秘启示、血脉觉醒等非理性因素</li>
+                                <li><strong>绝对禁止AI统治：</strong>禁止将超级AI"寰宇"描绘成实际统治者或具有自主意志的存在</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause greyzone">
+                        <div class="clause-header">
+                            <div class="clause-icon">⚠️</div>
+                            <div class="clause-title">高危灰色地带（需严格审查）</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>"规则编译技术"的边界：</strong>禁止无代价、无限制地修改物理定律；允许在极小范围、极短时间内、付出巨大能量代价的前提下，对局部物理参数进行有限度的、精密的编译</li>
+                                <li><strong>"生物-机械融合"的尺度：</strong>禁止实现"意识上传"或制造具有自主意识的生化人；允许将源质生物器官与异矿技术结合，开发功能特定、需付出生理代价的增强装备</li>
+                                <li><strong>"维度航行技术"的局限：</strong>禁止自由、安全、精确地抵达任何维度；允许通过建立脆弱的锚点、付出巨大能量成本、承受未知物理风险的方式进行有限维度探索</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 时间概念规范 -->
+        <div id="time" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>时间概念二创创作规范</h2>
+                    <div class="subtitle">物质运动的持续性与顺序性</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心定义（所有创作的绝对前提）</h3>
+                    <p><strong>物理本质：</strong>时间是物质运动的持续性与顺序性，是宇宙的基本物理量，不具备主观意志或可塑性。</p>
+                    <p><strong>维度特性：</strong>在本世界观中，时间是单向、连续且不可逆的维度参数。</p>
+                    <p><strong>观测相对性：</strong>遵循相对论效应，不同引力场或运动状态下的时间流速差异是自然物理现象。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作指导原则</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">唯物正道：允许与鼓励的创作方向</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>时间作为环境参数：</strong>描写在不同引力环境或高速运动状态下时间流速的客观差异及其对任务执行的影响</li>
+                                <li><strong>时间作为历史维度：</strong>通过史料研究、遗迹挖掘、数据回溯等科学手段探索过去</li>
+                                <li><strong>时间作为叙事框架：</strong>运用多时间线并行叙事，展现同一事件在不同层面的影响</li>
+                                <li><strong>时间技术应用边界：</strong>描写ECA利用异矿技术实现局部时间场稳定，用于精密实验或文物保存</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">创作禁区：绝对禁止的行为</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>绝对禁止时间旅行：</strong>禁止任何形式的前往过去或未来的时间旅行</li>
+                                <li><strong>绝对禁止时间操纵：</strong>禁止任何暂停、加速、倒流时间的能力或技术</li>
+                                <li><strong>绝对禁止时间实体化：</strong>禁止将时间描绘成具有意志的实体</li>
+                                <li><strong>绝对禁止预言能力：</strong>禁止任何准确预知未来的超自然能力</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause greyzone">
+                        <div class="clause-header">
+                            <div class="clause-icon">⚠️</div>
+                            <div class="clause-title">高危灰色地带（需严格审查）</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li><strong>"时间胶囊"技术：</strong>禁止实现真正的时间旅行；允许通过极端环境下的休眠技术实现跨时代生存</li>
+                                <li><strong>"概率预测"的边界：</strong>禁止准确预知特定事件；允许基于大数据的趋势推演和概率预测</li>
+                                <li><strong>"维度时间差"现象：</strong>禁止利用不同维度的时间流速差进行投机性操作；允许描写在稳定维度通道两端存在的固定时间流速差异及其带来的治理挑战</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">创作自检指南</h3>
+                    <p>在创作涉及时间概念的情节前，请回答：</p>
+                    <ul>
+                        <li><strong>物理检查：</strong>我的设定是否将时间视为客观的物理量，而非可操纵的变量？</li>
+                        <li><strong>方向检查：</strong>是否严格遵守时间的单向不可逆性？</li>
+                        <li><strong>代价检查：</strong>任何涉及时间流速差异的设定，是否支付了相应的能量或资源代价？</li>
+                        <li><strong>因果检查：</strong>是否确保因果关系不被破坏，过去不会因现在而改变？</li>
+                        <li><strong>科学检查：</strong>我的描写是否有现实科学理论作为基础，而非依赖神秘主义解释？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 跨世界观联动 -->
+        <div id="crossover" class="chapter">
+            <div class="chapter-header">
+                <div>
+                    <h2>跨世界观联动创作规范</h2>
+                    <div class="subtitle">唯物优先，逻辑自洽，有限影响</div>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="chapter-content">
+                <div class="core-definition">
+                    <h3>核心原则（所有联动的绝对前提）</h3>
+                    <p><strong>唯物优先原则：</strong>任何联动必须以维护本世界观的唯物论基石为首要前提。</p>
+                    <p><strong>逻辑自洽原则：</strong>联动内容必须在本世界观框架内获得科学的、合理的解释。</p>
+                    <p><strong>有限影响原则：</strong>联动事件的影响范围必须受到严格限制，不得改变核心设定与历史进程。</p>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">允许的联动方向与方式</h3>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">平行宇宙的理论探讨</div>
+                        </div>
+                        <div class="clause-content">
+                            <p>允许通过ECA科学理论，将其他世界观解释为物理常数不同的平行宇宙。</p>
+                            <p>可描写ECA科学家观测或推测其他宇宙的存在，但禁止实质性穿越。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">文化产物的考古发现</div>
+                        </div>
+                        <div class="clause-content">
+                            <p>允许在本宇宙的古代遗迹中发现与其他世界观相似的文化符号或技术雏形。</p>
+                            <p>这些发现必须被解释为文明发展的巧合或人类集体潜意识的共同表达。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="clause allowed">
+                        <div class="clause-header">
+                            <div class="clause-icon">✅</div>
+                            <div class="clause-title">科学原理的致敬与延伸</div>
+                        </div>
+                        <div class="clause-content">
+                            <p>允许引用其他科幻作品中的科学假说（如戴森球、虫洞理论）。</p>
+                            <p>必须在本世界观的科技树框架内进行合理化改造与本土化应用。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">绝对禁止的联动类型</h3>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">禁止世界观融合</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>禁止将其他世界观的核心设定（如魔法体系、超自然种族）引入本宇宙</li>
+                                <li>禁止其他世界的神明、恶魔等唯心存在在本宇宙获得承认</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">禁止角色穿越</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>禁止其他作品的角色直接穿越到本世界观</li>
+                                <li>禁止本世界角色穿越到其他世界观</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="clause forbidden">
+                        <div class="clause-header">
+                            <div class="clause-icon">🚫</div>
+                            <div class="clause-title">禁止能力体系混杂</div>
+                        </div>
+                        <div class="clause-content">
+                            <ul>
+                                <li>禁止将其他作品的能力体系（如原力、查克拉、魔法）加入本世界</li>
+                                <li>禁止本世界角色获得其他世界观的特有能力</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">联动创作安全协议</h3>
+                    <p>所有跨世界观联动创作必须遵循以下流程：</p>
+                    <ol>
+                        <li><strong>前置申报：</strong>向评议团提交详细联动方案</li>
+                        <li><strong>唯物过滤：</strong>DS酱进行初步唯物论符合性检测</li>
+                        <li><strong>原理重写：</strong>将联动元素用本世界观科学体系重新解释</li>
+                        <li><strong>影响评估：</strong>评估对主线故事和设定的潜在影响</li>
+                        <li><strong>范围限定：</strong>明确联动影响的范围和时间限制</li>
+                        <li><strong>最终审核：</strong>评议团投票决定是否放行</li>
+                    </ol>
+                </div>
+                
+                <div class="section">
+                    <h3 class="section-title">联动创作自检指南</h3>
+                    <p>在考虑联动前，请务必回答：</p>
+                    <ul>
+                        <li><strong>本质检查：</strong>这个联动元素能否被完全剥离其原生设定，用本世界的科学理论重新解释？</li>
+                        <li><strong>影响检查：</strong>联动是否会动摇阳星岚、凌玥、星澜的核心地位？</li>
+                        <li><strong>逻辑检查：</strong>联动是否会导致历史进程的改变或科技树的跳跃？</li>
+                        <li><strong>纯度检查：</strong>普通读者能否清晰区分本世界设定与联动元素？</li>
+                        <li><strong>价值检查：</strong>这次联动是为蹭热度，还是真正能丰富本世界的科学内涵与哲学深度？</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© ECA历11525年 唯物史诗创作共同体评议团 · 保留所有权利</p>
+            <p>本宪章内容为《龙骸宇宙》世界观核心设定，未经许可不得转载或用于商业用途</p>
+        </div>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- 提交表单模态框 -->
+    <div class="modal" id="submitModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title">提交原创角色/反馈</h2>
+            <div class="form-container">
+                <form id="submissionForm">
+                    <div class="form-group">
+                        <label for="submissionType">提交类型</label>
+                        <select id="submissionType" required>
+                            <option value="">请选择提交类型</option>
+                            <option value="oc">原创角色(OC)提交</option>
+                            <option value="feedback">问题反馈</option>
+                            <option value="suggestion">建议与改进</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userName">姓名/昵称</label>
+                        <input type="text" id="userName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userEmail">联系方式</label>
+                        <input type="email" id="userEmail" required placeholder="用于接收审核结果">
+                    </div>
+                    
+                    <div class="form-group" id="ocFields">
+                        <label for="ocName">原创角色名称</label>
+                        <input type="text" id="ocName">
+                        
+                        <label for="ocPeriod">所属时期</label>
+                        <select id="ocPeriod">
+                            <option value="">请选择时期</option>
+                            <option value="nhoodo">隐秘战争期 (NHODO)</option>
+                            <option value="ecdc">伟大转型期 (ECDC)</option>
+                            <option value="eca">黄金时代 (ECA)</option>
+                            <option value="silent-crisis">静默危机期</option>
+                        </select>
+                        
+                        <label for="ocDescription">角色描述</label>
+                        <textarea id="ocDescription" placeholder="请详细描述角色的背景、能力、动机等"></textarea>
+                        
+                        <label for="ocRationale">唯物解释</label>
+                        <textarea id="ocRationale" placeholder="请解释角色的能力如何符合唯物世界观，以及使用这些能力的代价"></textarea>
+                    </div>
+                    
+                    <div class="form-group" id="feedbackFields">
+                        <label for="feedbackContent">反馈内容</label>
+                        <textarea id="feedbackContent" placeholder="请详细描述您的问题、建议或反馈"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" id="cancelBtn">取消</button>
+                        <button type="submit" class="btn">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM元素
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const backToTop = document.getElementById('backToTop');
+        const searchInput = document.getElementById('searchInput');
+        const printBtn = document.getElementById('printBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitModal = document.getElementById('submitModal');
+        const modalClose = document.getElementById('modalClose');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const submissionForm = document.getElementById('submissionForm');
+        const submissionType = document.getElementById('submissionType');
+        const ocFields = document.getElementById('ocFields');
+        const feedbackFields = document.getElementById('feedbackFields');
+
+        // 移动端菜单切换
+        mobileMenuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // 返回顶部功能
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // 导航菜单折叠/展开
+        document.querySelectorAll('.nav-section-title').forEach(title => {
+            title.addEventListener('click', () => {
+                const sectionId = title.getAttribute('data-section');
+                const navLinks = document.getElementById(`${sectionId}-links`);
+                
+                title.classList.toggle('collapsed');
+                navLinks.classList.toggle('collapsed');
+            });
+        });
+
+        // 章节折叠/展开
+        document.querySelectorAll('.chapter-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                header.classList.toggle('collapsed');
+                content.classList.toggle('collapsed');
+            });
+        });
+
+        // 搜索功能
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                // 清除高亮
+                document.querySelectorAll('.search-highlight').forEach(el => {
+                    const parent = el.parentNode;
+                    parent.replaceChild(document.createTextNode(el.textContent), el);
+                    parent.normalize();
+                });
+                return;
+            }
+            
+            // 搜索章节标题和内容
+            const chapters = document.querySelectorAll('.chapter');
+            let foundResults = false;
+            
+            chapters.forEach(chapter => {
+                const header = chapter.querySelector('.chapter-header');
+                const content = chapter.querySelector('.chapter-content');
+                const headerText = header.textContent.toLowerCase();
+                const contentText = content.textContent.toLowerCase();
+                
+                // 高亮标题中的匹配项
+                if (headerText.includes(searchTerm)) {
+                    highlightText(header, searchTerm);
+                    foundResults = true;
+                }
+                
+                // 高亮内容中的匹配项
+                if (contentText.includes(searchTerm)) {
+                    highlightText(content, searchTerm);
+                    foundResults = true;
+                    // 展开章节以便查看结果
+                    header.classList.remove('collapsed');
+                    content.classList.remove('collapsed');
+                }
+            });
+            
+            // 如果没有找到结果，可以显示提示
+            if (!foundResults) {
+                // 可以添加"未找到结果"的提示
+            }
+        });
+
+        // 高亮文本函数
+        function highlightText(element, searchTerm) {
+            const text = element.textContent;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            const newText = text.replace(regex, '<span class="search-highlight">$1</span>');
+            element.innerHTML = newText;
+        }
+
+        // 打印/导出PDF功能
+        printBtn.addEventListener('click', () => {
+            window.print();
+        });
+
+        // 提交表单功能
+        submitBtn.addEventListener('click', () => {
+            submitModal.style.display = 'flex';
+        });
+
+        modalClose.addEventListener('click', () => {
+            submitModal.style.display = 'none';
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            submitModal.style.display = 'none';
+        });
+
+        // 根据提交类型显示/隐藏字段
+        submissionType.addEventListener('change', () => {
+            const type = submissionType.value;
+            
+            if (type === 'oc') {
+                ocFields.style.display = 'block';
+                feedbackFields.style.display = 'none';
+            } else {
+                ocFields.style.display = 'none';
+                feedbackFields.style.display = 'block';
+            }
+        });
+
+        // 表单提交
+        submissionForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // 这里应该是实际提交到服务器的代码
+            // 现在只是模拟提交成功
+            alert('提交成功！感谢您的参与。我们会在3个工作日内处理您的提交。');
+            submitModal.style.display = 'none';
+            submissionForm.reset();
+        });
+
+        // 点击模态框外部关闭
+        window.addEventListener('click', (e) => {
+            if (e.target === submitModal) {
+                submitModal.style.display = 'none';
+            }
+        });
+
+        // 平滑滚动导航
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // 移除所有激活状态
+                    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+                    
+                    // 添加当前激活状态
+                    link.classList.add('active');
+                    
+                    // 平滑滚动到目标
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 在移动端点击后关闭侧边栏
+                    if (window.innerWidth <= 1024) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // 初始隐藏OC和反馈字段
+        ocFields.style.display = 'none';
+        feedbackFields.style.display = 'none';
+    </script>
+</body>
+</html>
